@@ -1,0 +1,10 @@
+.DS_Store
+HELP.md
+.gradle/
+.idea/
+build/
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+

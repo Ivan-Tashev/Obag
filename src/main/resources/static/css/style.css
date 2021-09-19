@@ -1,0 +1,204 @@
+/* whole body settings*/
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    margin: 0px;
+    max-width: 1920px;
+}
+
+/* HORIZONTAL BANNER */
+.bg-img {
+    background-image: url(image/horizontal.jpeg);
+    min-height: 900px;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* TOP elements container */
+.topnav {
+    margin: 5px;
+    width: auto;
+    overflow: hidden;
+    float: right;
+    font-size: smaller;
+}
+
+/* TOP elements: Търсене Вход Регистрация */
+.topnav a {
+    margin: 0 15px;
+    text-decoration: none;
+    text-transform: none;
+    cursor: pointer;
+    color: white;
+    display: inline;
+}
+
+.top a:visited {
+    color: white;
+}
+
+/* LOGO - O bag */
+header h1 a {
+    font-size: 35px;
+    color: white;
+    float: left;
+    text-decoration: none;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 3%;
+}
+
+header:visited {
+    color: white;
+}
+
+nav ul {
+    margin-left: 150px;
+}
+
+/* MENU <nav>*/
+nav ul li {
+    display: inline;
+    float: left;
+    margin-left: 30px;
+    padding: 13px;
+}
+
+nav ul li a {
+    color: white;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: hsl(180, 3%, 22%);
+    padding-bottom: 10px;
+}
+
+.test {
+    color: black;
+}
+
+.horizontal-text {
+    text-align: left;
+    color: #FFFFFF;
+    padding-top: 15%;
+    margin-left: 60%;
+}
+
+.horizontal-text h1 {
+    font-size: 40px;
+}
+
+.horizontal-text p {
+    font-size: 20px;
+    max-width: 600px;
+}
+
+.horizontal-text button {
+    background-color: transparent;
+    color: #FFFFFF;
+    border-radius: 25px;
+    border-color: #FFFFFF;
+    padding: 15px 30px;
+    font-size: 20px
+}
+
+.horizontal-text button:hover {
+    background-color: white;
+    color: hsl(180, 3%, 22%);
+}
+
+/* MAIN */
+.row {
+    display: flex;
+}
+
+.column {
+    float: left;
+    width: 49.99%;
+    margin: 80px 60px;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.text {
+    text-align: left;
+    padding: 0 15%;
+}
+
+.text h2 {
+    font-size: 50px;
+    margin-top: 50%;
+}
+
+.text p {
+    font-size: 20px;
+}
+
+.text button {
+    background-color: white;
+    border-radius: 25px;
+    border-color: black;
+    padding: 15px 30px;
+    font-size: 16px
+}
+
+.text button:hover {
+    background-color: black;
+    color: white;
+}
+
+#viber {
+    margin-left: 60px 60px;
+}
+
+/* FOOTER menu */
+.footer {
+    width: 100%;
+    text-align: left;
+    position: absolute;
+    color: hsl(180, 3%, 22%);
+    margin-top: 30px;
+}
+
+footer article {
+    width: 20%;
+    display: inline-block;
+    padding: 0px 40px;
+}
+
+footer article ul li label strong {
+    font-size: 35px;
+}
+
+footer article ul li {
+    font-size: 16px;
+    list-style-type: none;
+    padding: 5px 0px;
+}
+
+footer article ul li a {
+    text-decoration: none;
+    color: hsl(180, 3%, 22%);
+}
+
+footer article ul li a:visited {
+    color: hsl(180, 3%, 22%);
+}
+
+.footer-copy {
+    position: static;
+    text-align: center;
+    font-size: 11px;
+    margin-top: 30px;
+}

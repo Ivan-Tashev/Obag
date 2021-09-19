@@ -1,0 +1,67 @@
+.top ul li {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: xx-small;
+    float: right;
+    font-size: smaller;
+    list-style-type: none;
+    margin: 25 pix;
+}
+
+header {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    float: left;
+    position: sticky;
+    top: 0;
+}
+
+ul {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+    list-style-type: none;
+    float: left;
+}
+
+nav ul li {
+    display: inline;
+    margin: 20px;
+}
+
+.horizontal {
+    position: relative;
+    text-align: center;
+    color: black;
+    width: 1920px;
+    object-fit: cover;
+}
+
+.center-right {
+    position: absolute;
+    top: 50%;
+    left: 66%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.square {
+    float: left;
+    width: 950px;
+    height: 950px;
+    object-fit: cover;
+    margin: 1px;
+}
+
+
+.small {
+    float: left;
+    width: 950px;
+    object-fit: cover;
+    margin: 1px;
+}
+
+.footer-copy {
+    position: relative;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-small;
+}
