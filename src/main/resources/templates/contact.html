@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"></th:block>
+
+<head>
+    <style>
+        body {
+            font-family: 'Montserrat';
+            margin: 0;
+        }
+
+        .login {
+            width: 80%;
+            margin-top: 100px;
+        }
+
+        #shops {
+            display: grid;
+            row-gap: 30px;
+            column-gap: 100px;
+            margin-left: 20%;
+            margin-top: 3%;
+            margin-bottom: 5%;
+            grid-template-areas:
+                'shop1 shop2 shop3';
+
+        }
+
+        #shop {
+            grid-area: shop;
+            padding-left: 10%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<div class="login">
+    <div id="contact">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23473.401596196774!2d23.297529038624948!3d42.657642579168225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa845dd5e00623%3A0xa182f7bbf955f668!2z0LHRg9C7LiDigJ7Qp9C10YDQvdC4INCy0YDRitGF4oCcIDEwMCwgMTQwNyDQpdC70LDQtNC40LvQvdC40LrQsCwg0KHQvtGE0LjRjw!5e0!3m2!1sbg!2sbg!4v1632092050072!5m2!1sbg!2sbg"
+                width="1920" height="800" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <div id="shops">
+        <div id="shop1">
+            <p>O bag .store</p>
+            <p>PARADISE CENTER</p>
+            <p>София, бул. Черни връх 100, партер</p>
+            <p>работно време 11:00 - 21:30ч</p>
+            <p>тел. 0889.776694</p>
+            <p>е-мeйл: paradise@obag.bg</p>
+        </div>
+        <div id="shop2">
+            <p>O bag .store</p>
+            <p>SERDIKA</p>
+            <p>София, бул. Ситняково 48, еатж -1</p>
+            <p>работно време 11:00 - 21:00ч</p>
+            <p>тел. 0887.048803</p>
+            <p>е-мeйл: serdika@obag.bg</p>
+        </div>
+        <div id="shop3">
+            <p>O bag .store</p>
+            <p>MALL PLOVDIV</p>
+            <p>Пловдив, ул. Перущица 8, етаж 1</p>
+            <p>работно време 10:00 - 21:00ч</p>
+            <p>тел. 0889.736971</p>
+            <p>е-мeйл: plovdiv@obag.bg</p>
+        </div>
+    </div>
+
+
+</div>
+</body>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+<script src="/js/fixed-menu.js"></script>
+</html>

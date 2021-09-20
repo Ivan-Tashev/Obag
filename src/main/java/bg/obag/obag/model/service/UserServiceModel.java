@@ -1,49 +1,44 @@
-package bg.obag.obag.model.entity;
+package bg.obag.obag.model.service;
 
-import javax.persistence.*;
+import bg.obag.obag.model.entity.Item;
+import bg.obag.obag.model.entity.Role;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class User extends BaseEntity{
-    @Column(name = "first_name", nullable = false, length = 20)
+public class UserServiceModel {
+    private Long id;
     private String firstName;
-    @Column(name = "last_name", length = 20)
     private String lastName;
-    @Column(length = 20)
     private String phone;
-    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, length = 20)
     private String password;
-    @Column(length = 50)
     private String address;
-    @Column(length = 20)
     private String city;
-    @Column(name = "post_code", length = 20)
     private String postCode;
-    @Column(length = 20)
     private String country;
-    @ManyToOne
     private Role role;
-    @Column(name = "registered_on")
     private LocalDateTime registeredOn;
-    @Column(name = "count_of_orders")
     private Integer countOrders;
-    @Column(name = "value_orders")
     private BigDecimal valueOrders;
-    @Column(columnDefinition = "TEXT")
     private String note;
-    @ManyToMany
     private List<Item> items;
+
+    public Long getId() {
+        return id;
+    }
+
+    public UserServiceModel setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public User setFirstName(String firstName) {
+    public UserServiceModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -52,7 +47,7 @@ public class User extends BaseEntity{
         return lastName;
     }
 
-    public User setLastName(String lastName) {
+    public UserServiceModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -61,7 +56,7 @@ public class User extends BaseEntity{
         return phone;
     }
 
-    public User setPhone(String phone) {
+    public UserServiceModel setPhone(String phone) {
         this.phone = phone;
         return this;
     }
@@ -70,7 +65,7 @@ public class User extends BaseEntity{
         return email;
     }
 
-    public User setEmail(String email) {
+    public UserServiceModel setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -79,7 +74,7 @@ public class User extends BaseEntity{
         return password;
     }
 
-    public User setPassword(String password) {
+    public UserServiceModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -88,7 +83,7 @@ public class User extends BaseEntity{
         return address;
     }
 
-    public User setAddress(String address) {
+    public UserServiceModel setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -97,7 +92,7 @@ public class User extends BaseEntity{
         return city;
     }
 
-    public User setCity(String city) {
+    public UserServiceModel setCity(String city) {
         this.city = city;
         return this;
     }
@@ -106,7 +101,7 @@ public class User extends BaseEntity{
         return postCode;
     }
 
-    public User setPostCode(String postCode) {
+    public UserServiceModel setPostCode(String postCode) {
         this.postCode = postCode;
         return this;
     }
@@ -115,7 +110,7 @@ public class User extends BaseEntity{
         return country;
     }
 
-    public User setCountry(String country) {
+    public UserServiceModel setCountry(String country) {
         this.country = country;
         return this;
     }
@@ -124,15 +119,16 @@ public class User extends BaseEntity{
         return role;
     }
 
-    public void setRole(Role role) {
+    public UserServiceModel setRole(Role role) {
         this.role = role;
+        return this;
     }
 
     public LocalDateTime getRegisteredOn() {
         return registeredOn;
     }
 
-    public User setRegisteredOn(LocalDateTime registeredOn) {
+    public UserServiceModel setRegisteredOn(LocalDateTime registeredOn) {
         this.registeredOn = registeredOn;
         return this;
     }
@@ -141,7 +137,7 @@ public class User extends BaseEntity{
         return countOrders;
     }
 
-    public User setCountOrders(Integer countOrders) {
+    public UserServiceModel setCountOrders(Integer countOrders) {
         this.countOrders = countOrders;
         return this;
     }
@@ -150,7 +146,7 @@ public class User extends BaseEntity{
         return valueOrders;
     }
 
-    public User setValueOrders(BigDecimal valueOrders) {
+    public UserServiceModel setValueOrders(BigDecimal valueOrders) {
         this.valueOrders = valueOrders;
         return this;
     }
@@ -159,7 +155,7 @@ public class User extends BaseEntity{
         return note;
     }
 
-    public User setNote(String note) {
+    public UserServiceModel setNote(String note) {
         this.note = note;
         return this;
     }
@@ -168,7 +164,8 @@ public class User extends BaseEntity{
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public UserServiceModel setItems(List<Item> items) {
         this.items = items;
+        return this;
     }
 }

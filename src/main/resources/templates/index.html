@@ -1,44 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords"
-          content="обаг, о баг, o bag, obag, чанта, чанти, дамски чанти, раница, раници, потфейл, часовник, часовници, о клок, o clock, очила, обувки">
-    <meta name="description"
-          content="O bag е уникална концепция за персонализиращи се продукти, произведени в Италия, нови линии О mini, O moon, О double, O pocket, O clock">
-    <title>O bag</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<th:block th:include="~{fragments/head}"></th:block>
 
 <body>
 <div class="bg-img">
 
-    <div id="navbar">
-        <div class="topnav">
-            <a href="#">Търсене</a>
-            <a href="login.html">Вход</a>
-            <a href="register.html">Регистрация</a>
-        </div>
-        <br>
-        <div class="header">
-            <header>
-                <h1><a href="index.html">O bag</a></h1>
-            </header>
-            <nav>
-                <ul>
-                    <li><a href="#">ЧАНТИ</a></li>
-                    <li><a href="#">РАНИЦИ</a></li>
-                    <li><a href="#">ПОРТФЕЙЛИ</a></li>
-                    <li><a href="#">ЧАСОВНИЦИ</a></li>
-                    <li><a href="#">АКСЕСОАРИ</a></li>
-                    <li><a href="#">ОБУВКИ</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <th:block th:include="~{fragments/nav}" ></th:block>
 
     <div class="horizontal-text">
         <h1>Unique as you are</h1>
@@ -96,56 +64,15 @@
             <img class="square" src="/image/ounique.jpg" alt="O unique bags" style="width: 100%;">
         </div>
     </div>
-
-    <img id="viber" src="/image/viber.jpg" alt="viber">
+    <a href="/viber">
+        <img id="viber" src="/image/viber.jpg" alt="viber">
+    </a>
 
 </main>
 
-<footer class="footer">
-    <article>
-        <ul>
-            <li>
-                <label><strong>O bag</strong></label>
-                <a href="/index.html"></a>
-            </li>
-            <li>
-                <label>E-mail: </label>
-                <a href="mailto: info@obag.bg">info@obag.bg</a>
-            </li>
-            <li>
-                <label>Телефон: </label>
-                <a href="tel: 0889776694">0889.776694</a>
-            </li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Начало</a></li>
-            <li><a href="">Философия</a></li>
-            <li><a href="">Доставка</a></li>
-            <li><a href="contact.html">Контакти</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Чести въпроси</a></li>
-            <li><a href="">Програма за лоялност</a></li>
-            <li><a href="viber.html">Viber service</a></li>
-            <li><a href="">Условия</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="login.html">Вход</a></li>
-            <li><a href="register.html">Регистрация</a></li>
-            <li><a href="">Търсене</a></li>
-            <li><a href="">Рекламации</a></li>
-        </ul>
-    </article>
-    <p class="footer-copy">&copy; <strong>2021 O bag Bulgaria</strong>, Color-IT Ltd., Sofia, Bulgaria.</p>
-</footer>
+<th:block th:include="~{fragments/footer}"></th:block>
 
-<script src="sticky-menu.js"></script>
+<script src="/js/sticky-menu.js"></script>
 </body>
 
 </html>

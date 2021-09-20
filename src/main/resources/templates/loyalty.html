@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"></th:block>
+
+<head>
+    <style>
+        body {
+            font-family: 'Montserrat';
+            margin: 0;
+        }
+
+        .login {
+            width: 100%;
+            margin-top: 150px;
+        }
+
+        h3 {
+            font-size: xx-large;
+            text-align: center;
+        }
+
+        #loyalty {
+            font-size: 16px;
+            text-align: left;
+            margin: 0 20%;
+            margin-bottom: 200px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<div class="login">
+    <h3>ПРОГРАМА ЗА ЛОЯЛНОСТ</h3>
+    <div id="loyalty">
+        <p><strong>Условия:</strong></p>
+        <p>
+            <br>
+        </p>
+        <p>Всеки клиент желаещ да се присъедини към Програмата за лоялност, получава карта (пластика) O bag VIP card в която натрупва продажби /суми от покупки/.</p>
+        <p>
+            <br>
+        </p>
+        <p>При достигане на обща сума&nbsp;от покупки над 1.000лв, получава постоянна отстъпка в размер на 10%, ексклузивно представяне на нови и/или лимитирани серии с продукти...</p>
+        <p>
+            <br>
+        </p>
+        <p>Добре дошли в клуб O bag!</p>
+         </div>
+</div>
+</body>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+<script src="/js/fixed-menu.js"></script>
+</html>

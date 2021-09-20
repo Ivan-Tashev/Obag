@@ -1,29 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"></th:block>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            margin: 0px;
-        }
-
-        div {
-            display: inline-block;
-            margin-top: 0;
+            font-family: 'Montserrat';
+            margin: 0;
         }
 
         .login {
-            margin: 5% 45%;
+            width: 100%;
+            margin-top: 150px;
         }
 
-        h3, form {
+        h3 {
+            font-size: xx-large;
             text-align: center;
+        }
+
+        form {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 200px;
+        }
+
+        input[type="text"], input[type="password"] {
+            margin-bottom: 30px;
+            padding: 20px;
+            width: 20%;
+            height: 15%;
+            border-radius: 30px
+        }
+
+        input[type="submit"] {
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
     </style>
@@ -31,87 +44,32 @@
 
 <body>
 
-<div id="navbar">
-    <div class="topnav">
-        <a href="#">Търсене</a>
-        <a href="login.html">Вход</a>
-        <a href="register.html">Регистрация</a>
-    </div>
-    <br>
-    <div class="header">
-        <header>
-            <h1><a href="index.html">O bag</a></h1>
-        </header>
-        <nav>
-            <ul>
-                <li><a href="#">ЧАНТИ</a></li>
-                <li><a href="#">РАНИЦИ</a></li>
-                <li><a href="#">ПОРТФЕЙЛИ</a></li>
-                <li><a href="#">ЧАСОВНИЦИ</a></li>
-                <li><a href="#">АКСЕСОАРИ</a></li>
-                <li><a href="#">ОБУВКИ</a></li>
-            </ul>
-        </nav>
-    </div>
-</div>
+<th:block th:include="~{fragments/nav}"></th:block>
 
 <div class="login">
-    <h3>Вход:</h3>
+    <h3>Вход</h3>
+    <form action="/users/login" method="POST" th:object="${userLoginBindingModel}">
 
-    <form action="login" method="POST">
-        <small for="">Е-мейл</small><br>
-        <input type="text" name="firstName" id="">
-        <br>
-        <small for="">Парола</small><br>
-        <input type="text" name="firstName" id="">
-        <br>
-        <br>
-        <input type="submit" value="Вход"</form>
+        <small for="">Е-мейл <span style="color: red">*</span></small><br>
+        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+               style="color: red; font-size: 13px"></small><br>
+        <input type="text" name="email" id="email" placeholder="Въведи емайл"><br>
+
+        <small for="">Парола <span style="color: red">*</span></small><br>
+        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+               style="color: red; font-size: 13px"></small><br>
+        <input type="password" name="password" id="password" placeholder="Въведи парола"><br>
+
+        <small>Забравена парола?</small><br>
+
+        <input type="submit" value="   Вход   " class="text"><br>
+
+        <small style="color: red; font-size: 15px">Задължителни полета.</small>
+
+    </form>
 </div>
 </body>
 
-<footer class="footer">
-    <article>
-        <ul>
-            <li>
-                <label><strong>O bag</strong></label>
-                <a href="/index.html"></a>
-            </li>
-            <li>
-                <label>E-mail: </label>
-                <a href="mailto: info@obag.bg">info@obag.bg</a>
-            </li>
-            <li>
-                <label>Телефон: </label>
-                <a href="tel: 0889776694">0889.776694</a>
-            </li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Начало</a></li>
-            <li><a href="">Философия</a></li>
-            <li><a href="">Доставка</a></li>
-            <li><a href="contact.html">Контакти</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Чести въпроси</a></li>
-            <li><a href="">Програма за лоялност</a></li>
-            <li><a href="viber.html">Viber service</a></li>
-            <li><a href="">Условия</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="login.html">Вход</a></li>
-            <li><a href="register.html">Регистрация</a></li>
-            <li><a href="">Търсене</a></li>
-            <li><a href="">Рекламации</a></li>
-        </ul>
-    </article>
-    <p class="footer-copy">&copy; <strong>2021 O bag Bulgaria</strong>, Color-IT Ltd., Sofia, Bulgaria.</p>
-</footer>
-
+<th:block th:include="~{fragments/footer}"></th:block>
+<script src="/js/fixed-menu.js"></script>
 </html>

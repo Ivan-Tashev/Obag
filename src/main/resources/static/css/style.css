@@ -1,13 +1,13 @@
-/* whole body settings*/
+/* whole body settings */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-family: 'Montserrat';
     margin: 0px;
     max-width: 1920px;
 }
 
 /* HORIZONTAL BANNER */
 .bg-img {
-    background-image: url(image/horizontal.jpeg);
+    background-image: url(/image/horizontal.jpeg);
     min-height: 900px;
     background-position: top;
     background-repeat: no-repeat;
@@ -24,7 +24,7 @@ body {
 }
 
 /* TOP elements: Търсене Вход Регистрация */
-.topnav a {
+.menu-letters {
     margin: 0 15px;
     text-decoration: none;
     text-transform: none;
@@ -40,6 +40,7 @@ body {
 /* LOGO - O bag */
 header h1 a {
     font-size: 35px;
+    font-weight: bold;
     color: white;
     float: left;
     text-decoration: none;
@@ -67,6 +68,7 @@ nav ul li {
 nav ul li a {
     color: white;
     font-size: 15px;
+    font-weight: bold;
     text-decoration: none;
     cursor: pointer;
 }
@@ -76,11 +78,11 @@ nav ul li a {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: hsl(180, 3%, 22%);
+    background-color: white;
     padding-bottom: 10px;
 }
 
-.test {
+.sticky div a {
     color: black;
 }
 
@@ -145,7 +147,7 @@ nav ul li a {
     font-size: 20px;
 }
 
-.text button {
+.text button, input[type="submit"] {
     background-color: white;
     border-radius: 25px;
     border-color: black;
@@ -153,7 +155,7 @@ nav ul li a {
     font-size: 16px
 }
 
-.text button:hover {
+.text button:hover, input[type="submit"]:hover {
     background-color: black;
     color: white;
 }
@@ -177,7 +179,7 @@ footer article {
     padding: 0px 40px;
 }
 
-footer article ul li label strong {
+footer article ul li a strong {
     font-size: 35px;
 }
 

@@ -1,34 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"></th:block>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O bag: Viber</title>
+    <style>
+        body {
+            font-family: 'Montserrat';
+            margin: 0;
+        }
+
+        .login {
+            width: 100%;
+            margin-top: 100px;
+        }
+
+        h3 {
+            font-size: xx-large;
+            text-align: center;
+        }
+
+        #phylosophy {
+            font-size: 16px;
+            text-align: left;
+            margin: 0 20%;
+            margin-bottom: 0px;
+        }
+
+    </style>
 </head>
+
 <body>
 
-.viber!
+<th:block th:include="~{fragments/nav}"></th:block>
 
+<div class="login">
+    <img style="display: block; width: 80%; margin-left: auto; margin-right: auto" src="/image/viber_page.jpg">
+    <div id="phylosophy">
+        <h3>Вие сте почитател на O bag ?</h3>
+        <p>Вече може да получавате всички новини и актуализации от света на O bag директно на Вашия смартфон: нови
+            продукти и колекции, промоции, събития в магазина и много други!</p>
+        <a href="https://invite.viber.com/?g2=AQBEh9IZRx3Kw0nVkw2%2FZppRCYXFBw%2F5rYsk%2B8mz11N%2BWLSyqnI2JKvX0xuOoxzj&lang=bg">
+            <img style="display: block; width: 10%; margin-left: auto; margin-right: auto" src="/image/QR_code.png">
+        </a>
 
-Вие сте почитател на O bag ?
+        <p>Сканирайте QR кодът с камерата на Вашия смартфон и следвайте инструкциите, за да активирате услугата с
+            няколко лесни стъпки! Информационните съобщения са безплатни и могат да бъдат прекъснати във всеки един момент.*</p>
 
+        <p>Всички снимки и видеоклипове се записват по подразбиране в телефонът Ви, ако не желаете това да става,
+            може да деактивирате тази настройка от "Настройки" > "Мултимедия" > изключете "Запазване в галерия".</p>
 
-Вече може да получавате всички новини и актуализации от света на O bag директно на Вашия смартфон: нови продукти и
-колекции, промоции, събития в магазина и много други!
+        <p>* Ако не желаете да получавате Нашите информационни съoбщения, може да напуснете групата сами или да заявите
+            към Администратор да бъдете изключени.</p>
 
-
-Сканирайте QR кодът с камерата на Вашия смартфон и следвайте инструкциите, за да активирате услугата с няколко лесни
-стъпки! Информационните съобщения са безплатни и могат да бъдат прекъснати във всеки един момент.*
-
-
-Всички снимки и видеоклипове се записват по подразбиране в телефонът Ви, ако не желаете това да става, може да
-деактивирате тази настройка от "Настройки" > "Мултимедия" > изключете "Запазване в галерия".
-
-
-* Ако не желаете да получавате Нашите информационни съoбщения, може да напуснете групата сами или да заявите към
-Администратор да бъдете изключени.
-
-
+    </div>
+</div>
 </body>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+<script src="/js/fixed-menu.js"></script>
 </html>

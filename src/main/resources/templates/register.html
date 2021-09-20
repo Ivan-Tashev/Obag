@@ -1,121 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="~{fragments/head}"></th:block>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            margin: 0px;
-            max-width: 1920px;
-        }
-
-        div {
-            display: inline-block;
-            margin-top: 0;
+            font-family: 'Montserrat';
+            margin: 0;
         }
 
         .register {
-            margin: 5% 45%;
-            top: 0;
+            width: 100%;
+            margin-top: 150px;
         }
 
-        h3,
-        form,
-        .register small {
+        h3, form {
             text-align: center;
+            font-size: xx-large;
         }
+
+        form {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 200px;
+        }
+
+        input[type="text"], input[type="number"], input[type="password"] {
+            margin-bottom: 30px;
+            padding: 20px;
+            width: 20%;
+            height: 15%;
+            border-radius: 30px
+        }
+
+        input[type="submit"] {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 
 <body>
 
+<th:block th:include="~{fragments/nav}"></th:block>
+
 <div class="register">
-    <h3>Регистрация:</h3>
+    <h3>Регистрация</h3>
     <br>
-    <form action="login" method="POST">
-        <small for="">Име</small><br>
-        <input type="text" name="firstName" id="">
-        <br>
+    <form action="/users/register" method="POST" th:object="${userRegisterBindingModel}">
+
+        <small for="">Име <span style="color: red">*</span></small><br>
+        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{firstName}" type="text" name="firstName" placeholder="Въведи име" id="firstName"/><br>
+
         <small for="">Фамилия</small><br>
-        <input type="text" name="lastName" id="">
-        <br>
+        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{lastName}" type="text" name="lastName" placeholder="Въведи фамилия" id="lastName"><br>
+
         <small for="">Телефон</small><br>
-        <input type="number" name="telephone" id="">
-        <br>
-        <small for="">Е-мейл</small><br>
-        <input type="text" name="email" id="">
-        <br>
-        <small for="">Парола</small><br>
-        <input type="text" name="password" id="">
-        <br>
-        <small for="">Потвърдете паролата</small><br>
-        <input type="text" name="rePassword" id="">
-        <br>
-        <br>
+        <small th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{phone}" type="number" name="phone" placeholder="Въведи телефон" id="phone"><br>
+
+        <small for="">Е-мейл <span style="color: red">*</span></small><br>
+        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{email}" type="text" name="email" placeholder="Въведи емайл" id="email"><br>
+
+        <small for="">Парола <span style="color: red">*</span></small><br>
+        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+               style="color: red; font-size: 13px"></small><br>
+        <input type="password" name="password" placeholder="Въведи парола" id="password"><br>
+
+        <small for="">Потвърдете паролата <span style="color: red">*</span></small><br>
+        <small th:if="${passwordsDontMatch}" th:errors="*{rePassword}"
+               style="color: red; font-size: 13px"></small><br>
+        <input type="password" name="rePassword" placeholder="Повторете паролата" id="rePassword"><br>
+
         <small for="">Адрес</small><br>
-        <input type="text" name="address" id="">
-        <br>
+        <small th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{address}" type="text" name="address" placeholder="Въведи адрес" id="address"><br>
+
         <small for="">Град</small><br>
-        <input type="text" name="city" id="">
-        <br>
+        <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{city}" type="text" name="city" placeholder="Въведи град" id="city"><br>
+
         <small for="">Пощенски код</small><br>
-        <input type="text" name="postCode" id="">
-        <br>
+        <small th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{postCode}" type="text" name="postCode" placeholder="Въведи пощенски код" id="postCode"><br>
+
         <small for="">Държава</small><br>
-        <input type="text" name="country" id="">
-        <br>
-        <br>
-        <input type="submit" value="Регистрирай"</form>
+        <small th:if="${#fields.hasErrors('country')}" th:errors="*{country}"
+               style="color: red; font-size: 13px"></small><br>
+        <input th:field="*{country}" type="text" name="country" placeholder="Въведи държава" id="country"><br>
+
+        <input type="submit" value="Регистрирай"/><br>
+
+        <small style="color: red; font-size: 15px">Задължителни полета.</small>
+    </form>
+
 </div>
 </body>
 
-<footer class="footer">
-    <article>
-        <ul>
-            <li>
-                <label><strong>O bag</strong></label>
-                <a href="/index.html"></a>
-            </li>
-            <li>
-                <label>E-mail: </label>
-                <a href="mailto: info@obag.bg">info@obag.bg</a>
-            </li>
-            <li>
-                <label>Телефон: </label>
-                <a href="tel: 0889776694">0889.776694</a>
-            </li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Начало</a></li>
-            <li><a href="">Философия</a></li>
-            <li><a href="">Доставка</a></li>
-            <li><a href="contact.html">Контакти</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="">Чести въпроси</a></li>
-            <li><a href="">Програма за лоялност</a></li>
-            <li><a href="viber.html">Viber service</a></li>
-            <li><a href="">Условия</a></li>
-        </ul>
-    </article>
-    <article>
-        <ul>
-            <li><a href="login.html">Вход</a></li>
-            <li><a href="register.html">Регистрация</a></li>
-            <li><a href="">Търсене</a></li>
-            <li><a href="">Рекламации</a></li>
-        </ul>
-    </article>
-    <p class="footer-copy">&copy; <strong>2021 O bag Bulgaria</strong>, Color-IT Ltd., Sofia, Bulgaria.</p>
-</footer>
-
+<th:block th:include="~{fragments/footer}"></th:block>
+<script src="/js/fixed-menu.js"></script>
 </html>

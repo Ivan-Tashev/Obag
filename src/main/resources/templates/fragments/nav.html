@@ -1,0 +1,30 @@
+<th:block>
+    <div id="navbar">
+        <div class="topnav">
+            <a th:unless="${@currentUser.isAnonymous()}" th:text="|Здравей, ${@currentUser.getFirstName()}|"
+               href="#" class="menu-letters"></a>
+<!--            <a th:if="${@currentUser.isAdmin()}" href="#" class="menu-letters">Администрация</a>-->
+            <a th:unless="${@currentUser.isAnonymous()}" href="#" class="menu-letters">Поръчки</a>
+            <a href="#" class="menu-letters">Търсене</a>
+            <a th:if="${@currentUser.isAnonymous()}" href="/users/login" class="menu-letters">Вход</a>
+            <a th:if="${@currentUser.isAnonymous()}" href="/users/register" class="menu-letters">Регистрация</a>
+            <a th:unless="${@currentUser.isAnonymous()}" href="/users/logout" class="menu-letters">Изход</a>
+        </div>
+        <br>
+        <div class="header">
+            <header>
+                <h1><a href="/"><span>O bag</span></a></h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="#" class="menu-letters">ЧАНТИ</a></li>
+                    <li><a href="#" class="menu-letters">РАНИЦИ</a></li>
+                    <li><a href="#" class="menu-letters">ПОРТФЕЙЛИ</a></li>
+                    <li><a href="#" class="menu-letters">ЧАСОВНИЦИ</a></li>
+                    <li><a href="#" class="menu-letters">АКСЕСОАРИ</a></li>
+                    <li><a href="#" class="menu-letters">ОБУВКИ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</th:block>
