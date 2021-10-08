@@ -4,7 +4,7 @@
 <th:block th:include="~{fragment/head}"></th:block>
 
 <body>
-<div class="container-fluid" style="font-family: 'Century Gothic',sans-serif">
+<div class="container-fluid">
     <th:block th:include="~{fragment/nav}"></th:block>
 
     <div class="row">
@@ -13,6 +13,12 @@
             <h3>Продукти: add / edit / delete</h3>
             <br>
         </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6 alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> You successfully added a new product to the database.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="col-md-3"></div>
     </div>
 
     <form action="/products/add" method="POST" th:object="${productAddBindingModel}">
@@ -109,7 +115,7 @@
                     <label for="createdBy" class="form-label">createdBy</label>
                 </div>
                 <div class="form-floating">
-                    <input th:field="*{image}" type="file" class="form-control input-round"
+                    <input th:field="*{image}" type="url" class="form-control input-round"
                            id="image" placeholder="image">
                     <label for="image" class="form-label">image</label>
                 </div>
@@ -117,8 +123,6 @@
                 <small class="text-danger">* задължителни полета.</small>
                 <br>
                 <input type="submit" value="Add" class="btn btn-outline-primary btn-round">
-                <button type="submit" class="btn btn-outline-warning btn-round">Edit</button>
-                <button type="submit" class="btn btn-outline-danger btn-round">Delete</button>
                 <br>
             </div>
         </div>
@@ -140,6 +144,7 @@
                     <th scope="col">Barcode</th>
                     <th scope="col">CreatedOn</th>
                     <th scope="col">CreatedBy</th>
+                    <th scope="col">Edit/Del</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -154,6 +159,10 @@
                     <td th:text="*{barcode}">123457890</td>
                     <td th:text="*{createdOn.toLocalDate()}">21.09.2021</td>
                     <td th:text="*{createdBy.getEmail()}">anl@abv.bg</td>
+                    <td>
+                        <button type="submit" class="btn btn-outline-warning btn-round m-0">✎</button>
+                        <button type="submit" class="btn btn-outline-danger btn-round m-0">✕</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

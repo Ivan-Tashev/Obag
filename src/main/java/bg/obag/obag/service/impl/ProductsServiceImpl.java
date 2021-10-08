@@ -60,4 +60,9 @@ public class ProductsServiceImpl implements ProductsService {
                 .map(product -> modelMapper.map(product, ProductServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ProductServiceModel findProductById(Long id) {
+        return modelMapper.map(productRepo.findById(id), ProductServiceModel.class);
+    }
 }

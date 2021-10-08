@@ -1,3 +1,7 @@
+html * {
+    font-family: 'Century Gothic',sans-serif;
+}
+
 .btn-round {
     border-radius: 25px;
     padding: 5px 25px;

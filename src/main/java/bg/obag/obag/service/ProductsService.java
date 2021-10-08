@@ -12,4 +12,6 @@ public interface ProductsService {
     List<ProductServiceModel> findAllOrderByCategory();
 
     List<ProductServiceModel> findByCategory(String category);
+
+    ProductServiceModel findProductById(Long id);
 }

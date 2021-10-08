@@ -1,15 +1,22 @@
 <th:block>
     <div id="navbar" class="container-fluid sticky-top bg-white">
         <!-- TOP MENU  -->
-        <div class="rows">
+        <div class="row" style="font-size: smaller">
+            <div class="col p-2">
+                <a href="/faq" class="text-dark text-decoration-none">Помощ ?</a>
+            </div>
+            <div th:if="${@currentUser.isAnonymous()}" class="col text-center p-2">
+                <a href="/delivery" class="text-dark text-decoration-none">Безплатна доставка над 50лв.</a>
+            </div>
             <div class="col">
-                <nav id="top-menu" class="navbar sticky-top navbar-light p-0 m-auto"
-                     style="font-size: smaller">
+                <nav id="top-menu" class="navbar sticky-top navbar-light p-0 m-auto">
+
                     <div class="container-fluid justify-content-end">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <p th:unless="${@currentUser.isAnonymous()}" th:text="|Здравей, ${@currentUser.getFirstName()}|"
-                                        class="nav-link text-dark">Здравей, </p>
+                                <p th:unless="${@currentUser.isAnonymous()}"
+                                   th:text="|Здравей, ${@currentUser.getFirstName()}|"
+                                   class="nav-link text-dark">Здравей, </p>
                             </li>
                             <li th:if="${@currentUser.isAdmin()}" class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#"
@@ -19,7 +26,9 @@
                                     <li><a class="dropdown-item text-dark" href="#">Поръчки</a></li>
                                     <li><a class="dropdown-item text-dark" href="/products/add">Продукти</a></li>
                                     <li><a class="dropdown-item text-dark" href="#">Категории</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li><a class="dropdown-item text-dark" href="/roles/change">Потребители</a></li>
                                 </ul>
                             </li>
@@ -71,12 +80,17 @@
                                        aria-expanded="false">Чанти</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li class="small"><a class="dropdown-item" href="/category/obag">O bag</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/omini">O mini</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/ourban">O urban</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/oreverse">O reverse</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/omini">O mini</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/ourban">O urban</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/oreverse">O
+                                            reverse</a></li>
                                         <li class="small"><a class="dropdown-item" href="/category/odoc">O doc</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/ounique">O unique</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/osharm">O sharm</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/ounique">O unique</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/osharm">O sharm</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown px-3">
@@ -84,9 +98,12 @@
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">За рамо</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="small"><a class="dropdown-item" href="/category/opocket">O pocket</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/oglam">O glam</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/ocrossy">O crossy</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/opocket">O pocket</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/oglam">O glam</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/ocrossy">O crossy</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown px-3">
@@ -94,9 +111,12 @@
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">Раници</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O ivy</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O grace</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O lift</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O ivy</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O grace</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/backpack">O lift</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown px-3">
@@ -104,8 +124,10 @@
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">Портфейли</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="small"><a class="dropdown-item" href="/category/wallet">O wally</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/wallet">O half</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/wallet">O wally</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/wallet">O half</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown px-3">
@@ -113,8 +135,10 @@
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">Часовници</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li class="small"><a class="dropdown-item" href="/category/oclock">O clock</a></li>
-                                        <li class="small"><a class="dropdown-item" href="/category/oclock">O great</a></li>
+                                        <li class="small"><a class="dropdown-item" href="/category/oclock">O clock</a>
+                                        </li>
+                                        <li class="small"><a class="dropdown-item" href="/category/oclock">O great</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="nav-item px-3">
