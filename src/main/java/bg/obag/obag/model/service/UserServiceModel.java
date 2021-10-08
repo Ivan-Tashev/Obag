@@ -1,6 +1,6 @@
 package bg.obag.obag.model.service;
 
-import bg.obag.obag.model.entity.Item;
+import bg.obag.obag.model.entity.Product;
 import bg.obag.obag.model.entity.Role;
 
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ public class UserServiceModel {
     private Integer countOrders;
     private BigDecimal valueOrders;
     private String note;
-    private List<Item> items;
+    private List<Product> products;
 
     public Long getId() {
         return id;
@@ -160,12 +160,12 @@ public class UserServiceModel {
         return this;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Product> getItems() {
+        return products;
     }
 
-    public UserServiceModel setItems(List<Item> items) {
-        this.items = items;
+    public UserServiceModel setItems(List<Product> products) {
+        this.products = products;
         return this;
     }
 }

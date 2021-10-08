@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<th:block th:include="~{fragments/head}"></th:block>
-
+<th:block th:include="~{fragment/head}"></th:block>
 <body>
-<div class="bg-img">
+<div class="container-fluid" style="font-family: 'Century Gothic',sans-serif">
 
-    <th:block th:include="~{fragments/nav}" ></th:block>
+    <th:block th:include="~{fragment/nav}"></th:block>
 
-    <div class="horizontal-text">
-        <h1>Unique as you are</h1>
-        <p>O bag unique, the new "icon bag" now available in the colours of the new Autumn-Winter collection.</p>
-        <button>I want it</button>
+    <!--  BANNER TEXT   -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card text-white text-center">
+                <img src="/image/banner.jpeg" class="card-img img-fluid" alt="...">
+                <div class="card-img-overlay" style="padding-top: 15%">
+                    <h2 class="card-title h2 fw-bold">Unique as you are</h2>
+                    <p class="card-text">O bag unique, the new "icon bag" now available in the colours of the
+                        new Autumn-Winter collection.</p>
+                    <button type="button" class="btn btn-outline-light btn-round">I want it</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!--  ROW 1   -->
+    <div class="row py-5">
+        <div class="col-md-6">
+            <img class="img-fluid" src="/image/1.jpg" alt="">
+        </div>
+        <div class="col-md-6" style="padding: 15%">
+            <div>
+                <h2 style="font-size: 40px; font-weight: bold">New arrivals</h2>
+                <p style="font-size: 18px">Discover the new Fall-Winter collection.</p>
+                <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
+            </div>
+        </div>
+    </div>
+
+    <!--  ROW 2   -->
+    <div class="row my-5">
+        <div class="col-md-6" style="padding: 15% 15%">
+            <div>
+                <h2 style="font-size: 40px; font-weight: bold">I'm The Best</h2>
+                <p style="font-size: 18px">Are you a true O bag Lover?
+                    Then these bags and accessories are a
+                    must-have items in your wardrobe.</p>
+                <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="/image/2.jpg" class="img-fluid" alt="">
+        </div>
+    </div>
+
+    <!--  ROW 3   -->
+    <div class="row my-5">
+        <div class="col-md-6">
+            <img src="/image/3.jpg" class="img-fluid" alt="">
+        </div>
+        <div class="col-md-6" style="padding: 15% 15%">
+            <div>
+                <h2 style="font-size: 40px; font-weight: bold">Fur Fun</h2>
+                <p style="font-size: 18px">The collection Fluffy, fun and colorful!</p>
+                <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
+            </div>
+        </div>
+    </div>
+
+    <!--  ROW 4,5   -->
+    <div class="row my-5">
+        <div class="col-md-6">
+            <div class="card text-white ">
+                <img src="/image/4.jpg" class="card-img img-fluid float-end" alt="...">
+                <div class="card-img-overlay">
+                    <div style="padding: 15% 5%">
+                        <p class="card-title" style="font-size: 27px">O drillas</p>
+                        <p class="card-text" style="font-size: 40px; font-weight: bold">You can't just have a
+                            pair...</p>
+                        <button type="button" class="btn btn-outline-light btn-round">Shop now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white ">
+                <img src="/image/5.jpg" class="card-img img-fluid" alt="viber service">
+                <div class="card-img-overlay">
+                    <div style="padding: 15% 5%">
+                        <p class="card-title" style="font-size: 27px">Special Price</p>
+                        <p class="card-text" style="font-size: 40px; font-weight: bold">See all products up to -70%.</p>
+                        <button type="button" class="btn btn-outline-light btn-round">Shop now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  VIBER   -->
+    <div class="row">
+        <div class="col">
+            <a href="viber">
+                <img src="/image/viber.jpg" class="img-fluid" alt="">
+            </a>
+        </div>
+    </div>
+
+    <!--  FOOTER   -->
+    <th:block th:include="~{fragment/footer}"></th:block>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous">
+    </script>
 </div>
-<main>
-    <div class="row">
-        <div class="column">
-            <img class="square" src="/image/obag.jpg" alt="O bag bags" style="width: 100%;">
-        </div>
-        <div class="column">
-            <div class="text">
-                <h2>O bag classic</h2>
-                <p>The icon bag available in the colors of the new Autumn-Winter collection.</p>
-                <button>Shop now</button>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <div class="text">
-                <h2>O urban</h2>
-                <p>City chick, elegant and modern...</p>
-                <button>Discover</button>
-            </div>
-        </div>
-        <div class="column">
-            <img class="square" src="/image/ourban.jpg" alt="O urban bags" style="width: 100%;">
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <img class="square" src="/image/odoc.jpg" alt="O doc bags" style="width: 100%;">
-        </div>
-        <div class="column">
-            <div class="text">
-                <h2>I'm The Best</h2>
-                <p>Are you a true O bag Lover? Then these bags and accessories are a must-have items in your
-                    wardrobe.</p>
-                <button>Shop now</button>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <div class="text">
-                <h2>U are unique</h2>
-                <p>Shop O bag unique, unique just like you!</p>
-                <button>Shop now</button>
-            </div>
-        </div>
-        <div class="column">
-            <img class="square" src="/image/ounique.jpg" alt="O unique bags" style="width: 100%;">
-        </div>
-    </div>
-    <a href="/viber">
-        <img id="viber" src="/image/viber.jpg" alt="viber">
-    </a>
-
-</main>
-
-<th:block th:include="~{fragments/footer}"></th:block>
-
-<script src="/js/sticky-menu.js"></script>
 </body>
-
 </html>

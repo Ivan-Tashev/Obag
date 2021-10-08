@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,29 +39,33 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid UserLoginBindingModel userLoginBindingModel,
+    public String login(@Valid
+                        @ModelAttribute UserLoginBindingModel userLoginBindingModel,
                         BindingResult bindingResult,
                         RedirectAttributes redirectAttributes) {
+        // 1. CHECK FOR ENTRY/INPUT REQUIREMENTS AND @VALIDATIONS
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
             return "redirect:login";
         }
-        // TODO: check for existing email and display error massage
-        if (userService.existingEmail(userLoginBindingModel.getEmail())) {
-            bindingResult.addError(new ObjectError("email", "Този емейл не съществува в базата."));
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
+        // 2. CHECK FOR EXISTING EMAIl IN DB -> "Not existing email in DB."
+        if (userService.existingEmail(userLoginBindingModel.getEmail()) == null) {
+            redirectAttributes.addFlashAttribute("notFound", true);
             return "redirect:login";
         }
-        // TODO: display message email and password don't match.
+        // save User in HttpSession or @Bean CurrentUser
         UserServiceModel loggedInUser = userService.findByEmailAndPassword(
                 userLoginBindingModel.getEmail(), userLoginBindingModel.getPassword());
-        currentUser.setId(loggedInUser.getId())
-                .setFirstName(loggedInUser.getFirstName())
-                .setEmail(loggedInUser.getEmail())
-                .setRole(loggedInUser.getRole());
+        // 3. CHECK FOR CORRECT LOGIN (username=pass) FROM DB -> "Not matching email and password." (from DB)
+        if (loggedInUser == null) {
+            redirectAttributes.addFlashAttribute("notMatch", true);
+            return "redirect:login";
+        }
+
+        userService.loginUser(loggedInUser);
+
         return "redirect:/";
     }
 
@@ -79,15 +82,31 @@ public class UserController {
                            @ModelAttribute UserRegisterBindingModel userRegisterBindingModel,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
-        // check for entry/input requirements and errors
-        if (bindingResult.hasErrors() ||
-                !userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getRePassword())) {
+        // 1. CHECK FOR ENTRY/INPUT REQUIREMENTS AND @VALIDATIONS
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
             return "redirect:register";
         }
-        // TODO; check for existing Email(user)
+        // 2. CHECK FOR EXISTING EMAIl IN DB -> "Email already in use from a user."
+        if (userService.existingEmail(userRegisterBindingModel.getEmail()) != null) {
+            redirectAttributes.addFlashAttribute("found", true);
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
+            return "redirect:register";
+        }
+        // TODO: check for pass and rePass match
+        // 3. CHECK FOR PASSWORDS MATCHING (pass==rePass) "Passwords don't match."
+        if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getRePassword())) {
+            redirectAttributes.addFlashAttribute("notMatch", true);
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
+            return "redirect:register";
+        }
+
         // map the Banding Model to Service Model and save into DB
         UserServiceModel userServiceModel = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
         userService.registerUser(userServiceModel);
@@ -105,7 +124,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout() {
         userService.logoutUser();
-        return "redirect:/";
+        return "redirect:login";
     }
 
 }

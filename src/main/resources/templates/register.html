@@ -1,114 +1,125 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<th:block th:include="~{fragments/head}"></th:block>
-
-<head>
-    <style>
-        body {
-            font-family: 'Montserrat';
-            margin: 0;
-        }
-
-        .register {
-            width: 100%;
-            margin-top: 150px;
-        }
-
-        h3, form {
-            text-align: center;
-            font-size: xx-large;
-        }
-
-        form {
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 200px;
-        }
-
-        input[type="text"], input[type="number"], input[type="password"] {
-            margin-bottom: 30px;
-            padding: 20px;
-            width: 20%;
-            height: 15%;
-            border-radius: 30px
-        }
-
-        input[type="submit"] {
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-
-    </style>
-</head>
+<title>O bag | Register</title>
+<th:block th:include="~{fragment/head}"></th:block>
 
 <body>
+<div class="container-fluid" style="font-family: 'Century Gothic',sans-serif">
+    <th:block th:include="~{fragment/nav}"></th:block>
 
-<th:block th:include="~{fragments/nav}"></th:block>
-
-<div class="register">
-    <h3>Регистрация</h3>
+    <div class="row">
+        <div class="col-md-4 text-center"></div>
+        <div class="col-md-4 text-center">
+            <form action="/users/register" method="POST" th:object="${userRegisterBindingModel}">
+                <br>
+                <h3>Регистрация</h3>
+                <br>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">Име <span class="text-danger">*</span></label>
+                    <input th:field="*{firstName}" type="text" name="firstName" class="form-control input-round"
+                           id="firstName"
+                           aria-describedby="firstNameHelp" placeholder="Въведи име">
+                    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" id="firstName1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Фамилия <span class="text-danger">*</span></label>
+                    <input th:field="*{lastName}" type="text" name="lastName" class="form-control input-round"
+                           id="lastName"
+                           aria-describedby="lastNameHelp" placeholder="Въведи фамилия">
+                    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" id="lastName1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Телефон <span class="text-danger">*</span></label>
+                    <input th:field="*{phone}" type="number" name="phone" class="form-control input-round" id="phone"
+                           aria-describedby="phoneHelp" placeholder="Въведи телефон">
+                    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" id="phone1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Е-мейл <span style="color: red">*</span></label>
+                    <input th:field="*{email}" type="email" name="email" class="form-control input-round" id="email"
+                           aria-describedby="emailHelp" placeholder="Въведи е-мейл">
+                    <div th:if="${found}" id="email1"
+                         class="form-text text-danger">Вече има потребител с този емейл.
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="email2"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Парола <span style="color: red">*</span></label>
+                    <input th:field="*{password}" type="password" name="password" class="form-control input-round"
+                           id="password"
+                           aria-describedby="passwordHelp" placeholder="Въведи парола">
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="password1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="rePassword" class="form-label">Потвърдете парола <span
+                            style="color: red">*</span></label>
+                    <input th:field="*{rePassword}" type="password" name="rePassword" class="form-control input-round"
+                           id="rePassword"
+                           aria-describedby="passwordHelp" placeholder="Повторете паролата">
+                    <div th:if="${notMatch}" id="rePassword1" class="form-text text-danger">
+                        Въведените пароли не съвпадат.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Адрес</label>
+                    <input th:field="*{address}" type="text" name="address" class="form-control input-round"
+                           id="address"
+                           aria-describedby="addressHelp" placeholder="Въведи aдрес">
+                    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" id="address1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">Град</label>
+                    <input th:field="*{city}" type="text" name="city" class="form-control input-round" id="city"
+                           aria-describedby="cityHelp" placeholder="Въведи град">
+                    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" id="city1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="postCode" class="form-label">Пощенски код</label>
+                    <input th:field="*{postCode}" type="text" name="postCode" class="form-control input-round"
+                           id="postCode"
+                           aria-describedby="postCodeHelp" placeholder="Въведи пощенски код">
+                    <div th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" id="postCode1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="country" class="form-label">Държава</label>
+                    <input th:field="*{country}" type="text" name="country" class="form-control input-round"
+                           id="country"
+                           aria-describedby="countryHelp" placeholder="Въведи държава">
+                    <div th:if="${#fields.hasErrors('country')}" th:errors="*{country}" id="country1"
+                         class="form-text text-danger">
+                    </div>
+                </div>
+                <small class="text-danger">* Задължителни полета.</small>
+                <br>
+                <button type="submit" class="btn btn-outline-dark btn-round">Регистрация</button>
+                <br>
+            </form>
+        </div>
+    </div>
     <br>
-    <form action="/users/register" method="POST" th:object="${userRegisterBindingModel}">
-
-        <small for="">Име <span style="color: red">*</span></small><br>
-        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{firstName}" type="text" name="firstName" placeholder="Въведи име" id="firstName"/><br>
-
-        <small for="">Фамилия</small><br>
-        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{lastName}" type="text" name="lastName" placeholder="Въведи фамилия" id="lastName"><br>
-
-        <small for="">Телефон</small><br>
-        <small th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{phone}" type="number" name="phone" placeholder="Въведи телефон" id="phone"><br>
-
-        <small for="">Е-мейл <span style="color: red">*</span></small><br>
-        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{email}" type="text" name="email" placeholder="Въведи емайл" id="email"><br>
-
-        <small for="">Парола <span style="color: red">*</span></small><br>
-        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-               style="color: red; font-size: 13px"></small><br>
-        <input type="password" name="password" placeholder="Въведи парола" id="password"><br>
-
-        <small for="">Потвърдете паролата <span style="color: red">*</span></small><br>
-        <small th:if="${passwordsDontMatch}" th:errors="*{rePassword}"
-               style="color: red; font-size: 13px"></small><br>
-        <input type="password" name="rePassword" placeholder="Повторете паролата" id="rePassword"><br>
-
-        <small for="">Адрес</small><br>
-        <small th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{address}" type="text" name="address" placeholder="Въведи адрес" id="address"><br>
-
-        <small for="">Град</small><br>
-        <small th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{city}" type="text" name="city" placeholder="Въведи град" id="city"><br>
-
-        <small for="">Пощенски код</small><br>
-        <small th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{postCode}" type="text" name="postCode" placeholder="Въведи пощенски код" id="postCode"><br>
-
-        <small for="">Държава</small><br>
-        <small th:if="${#fields.hasErrors('country')}" th:errors="*{country}"
-               style="color: red; font-size: 13px"></small><br>
-        <input th:field="*{country}" type="text" name="country" placeholder="Въведи държава" id="country"><br>
-
-        <input type="submit" value="Регистрирай"/><br>
-
-        <small style="color: red; font-size: 15px">Задължителни полета.</small>
-    </form>
-
+    <th:block th:include="~{fragment/footer}"></th:block>
 </div>
 </body>
 
-<th:block th:include="~{fragments/footer}"></th:block>
-<script src="/js/fixed-menu.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
 </html>

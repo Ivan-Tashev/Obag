@@ -19,9 +19,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void initializeRoles() {
         if(roleRepo.count() == 0) {
-            final Role user = new Role(RoleEnum.USER);
-            final Role admin = new Role(RoleEnum.ADMIN);
             final Role superAdmin = new Role(RoleEnum.SUPERADMIN);
+            final Role admin = new Role(RoleEnum.ADMIN);
+            final Role user = new Role(RoleEnum.USER);
             roleRepo.saveAll(List.of(user, admin, superAdmin));
         }
     }

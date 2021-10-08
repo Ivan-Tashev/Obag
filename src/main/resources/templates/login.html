@@ -1,75 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<th:block th:include="~{fragments/head}"></th:block>
-
-<head>
-    <style>
-        body {
-            font-family: 'Montserrat';
-            margin: 0;
-        }
-
-        .login {
-            width: 100%;
-            margin-top: 150px;
-        }
-
-        h3 {
-            font-size: xx-large;
-            text-align: center;
-        }
-
-        form {
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 200px;
-        }
-
-        input[type="text"], input[type="password"] {
-            margin-bottom: 30px;
-            padding: 20px;
-            width: 20%;
-            height: 15%;
-            border-radius: 30px
-        }
-
-        input[type="submit"] {
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-
-    </style>
-</head>
+<title>O bag | Login</title>
+<th:block th:include="~{fragment/head}"></th:block>
 
 <body>
+<div class="container-fluid" style="font-family: 'Century Gothic',sans-serif">
+    <th:block th:include="~{fragment/nav}"></th:block>
 
-<th:block th:include="~{fragments/nav}"></th:block>
+    <div class="row">
+        <div class="col-md-4 text-center"></div>
+        <div class="col-md-4 text-center">
+            <form action="/users/login" method="POST" th:object="${userLoginBindingModel}">
+                <br>
+                <h3>Вход</h3>
+                <br>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Е-мейл <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="form-control input-round" id="email"
+                           aria-describedby="emailHelp">
+                    <div th:if="${notFound}" id="emailHelp" class="form-text text-danger">
+                        Този емейл не съществува в базата.
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="emailHelp1"
+                         class="form-text text-danger">Неавалиден емайл адрес.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password <span
+                            class="text-danger">*</span></label>
+                    <input type="password" name="password" class="form-control input-round" id="password">
+                    <div th:if="${notMatch}" id="password1" class="form-text text-danger">
+                        Некоректен емайл или парола.
+                    </div>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="password2"
+                         class="form-text text-danger">Неавалиден емайл адрес.
+                    </div>
+                </div>
+                <small class="text-danger">* Задължителни полета.</small>
+                <br>
+                <button type="submit" class="btn btn-outline-dark btn-round">Вход</button>
+                <br>
+                <small>Забравена парола?</small>
+                <br>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 text-center"></div>
 
-<div class="login">
-    <h3>Вход</h3>
-    <form action="/users/login" method="POST" th:object="${userLoginBindingModel}">
-
-        <small for="">Е-мейл <span style="color: red">*</span></small><br>
-        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-               style="color: red; font-size: 13px"></small><br>
-        <input type="text" name="email" id="email" placeholder="Въведи емайл"><br>
-
-        <small for="">Парола <span style="color: red">*</span></small><br>
-        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-               style="color: red; font-size: 13px"></small><br>
-        <input type="password" name="password" id="password" placeholder="Въведи парола"><br>
-
-        <small>Забравена парола?</small><br>
-
-        <input type="submit" value="   Вход   " class="text"><br>
-
-        <small style="color: red; font-size: 15px">Задължителни полета.</small>
-
-    </form>
+<br>
+<th:block th:include="~{fragment/footer}"></th:block>
 </div>
 </body>
 
-<th:block th:include="~{fragments/footer}"></th:block>
-<script src="/js/fixed-menu.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
 </html>

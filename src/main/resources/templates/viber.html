@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<th:block th:include="~{fragments/head}"></th:block>
+<title>O bag | Viber</title>
+<th:block th:include="~{fragment/head}"></th:block>
 
 <head>
     <style>
@@ -32,7 +32,7 @@
 
 <body>
 
-<th:block th:include="~{fragments/nav}"></th:block>
+<th:block th:include="~{fragment/nav}"></th:block>
 
 <div class="login">
     <img style="display: block; width: 80%; margin-left: auto; margin-right: auto" src="/image/viber_page.jpg">
@@ -57,6 +57,9 @@
 </div>
 </body>
 
-<th:block th:include="~{fragments/footer}"></th:block>
-<script src="/js/fixed-menu.js"></script>
+<th:block th:include="~{fragment/footer}"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
 </html>

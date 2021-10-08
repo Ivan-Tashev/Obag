@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>O bag | Product</title>
+<th:block th:include="~{fragment/head}"></th:block>
+
+<body>
+<div class="container-fluid" style="font-family: 'Century Gothic',sans-serif">
+    <th:block th:include="~{fragment/nav}"></th:block>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <br>
+            <h3>Продукти: add / edit / delete</h3>
+            <br>
+        </div>
+    </div>
+
+    <form action="/products/add" method="POST" th:object="${productAddBindingModel}">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input th:field="*{id}" type="text" disabled readonly class="form-control input-round" id="id"
+                           placeholder="id">
+                    <label for="id" class="form-label">id</label>
+                    <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" id="id1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{name}" type="text" class="form-control input-round" id="name" placeholder="name">
+                    <label for="name" class="form-label">name<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="name1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{sku}" type="text" class="form-control input-round" id="sku" placeholder="sku">
+                    <label for="sku" class="form-label">sku<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}" id="sku1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <select name="category" class="form-control input-round" id="category"
+                            aria-describedby="categoryHelp">
+                        <option value="" selected>Избери категория</option>
+                        <option th:each="category : ${categories}" th:text="${category}"
+                                th:value="${category}"></option>
+                    </select>
+                    <label for="category" class="form-label">category<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" id="category1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <select name="season" class="form-control input-round" id="season" aria-describedby="seasonHelp">
+                        <option value="" selected>Избери сезон</option>
+                        <option th:each="season : ${seasons}" th:text="${season}" th:value="${season}"></option>
+                    </select>
+                    <label for="season" class="form-label">season<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('season')}" th:errors="*{season}" id="season1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{metric}" type="text" value="pc" class="form-control input-round" id="metric"
+                           placeholder="metric">
+                    <label for="metric" class="form-label">metric</label>
+                    <div th:if="${#fields.hasErrors('metric')}" th:errors="*{metric}" id="metric1"
+                         class="form-text text-danger"></div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="form-floating">
+                    <input th:field="*{cost}" type="number" class="form-control input-round" id="cost"
+                           placeholder="cost">
+                    <label for="cost" class="form-label">cost<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" id="cost1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{price}" type="number" class="form-control input-round" id="price"
+                           placeholder="price">
+                    <label for="price" class="form-label">price<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" id="price1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{barcode}" type="number" class="form-control input-round" id="barcode"
+                           placeholder="barcode">
+                    <label for="barcode" class="form-label">barcode</label>
+                    <div th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}" id="barcode1"
+                         class="form-text text-danger"></div>
+                </div>
+                <div class="form-floating">
+                    <textarea th:field="*{description}" rows="7" class="form-control" aria-label="description"
+                              id="description" placeholder="description"
+                              style="border-radius: 25px; height: auto"></textarea>
+                    <label for="description" class="form-label">description<span class="text-danger">*</span></label>
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" id="description1"
+                         class="form-text text-danger"></div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="form-floating">
+                    <input th:field="*{createdOn}" type="datetime-local" disabled readonly
+                           class="form-control input-round"
+                           id="createdOn" placeholder="createdOn">
+                    <label for="createdOn" class="form-label">createdOn</label>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{createdBy}" type="text" disabled readonly class="form-control input-round"
+                           id="createdBy" placeholder="createdBy">
+                    <label for="createdBy" class="form-label">createdBy</label>
+                </div>
+                <div class="form-floating">
+                    <input th:field="*{image}" type="file" class="form-control input-round"
+                           id="image" placeholder="image">
+                    <label for="image" class="form-label">image</label>
+                </div>
+                <br>
+                <small class="text-danger">* задължителни полета.</small>
+                <br>
+                <input type="submit" value="Add" class="btn btn-outline-primary btn-round">
+                <button type="submit" class="btn btn-outline-warning btn-round">Edit</button>
+                <button type="submit" class="btn btn-outline-danger btn-round">Delete</button>
+                <br>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Season</th>
+                    <th scope="col">Cost</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">CreatedOn</th>
+                    <th scope="col">CreatedBy</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${allProducts}" th:object="${p}">
+                    <td th:text="*{id}">1</td>
+                    <td th:text="*{name}">Тяло Obag black</td>
+                    <td th:text="*{sku}">1101</td>
+                    <td th:text="*{category}">OBAG</td>
+                    <td th:text="*{season}">Fall21</td>
+                    <td th:text="*{cost}">23.50</td>
+                    <td th:text="*{price}">70.00</td>
+                    <td th:text="*{barcode}">123457890</td>
+                    <td th:text="*{createdOn.toLocalDate()}">21.09.2021</td>
+                    <td th:text="*{createdBy.getEmail()}">anl@abv.bg</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+
+<th:block th:include="~{fragment/footer}"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
+</html>

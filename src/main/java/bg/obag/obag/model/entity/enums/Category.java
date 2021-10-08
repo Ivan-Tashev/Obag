@@ -6,13 +6,20 @@ public enum Category {
     OURBAN,
     OREVERSE,
     ODOC,
+    OSHARM,
     OUNIQUE,
 
     OPOCKET,
     OGLAM,
     OCROSSY,
 
+    BACKPACK,
+
+    WALLET,
+
     OCLOCK,
+
+    OACCESSORIES,
 
     OSLIPPERS
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,15 +37,16 @@ public class UserServiceImpl implements UserService {
         user.setRegisteredOn(LocalDateTime.now());
         user.setCountOrders(0);
         user.setValueOrders(BigDecimal.ZERO);
-        user.setItems(new ArrayList<>());
+        user.setProducts(new ArrayList<>());
 
         userRepo.save(user);
     }
 
     @Override
     public UserServiceModel findByEmailAndPassword(String email, String password) {
-        User user = userRepo.findByEmailAndPassword(email, password);
-        return modelMapper.map(user, UserServiceModel.class);
+        return userRepo.findByEmailAndPassword(email, password)
+                .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .orElse(null);
     }
 
     @Override
@@ -55,7 +58,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean existingEmail(String email) {
-        return userRepo.findByEmail(email) == null;
+    public UserServiceModel existingEmail(String email) {
+        return userRepo.findByEmail(email)
+                .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .orElse(null);
+    }
+
+    @Override
+    public void loginUser(UserServiceModel loggedInUser) {
+        currentUser.setId(loggedInUser.getId())
+                .setFirstName(loggedInUser.getFirstName())
+                .setEmail(loggedInUser.getEmail())
+                .setRole(loggedInUser.getRole());
+    }
+
+    @Override
+    public List<String> getAllUsersEmails() {
+        return userRepo.findAllUsersEmails();
+    }
+
+    @Override
+    public void changeRole(String email, String role) {
+        Optional<User> user = userRepo.findByEmail(email);
+        if (user.isPresent()) {
+            user.get().setRole(roleService.findRole(RoleEnum.valueOf(role.toUpperCase())));
+            userRepo.save(user.get());
+        }
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return userRepo.findById(currentUser.getId());
     }
 }

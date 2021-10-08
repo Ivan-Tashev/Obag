@@ -16,7 +16,7 @@ public class User extends BaseEntity{
     private String phone;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 30)
     private String password;
     @Column(length = 50)
     private String address;
@@ -37,7 +37,7 @@ public class User extends BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String note;
     @ManyToMany
-    private List<Item> items;
+    private List<Product> products;
 
     public String getFirstName() {
         return firstName;
@@ -164,11 +164,11 @@ public class User extends BaseEntity{
         return this;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

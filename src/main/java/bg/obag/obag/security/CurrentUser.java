@@ -54,6 +54,9 @@ public class CurrentUser {
     }
 
     public boolean isAdmin() {
-        return this.role.getRole().equals(RoleEnum.SUPERADMIN);
+        if (this.role != null) {
+            return this.role.getRole() == RoleEnum.SUPERADMIN || this.role.getRole() == RoleEnum.ADMIN;
+        }
+        return false;
     }
 }

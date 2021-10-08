@@ -4,7 +4,6 @@ import bg.obag.obag.model.entity.enums.Payment;
 import bg.obag.obag.model.entity.enums.Status;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class Order extends BaseEntity{
     @Column(nullable = false)
     private LocalDateTime date;
     @ManyToMany
-    private List<Item> items;
+    private List<Product> products;
     @Column(name = "total_value", nullable = false)
     private Integer totalValue;
     @ManyToOne
@@ -37,12 +36,12 @@ public class Order extends BaseEntity{
         return this;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public Order setItems(List<Item> items) {
-        this.items = items;
+    public Order setProducts(List<Product> products) {
+        this.products = products;
         return this;
     }
 
