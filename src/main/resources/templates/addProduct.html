@@ -67,7 +67,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="form-floating">
-                    <input th:field="*{cost}" type="number" class="form-control input-round" id="cost"
+                    <input th:field="*{cost}" type="number" step=".001" class="form-control input-round" id="cost"
                            placeholder="cost">
                     <label for="cost" class="form-label">cost<span class="text-danger">*</span></label>
                     <div th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" id="cost1"
