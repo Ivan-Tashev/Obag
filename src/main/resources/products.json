@@ -1,0 +1,26 @@
+[
+  {
+    "barcode": null,
+    "category": "ODOC",
+    "cost": 38.39,
+    "description": "Размери: 34см широчина, 24см височина.\n\nПроизведено в Италия по дизайн на Laboratorio Quattro.",
+    "image": "https://obag.bg/userfiles/productimages/product_11801.jpg",
+    "metric": "бр",
+    "name": "ТЯЛО ODOC BLACK",
+    "price": 140.00,
+    "season": "Fall21",
+    "sku": " OBAGB978_EVS00_055"
+  },
+  {
+    "barcode": null,
+    "category": "ODOC",
+    "cost": 38.39,
+    "description": "Размери: 34см широчина, 24см височина.\n\nПроизведено в Италия по дизайн на Laboratorio Quattro.",
+    "image": "https://obag.bg/userfiles/productimages/product_12235.jpg",
+    "metric": "бр",
+    "name": "ТЯЛО ODOC GRANATINA",
+    "price": 140.00,
+    "season": "Fall21",
+    "sku": " OBAGB978_EVS00_752"
+  }
+]

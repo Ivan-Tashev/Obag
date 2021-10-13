@@ -9,19 +9,18 @@
     <th:block th:include="~{fragment/nav}"></th:block>
 
     <div class="container m-2">
-        <div class="row py-5"
-             th:object="${product}">
+        <div class="row py-5">
             <div class="col-md-6">
-                <img class="img-fluid" src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
+                <img th:src="${product.image}" class="img-fluid" src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
             </div>
             <div class="col-md-6">
-                <div>
-                    <p><small><strong>sku#: </strong>OBAGB001_EVS00_055</small></p>
-                    <h1 class="h5"><strong>Тяло Obag black</strong></h1>
+                <div th:object="${product}">
+                    <p><small><strong>sku#: </strong></small><small th:text="${product.sku}"></small></p>
+                    <h1 class="h5"><strong th:text="${product.name}">Тяло Obag black</strong></h1>
                     <br>
-                    <p><small><strong>размер: </strong>28cm lenght, 10cm width, 24cm height</small></p>
+                    <p><small th:text="${product.description}"></small></p>
                     <br>
-                    <div><p class="h5"><strong>70.00лв.</strong></p>
+                    <div><p class="h5"><strong th:text="|${product.price}лв.|">70.00лв.</strong></p>
                         <small class="text-secondary m-0 p-0" style="font-size: small">(с включено ДДС)</small>
                     </div>
                     <br>

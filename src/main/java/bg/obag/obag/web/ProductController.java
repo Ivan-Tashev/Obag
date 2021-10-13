@@ -3,6 +3,8 @@ package bg.obag.obag.web;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.entity.enums.Category;
 import bg.obag.obag.model.entity.enums.Season;
+import bg.obag.obag.model.service.ProductServiceModel;
+import bg.obag.obag.model.view.ProductViewModel;
 import bg.obag.obag.service.ProductsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/products")
@@ -25,6 +28,12 @@ public class ProductController {
     public ProductController(ProductsService productsService, ModelMapper modelMapper) {
         this.productsService = productsService;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/import")
+    public String importJson() throws IOException {
+        productsService.importProducts();
+        return "redirect:/";
     }
 
     @GetMapping("/add")
@@ -46,16 +55,18 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
-            return "redirect:/products/add";
+            return "redirect:add";
         }
         // ADD/SAVE NEW PRODUCT INTO DB
         productsService.addProduct(productAddBindingModel);
-        return "redirect:/products/add";
+        return "redirect:add";
     }
 
     @GetMapping("/{id}")
     public String getProductPage(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productsService.findProductById(id));
+        ProductServiceModel productServiceModel = productsService.findProductById(id);
+        model.addAttribute("product",
+                modelMapper.map(productServiceModel, ProductViewModel.class));
         return "product";
     }
 

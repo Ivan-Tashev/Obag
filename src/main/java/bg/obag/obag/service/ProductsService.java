@@ -1,12 +1,15 @@
 package bg.obag.obag.service;
 
 import bg.obag.obag.model.binding.ProductAddBindingModel;
-import bg.obag.obag.model.entity.Product;
 import bg.obag.obag.model.service.ProductServiceModel;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProductsService {
+
+    void importProducts() throws IOException;
+
     ProductServiceModel addProduct(ProductAddBindingModel productServiceModel);
 
     List<ProductServiceModel> findAllOrderByCategory();

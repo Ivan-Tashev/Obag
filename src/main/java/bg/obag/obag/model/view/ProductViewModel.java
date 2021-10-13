@@ -1,47 +1,27 @@
-package bg.obag.obag.model.service;
+package bg.obag.obag.model.view;
 
-import bg.obag.obag.model.entity.User;
 import bg.obag.obag.model.entity.enums.Category;
 import bg.obag.obag.model.entity.enums.Season;
-import com.google.gson.annotations.Expose;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-public class ProductServiceModel {
-
+public class ProductViewModel {
     private Long id;
-    @Expose
     private String name;
-    @Expose
     private String sku;
-    @Expose
     private Category category;
-    @Expose
     private Season season;
-    @Expose
     private String metric;
-    @Expose
-    private BigDecimal cost;
-    @Expose
     private BigDecimal price;
-    @Expose
     private Long barcode;
-    @Expose
     private String description;
-    @Expose
     private String image;
-
-    private LocalDateTime createdOn;
-
-    private User createdBy;
-
 
     public Long getId() {
         return id;
     }
 
-    public ProductServiceModel setId(Long id) {
+    public ProductViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -50,7 +30,7 @@ public class ProductServiceModel {
         return name;
     }
 
-    public ProductServiceModel setName(String name) {
+    public ProductViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -59,7 +39,7 @@ public class ProductServiceModel {
         return sku;
     }
 
-    public ProductServiceModel setSku(String sku) {
+    public ProductViewModel setSku(String sku) {
         this.sku = sku;
         return this;
     }
@@ -68,7 +48,7 @@ public class ProductServiceModel {
         return category;
     }
 
-    public ProductServiceModel setCategory(Category category) {
+    public ProductViewModel setCategory(Category category) {
         this.category = category;
         return this;
     }
@@ -77,17 +57,8 @@ public class ProductServiceModel {
         return season;
     }
 
-    public ProductServiceModel setSeason(Season season) {
+    public ProductViewModel setSeason(Season season) {
         this.season = season;
-        return this;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public ProductServiceModel setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
         return this;
     }
 
@@ -95,17 +66,8 @@ public class ProductServiceModel {
         return metric;
     }
 
-    public ProductServiceModel setMetric(String metric) {
+    public ProductViewModel setMetric(String metric) {
         this.metric = metric;
-        return this;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public ProductServiceModel setCost(BigDecimal cost) {
-        this.cost = cost;
         return this;
     }
 
@@ -113,7 +75,7 @@ public class ProductServiceModel {
         return price;
     }
 
-    public ProductServiceModel setPrice(BigDecimal price) {
+    public ProductViewModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }
@@ -122,7 +84,7 @@ public class ProductServiceModel {
         return barcode;
     }
 
-    public ProductServiceModel setBarcode(Long barcode) {
+    public ProductViewModel setBarcode(Long barcode) {
         this.barcode = barcode;
         return this;
     }
@@ -131,7 +93,7 @@ public class ProductServiceModel {
         return description;
     }
 
-    public ProductServiceModel setDescription(String description) {
+    public ProductViewModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -140,17 +102,8 @@ public class ProductServiceModel {
         return image;
     }
 
-    public ProductServiceModel setImage(String image) {
+    public ProductViewModel setImage(String image) {
         this.image = image;
-        return this;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public ProductServiceModel setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
         return this;
     }
 }
