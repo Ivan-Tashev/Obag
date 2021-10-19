@@ -8,10 +8,11 @@
 
     <th:block th:include="~{fragment/nav}"></th:block>
 
-    <div class="container m-2">
+    <div class="container-fluid">
         <div class="row py-5">
             <div class="col-md-6">
-                <img th:src="${product.image}" class="img-fluid" src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
+                <img th:src="${product.image}" class="img-fluid"
+                     src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
             </div>
             <div class="col-md-6">
                 <div th:object="${product}">
@@ -25,7 +26,7 @@
                     </div>
                     <br>
                     <label for="qty">количество: </label>
-                    <input type="number" name="qty" id="qty" value="1" min="1" max="100" class="input-round">
+                    <input type="number" name="qty" id="qty" value="1" min="1" max="100" step="1" class="input-round">
                     <br>
                     <div>
                         <a href="#" class="btn btn-outline-dark btn-round">Добави в количката</a>

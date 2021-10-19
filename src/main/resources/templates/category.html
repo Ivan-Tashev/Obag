@@ -8,17 +8,17 @@
 
     <th:block th:include="~{fragment/nav}"></th:block>
 
-    <div class="container m-2">
+    <div class="container-fluid">
         <div class="row text-center">
-            <div class="col"
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2"
                  th:each="p : ${productsInCategory}" th:object="${p}">
-                <div class="card text-center" style="width: 15rem; border: none">
+                <div class="card text-center" style="border: none">
                     <a th:href="@{/products/{id}(id=${p.id})}">
                         <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
-                             class="card-img-top" alt="...">
+                             class="card-img-top flex-box" alt="...">
                     </a>
                     <div class="card-body">
-                        <h5 th:text="*{name}" class="card-title">ТЯЛО OBAG BLACK</h5>
+                        <h6 th:text="*{name}" class="card-title">ТЯЛО OBAG BLACK</h6>
                         <p th:text="|*{price}лв.|" class="card-text">70лв.</p>
                         <a href="#" class="btn btn-outline-dark btn-round">Купи</a>
                     </div>
