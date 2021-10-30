@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class ProductAddBindingModel {
+public class ProductUpdateBindingModel {
     private Long id;
     @NotBlank(message = "product name must be unique, required.")
     private String name;
@@ -35,7 +35,7 @@ public class ProductAddBindingModel {
         return id;
     }
 
-    public ProductAddBindingModel setId(Long id) {
+    public ProductUpdateBindingModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -44,7 +44,7 @@ public class ProductAddBindingModel {
         return name;
     }
 
-    public ProductAddBindingModel setName(String name) {
+    public ProductUpdateBindingModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -53,7 +53,7 @@ public class ProductAddBindingModel {
         return sku;
     }
 
-    public ProductAddBindingModel setSku(String sku) {
+    public ProductUpdateBindingModel setSku(String sku) {
         this.sku = sku;
         return this;
     }
@@ -62,7 +62,7 @@ public class ProductAddBindingModel {
         return category;
     }
 
-    public ProductAddBindingModel setCategory(String category) {
+    public ProductUpdateBindingModel setCategory(String category) {
         this.category = category;
         return this;
     }
@@ -71,7 +71,7 @@ public class ProductAddBindingModel {
         return season;
     }
 
-    public ProductAddBindingModel setSeason(String season) {
+    public ProductUpdateBindingModel setSeason(String season) {
         this.season = season;
         return this;
     }
@@ -80,7 +80,7 @@ public class ProductAddBindingModel {
         return metric;
     }
 
-    public ProductAddBindingModel setMetric(String metric) {
+    public ProductUpdateBindingModel setMetric(String metric) {
         this.metric = metric;
         return this;
     }
@@ -89,7 +89,7 @@ public class ProductAddBindingModel {
         return cost;
     }
 
-    public ProductAddBindingModel setCost(BigDecimal cost) {
+    public ProductUpdateBindingModel setCost(BigDecimal cost) {
         this.cost = cost;
         return this;
     }
@@ -98,7 +98,7 @@ public class ProductAddBindingModel {
         return price;
     }
 
-    public ProductAddBindingModel setPrice(BigDecimal price) {
+    public ProductUpdateBindingModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }
@@ -107,7 +107,7 @@ public class ProductAddBindingModel {
         return barcode;
     }
 
-    public ProductAddBindingModel setBarcode(Long barcode) {
+    public ProductUpdateBindingModel setBarcode(Long barcode) {
         this.barcode = barcode;
         return this;
     }
@@ -116,7 +116,7 @@ public class ProductAddBindingModel {
         return description;
     }
 
-    public ProductAddBindingModel setDescription(String description) {
+    public ProductUpdateBindingModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -125,7 +125,7 @@ public class ProductAddBindingModel {
         return image;
     }
 
-    public ProductAddBindingModel setImage(String image) {
+    public ProductUpdateBindingModel setImage(String image) {
         this.image = image;
         return this;
     }
@@ -134,7 +134,7 @@ public class ProductAddBindingModel {
         return createdOn;
     }
 
-    public ProductAddBindingModel setCreatedOn(String createdOn) {
+    public ProductUpdateBindingModel setCreatedOn(String createdOn) {
         this.createdOn = createdOn;
         return this;
     }
@@ -143,7 +143,7 @@ public class ProductAddBindingModel {
         return createdBy;
     }
 
-    public ProductAddBindingModel setCreatedBy(String createdBy) {
+    public ProductUpdateBindingModel setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
         return this;
     }
@@ -152,7 +152,7 @@ public class ProductAddBindingModel {
         return deleted;
     }
 
-    public ProductAddBindingModel setDeleted(boolean deleted) {
+    public ProductUpdateBindingModel setDeleted(boolean deleted) {
         this.deleted = deleted;
         return this;
     }

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <br>
-            <h3>Продукти: add</h3>
+            <h3>Продукти: update</h3>
             <br>
         </div>
         <div class="col-md-3"></div>
@@ -21,7 +21,8 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    <form th:action="@{/products/add}" method="POST" th:object="${productAddBindingModel}">
+    <form th:action="@{/products/edit/{id}(id = ${productUpdateBindingModel.id})}" th:method="put"
+          th:object="${productUpdateBindingModel}">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-floating">
@@ -143,7 +144,9 @@
                 <br>
                 <small class="text-danger">* задължителни полета.</small>
                 <br>
-                <input type="submit" value="Add" class="btn btn-outline-primary btn-round">
+                <a href="/products/add" value="Add" class="btn btn-outline-primary btn-round">Add</a>
+                <input type="submit" value="Update" class="btn btn-outline-warning btn-round">
+                <input type="reset" value="Reset" class="btn btn-outline-danger btn-round">
                 <br>
             </div>
         </div>

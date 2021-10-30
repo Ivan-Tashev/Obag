@@ -11,17 +11,17 @@
     <div class="container-fluid">
         <div class="row py-5">
             <div class="col-md-6">
-                <img th:src="${productEntity.image}" class="img-fluid"
+                <img th:src="${product.image}" class="img-fluid"
                      src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
             </div>
             <div class="col-md-6">
-                <div th:object="${productEntity}">
-                    <p><small><strong>sku#: </strong></small><small th:text="${productEntity.sku}"></small></p>
-                    <h1 class="h5"><strong th:text="${productEntity.name}">Тяло Obag black</strong></h1>
+                <div th:object="${product}">
+                    <p><small><strong>sku#: </strong></small><small th:text="${product.sku}"></small></p>
+                    <h1 class="h5"><strong th:text="${product.name}">Тяло Obag black</strong></h1>
                     <br>
-                    <p><small th:text="${productEntity.description}"></small></p>
+                    <p><small th:text="${product.description}"></small></p>
                     <br>
-                    <div><p class="h5"><strong th:text="|${productEntity.price}лв.|">70.00лв.</strong></p>
+                    <div><p class="h5"><strong th:text="|${product.price}лв.|">70.00лв.</strong></p>
                         <small class="text-secondary m-0 p-0" style="font-size: small">(с включено ДДС)</small>
                     </div>
                     <br>

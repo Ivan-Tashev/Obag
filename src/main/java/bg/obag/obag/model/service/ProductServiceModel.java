@@ -36,6 +36,8 @@ public class ProductServiceModel {
 
     private String createdBy;
 
+    private boolean deleted;
+
 
     public Long getId() {
         return id;
@@ -151,6 +153,15 @@ public class ProductServiceModel {
 
     public ProductServiceModel setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+        return this;
+    }
+
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    public ProductServiceModel setDeleted(boolean deleted) {
+        this.deleted = deleted;
         return this;
     }
 }

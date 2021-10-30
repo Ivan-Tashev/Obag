@@ -31,6 +31,8 @@ public class ProductEntity extends BaseEntity{
     private String image;
     @ManyToOne
     private UserEntity createdBy;
+    @Column
+    private boolean deleted;
 
     public String getName() {
         return name;
@@ -128,6 +130,15 @@ public class ProductEntity extends BaseEntity{
 
     public ProductEntity setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
+        return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public ProductEntity setDeleted(boolean deleted) {
+        this.deleted = deleted;
         return this;
     }
 }

@@ -1,6 +1,8 @@
 package bg.obag.obag.service.impl;
 
+import bg.obag.obag.exception.ProductNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
+import bg.obag.obag.model.binding.ProductUpdateBindingModel;
 import bg.obag.obag.model.entity.ProductEntity;
 import bg.obag.obag.model.entity.enums.Category;
 import bg.obag.obag.model.entity.enums.Season;
@@ -55,18 +57,44 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel, Principal principal) {
+    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel, Principal principal) throws ProductNotFoundException {
         ProductServiceModel productServiceModel =
                 modelMapper.map(productAddBindingModel, ProductServiceModel.class)
-                        .setCategory(Category.valueOf(productAddBindingModel.getCategory().toUpperCase()))
+                        .setCategory(Category.valueOf(productAddBindingModel.getCategory()))
                         .setSeason(Season.valueOf(productAddBindingModel.getSeason()))
-                        .setCost(productAddBindingModel.getCost())
-                        .setPrice(productAddBindingModel.getPrice())
                         .setCreatedOn(LocalDateTime.now())
                         .setCreatedBy(principal.getName());
 
         productRepo.save(modelMapper.map(productServiceModel, ProductEntity.class)
                 .setCreatedBy(userService.findByEmail(productServiceModel.getCreatedBy()).get()));
+
+        return productServiceModel;
+    }
+
+    @Override
+    public ProductServiceModel updateProduct(ProductUpdateBindingModel productUpdateBindingModel, Principal principal) throws ProductNotFoundException {
+        ProductServiceModel productServiceModel =
+                modelMapper.map(productUpdateBindingModel, ProductServiceModel.class)
+                        .setCategory(Category.valueOf(productUpdateBindingModel.getCategory()))
+                        .setSeason(Season.valueOf(productUpdateBindingModel.getSeason()))
+                        .setCreatedBy(principal.getName());
+
+        ProductEntity productEntity = productRepo.findById(productServiceModel.getId())
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + productServiceModel.getId() + " not found."));
+
+        productEntity.setName(productServiceModel.getName())
+                .setSku(productServiceModel.getSku())
+                .setCategory(productServiceModel.getCategory())
+                .setSeason(productServiceModel.getSeason())
+                .setMetric(productServiceModel.getMetric())
+                .setCost(productServiceModel.getCost())
+                .setPrice(productServiceModel.getPrice())
+                .setBarcode(productServiceModel.getBarcode())
+                .setDescription(productServiceModel.getDescription())
+                .setCreatedBy(userService.findByEmail(productServiceModel.getCreatedBy()).get())
+                .setImage(productServiceModel.getImage())
+                .setDeleted(productServiceModel.getDeleted());
+        productRepo.save(productEntity);
 
         return productServiceModel;
     }
@@ -81,19 +109,51 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public List<ProductServiceModel> findByCategory(String category) {
-        return productRepo.findByCategory(Category.valueOf(category.toUpperCase())).stream()
+        return productRepo.findByCategoryAndDeletedIsFalse(Category.valueOf(category.toUpperCase())).stream()
                 .map(product -> modelMapper.map(product, ProductServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProductServiceModel findProductById(Long id) {
-        ProductEntity productEntity = productRepo.findById(id).orElseThrow();
-        return modelMapper.map(productEntity, ProductServiceModel.class);
+    public ProductServiceModel findProductById(Long id) throws ProductNotFoundException {
+        ProductEntity productEntity = productRepo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found."));
+        return modelMapper.map(productEntity, ProductServiceModel.class)
+                .setCreatedBy(productEntity.getCreatedBy().getEmail());
     }
 
     @Override
     public void deleteById(Long id) {
         productRepo.deleteById(id);
+    }
+
+    @Override
+    public boolean checkNameExists(String name) {
+        return productRepo.existsByName(name);
+    }
+
+    @Override
+    public boolean checkSkuExists(String sku) {
+        return productRepo.existsBySku(sku);
+    }
+
+    @Override
+    public boolean checkBarcodeExists(Long barcode) {
+        return productRepo.existsByBarcode(barcode);
+    }
+
+    @Override
+    public boolean checkNameExistsExceptId(String name, Long id) {
+        return productRepo.findByNameExceptId(name, id).isPresent();
+    }
+
+    @Override
+    public boolean checkSkuExistsExceptId(String sku, Long id) {
+        return productRepo.findBySkuExceptId(sku, id).isPresent();
+    }
+
+    @Override
+    public boolean checkBarcodeExistsExceptId(Long barcode, Long id) {
+        return productRepo.findByBarcodeExceptId(barcode, id).isPresent();
     }
 }
