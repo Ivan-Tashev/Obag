@@ -9,15 +9,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order extends BaseEntity{
+public class OrderEntity extends BaseEntity{
     @Column(nullable = false)
     private LocalDateTime date;
     @ManyToMany
-    private List<Product> products;
+    private List<ProductEntity> productEntities;
     @Column(name = "total_value", nullable = false)
     private Integer totalValue;
     @ManyToOne
-    private User user;
+    private UserEntity userEntity;
     @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "tracking_number")
@@ -31,17 +31,17 @@ public class Order extends BaseEntity{
         return date;
     }
 
-    public Order setDate(LocalDateTime date) {
+    public OrderEntity setDate(LocalDateTime date) {
         this.date = date;
         return this;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<ProductEntity> getProducts() {
+        return productEntities;
     }
 
-    public Order setProducts(List<Product> products) {
-        this.products = products;
+    public OrderEntity setProducts(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
         return this;
     }
 
@@ -49,17 +49,17 @@ public class Order extends BaseEntity{
         return totalValue;
     }
 
-    public Order setTotalValue(Integer totalValue) {
+    public OrderEntity setTotalValue(Integer totalValue) {
         this.totalValue = totalValue;
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public Order setUser(User user) {
-        this.user = user;
+    public OrderEntity setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
         return this;
     }
 
@@ -67,7 +67,7 @@ public class Order extends BaseEntity{
         return status;
     }
 
-    public Order setStatus(Status status) {
+    public OrderEntity setStatus(Status status) {
         this.status = status;
         return this;
     }
@@ -76,7 +76,7 @@ public class Order extends BaseEntity{
         return trackingNumber;
     }
 
-    public Order setTrackingNumber(String trackingNumber) {
+    public OrderEntity setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;
         return this;
     }
@@ -85,7 +85,7 @@ public class Order extends BaseEntity{
         return paymentMethod;
     }
 
-    public Order setPaymentMethod(Payment paymentMethod) {
+    public OrderEntity setPaymentMethod(Payment paymentMethod) {
         this.paymentMethod = paymentMethod;
         return this;
     }
@@ -94,7 +94,7 @@ public class Order extends BaseEntity{
         return note;
     }
 
-    public Order setNote(String note) {
+    public OrderEntity setNote(String note) {
         this.note = note;
         return this;
     }

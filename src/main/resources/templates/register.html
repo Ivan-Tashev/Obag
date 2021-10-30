@@ -10,10 +10,10 @@
     <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4 text-center">
-            <form action="/users/register" method="POST" th:object="${userRegisterBindingModel}">
                 <br>
                 <h3>Регистрация</h3>
                 <br>
+            <form th:action="@{/users/register}" th:method="post" th:object="${userRegisterBindingModel}">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Име <span class="text-danger">*</span></label>
                     <input th:field="*{firstName}" type="text" name="firstName" class="form-control input-round"

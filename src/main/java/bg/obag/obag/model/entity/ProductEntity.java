@@ -5,12 +5,10 @@ import bg.obag.obag.model.entity.enums.Season;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Blob;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
-public class Product extends BaseEntity{
+public class ProductEntity extends BaseEntity{
     @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false, unique = true)
@@ -32,13 +30,13 @@ public class Product extends BaseEntity{
     @Column(nullable = false)
     private String image;
     @ManyToOne
-    private User createdBy;
+    private UserEntity createdBy;
 
     public String getName() {
         return name;
     }
 
-    public Product setName(String name) {
+    public ProductEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -47,7 +45,7 @@ public class Product extends BaseEntity{
         return sku;
     }
 
-    public Product setSku(String sku) {
+    public ProductEntity setSku(String sku) {
         this.sku = sku;
         return this;
     }
@@ -56,7 +54,7 @@ public class Product extends BaseEntity{
         return category;
     }
 
-    public Product setCategory(Category category) {
+    public ProductEntity setCategory(Category category) {
         this.category = category;
         return this;
     }
@@ -65,7 +63,7 @@ public class Product extends BaseEntity{
         return season;
     }
 
-    public Product setSeason(Season season) {
+    public ProductEntity setSeason(Season season) {
         this.season = season;
         return this;
     }
@@ -74,7 +72,7 @@ public class Product extends BaseEntity{
         return metric;
     }
 
-    public Product setMetric(String metric) {
+    public ProductEntity setMetric(String metric) {
         this.metric = metric;
         return this;
     }
@@ -83,7 +81,7 @@ public class Product extends BaseEntity{
         return cost;
     }
 
-    public Product setCost(BigDecimal cost) {
+    public ProductEntity setCost(BigDecimal cost) {
         this.cost = cost;
         return this;
     }
@@ -92,7 +90,7 @@ public class Product extends BaseEntity{
         return price;
     }
 
-    public Product setPrice(BigDecimal price) {
+    public ProductEntity setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }
@@ -101,7 +99,7 @@ public class Product extends BaseEntity{
         return barcode;
     }
 
-    public Product setBarcode(Long barcode) {
+    public ProductEntity setBarcode(Long barcode) {
         this.barcode = barcode;
         return this;
     }
@@ -110,7 +108,7 @@ public class Product extends BaseEntity{
         return description;
     }
 
-    public Product setDescription(String description) {
+    public ProductEntity setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -119,16 +117,16 @@ public class Product extends BaseEntity{
         return image;
     }
 
-    public Product setImage(String image) {
+    public ProductEntity setImage(String image) {
         this.image = image;
         return this;
     }
 
-    public User getCreatedBy() {
+    public UserEntity getCreatedBy() {
         return createdBy;
     }
 
-    public Product setCreatedBy(User createdBy) {
+    public ProductEntity setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
         return this;
     }

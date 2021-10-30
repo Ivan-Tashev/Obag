@@ -3,9 +3,9 @@ package bg.obag.obag.web;
 import bg.obag.obag.model.binding.UserLoginBindingModel;
 import bg.obag.obag.model.binding.UserRegisterBindingModel;
 import bg.obag.obag.model.service.UserServiceModel;
-import bg.obag.obag.security.CurrentUser;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,19 +21,27 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final CurrentUser currentUser;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, CurrentUser currentUser, ModelMapper modelMapper) {
+    public UserController(UserService userService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.currentUser = currentUser;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @ModelAttribute("userLoginBindingModel")
+    UserLoginBindingModel userLoginBindingModel() {
+        return new UserLoginBindingModel();
     }
 
     @GetMapping("/login")
     public String getLogin(Model model) {
-        if (!model.containsAttribute("userLoginBindingModel")) {
-            model.addAttribute("userLoginBindingModel", new UserLoginBindingModel());
+        if (!model.containsAttribute("notFound")) {
+            model.addAttribute("notFound", false);
+        }
+        if (!model.containsAttribute("notMatch")) {
+            model.addAttribute("notMatch", false);
         }
         return "login";
     }
@@ -44,28 +52,23 @@ public class UserController {
                         BindingResult bindingResult,
                         RedirectAttributes redirectAttributes) {
         // 1. CHECK FOR ENTRY/INPUT REQUIREMENTS AND @VALIDATIONS
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || userService.existingEmail(userLoginBindingModel.getEmail()) == null
+                || userService.findByEmailAndPassword(userLoginBindingModel.getEmail(),
+                userLoginBindingModel().getPassword()) == null) {
             redirectAttributes.addFlashAttribute("userLoginBindingModel", userLoginBindingModel);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.userLoginBindingModel", bindingResult);
-            return "redirect:login";
+            // 2. CHECK FOR EXISTING EMAIl IN DB -> "Not existing email in DB."
+            if (userService.existingEmail(userLoginBindingModel.getEmail()) == null) {
+                redirectAttributes.addFlashAttribute("notFound", true);
+            }
+            // 3. CHECK FOR CORRECT LOGIN (username=pass) FROM DB -> "Not matching email and password." (from DB)
+            if (userService.findByEmailAndPassword(userLoginBindingModel.getEmail(),
+                    userLoginBindingModel().getPassword()) == null) {
+                redirectAttributes.addFlashAttribute("notMatch", true);
+            }
+            return "redirect:/users/login";
         }
-        // 2. CHECK FOR EXISTING EMAIl IN DB -> "Not existing email in DB."
-        if (userService.existingEmail(userLoginBindingModel.getEmail()) == null) {
-            redirectAttributes.addFlashAttribute("notFound", true);
-            return "redirect:login";
-        }
-        // save User in HttpSession or @Bean CurrentUser
-        UserServiceModel loggedInUser = userService.findByEmailAndPassword(
-                userLoginBindingModel.getEmail(), userLoginBindingModel.getPassword());
-        // 3. CHECK FOR CORRECT LOGIN (username=pass) FROM DB -> "Not matching email and password." (from DB)
-        if (loggedInUser == null) {
-            redirectAttributes.addFlashAttribute("notMatch", true);
-            return "redirect:login";
-        }
-
-        userService.loginUser(loggedInUser);
-
         return "redirect:/";
     }
 
@@ -97,7 +100,6 @@ public class UserController {
                     "org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
             return "redirect:register";
         }
-        // TODO: check for pass and rePass match
         // 3. CHECK FOR PASSWORDS MATCHING (pass==rePass) "Passwords don't match."
         if (!userRegisterBindingModel.getPassword().equals(userRegisterBindingModel.getRePassword())) {
             redirectAttributes.addFlashAttribute("notMatch", true);
@@ -111,20 +113,6 @@ public class UserController {
         UserServiceModel userServiceModel = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
         userService.registerUser(userServiceModel);
 
-        UserServiceModel registeredUserServiceModel = userService.findByEmailAndPassword(
-                userServiceModel.getEmail(), userServiceModel.getPassword());
-        // set the CurrentUser(for session) with just registered User.
-        currentUser.setId(registeredUserServiceModel.getId())
-                .setFirstName(registeredUserServiceModel.getFirstName())
-                .setEmail(registeredUserServiceModel.getEmail())
-                .setRole(registeredUserServiceModel.getRole());
-        return "redirect:/";
+        return "redirect:/users/login";
     }
-
-    @GetMapping("/logout")
-    public String logout() {
-        userService.logoutUser();
-        return "redirect:login";
-    }
-
 }

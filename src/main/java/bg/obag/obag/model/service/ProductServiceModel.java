@@ -1,6 +1,6 @@
 package bg.obag.obag.model.service;
 
-import bg.obag.obag.model.entity.User;
+import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.entity.enums.Category;
 import bg.obag.obag.model.entity.enums.Season;
 import com.google.gson.annotations.Expose;
@@ -34,7 +34,7 @@ public class ProductServiceModel {
 
     private LocalDateTime createdOn;
 
-    private User createdBy;
+    private UserEntity createdBy;
 
 
     public Long getId() {
@@ -145,11 +145,11 @@ public class ProductServiceModel {
         return this;
     }
 
-    public User getCreatedBy() {
+    public UserEntity getCreatedBy() {
         return createdBy;
     }
 
-    public ProductServiceModel setCreatedBy(User createdBy) {
+    public ProductServiceModel setCreatedBy(UserEntity createdBy) {
         this.createdBy = createdBy;
         return this;
     }

@@ -14,11 +14,11 @@ address,
 city, 
 postCode, 
 country, 
-role, Enum(USER, ADMIN…)
+roleEntity, Enum(USER, ADMIN…)
 registeredOn,
 countOrders, 
 valueOrders, 
-products (List<Product>), 
+productEntities (List<Product>), 
 note (‘TEXT’)
 createdOn
 
@@ -43,9 +43,9 @@ RoleEnum(USER, ADMIN…)
 ORDER
 id (PK),
 date(NN)
-products(List<Product>)
+productEntities(List<Product>)
 totalValue
-user(User.class)
+userEntity(User.class)
 status, Enum(New, Process)
 trackingNumber
 peymentMethod, Enum(cash
@@ -102,14 +102,14 @@ LOGIN(email:pass)
 	1.1. check for @Valid input (@Emal, @Password)
 	1.2. check for correct/existing email
 	1.3. check for matching email:pass
-	1.4. login the user
+	1.4. login the userEntity
 
 2. REGISTER (name, phone, email, password, rePassword, address, city, postCode, country)
 	2.0. required fields: name, email, pass, rePass
 	2.1. check for @Valid input (name, @Emal, @Password)
 	2.2. check for not existing in DB email (free)
 	2.3. check for matches password and confirmPassword
-	2.4. register the user
+	2.4. register the userEntity
 
 3. LOGOUT
 
@@ -119,7 +119,7 @@ LOGIN(email:pass)
 	4.3. ADMIN logged-in: hello, administration, design, orders, search, logout
 	4.4. SUPERADMIN: ADMIN + Role management.
 
-5. ROLES (set role / access rights to users, by default newly registered are USERs)
+5. ROLES (set roleEntity / access rights to users, by default newly registered are USERs)
 
 
 PRODUCTS FUNCTIONALITY_____________________________________________________________
@@ -127,7 +127,7 @@ PRODUCTS FUNCTIONALITY__________________________________________________________
 6. ADD PRODUCT
 	6.1. required fields: name, sku, category, season, cost, price, description
 	6.2. check for @Valid input
-	6.3. list product in the summary report, ordered by Category, then sku
+	6.3. list productEntity in the summary report, ordered by Category, then sku
 	6.4. // TODO: Edit
 	6.5. // TODO: Delete
 
@@ -146,8 +146,8 @@ E-SHOP FUNCTIONALITY
 	9.2. Main menu <nav> - logo, main categories by dropdown or mega menu.
 	9.3. Content <body>
 	     9.3.1. Homepage, main focus banner(horizontal), and with 5-6 accents (squares)
-	     9.3.2. Category page - list products summary view (image, name & price)
-	     9.3.3. Product page - product image 50%, and sku, name, price, description, qty, Buy btn, Shipment & Returns, Customer Care (accordion)
+	     9.3.2. Category page - list productEntities summary view (image, name & price)
+	     9.3.3. Product page - productEntity image 50%, and sku, name, price, description, qty, Buy btn, Shipment & Returns, Customer Care (accordion)
 	9.4. Footer <footer> - contacts (focus), all links, like sitemap and copyrights.
 
 ORDERS FUNCTIONALITY________________________________________________________________

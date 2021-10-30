@@ -1,12 +1,11 @@
 package bg.obag.obag.service.impl;
 
 import bg.obag.obag.model.binding.ProductAddBindingModel;
-import bg.obag.obag.model.entity.Product;
+import bg.obag.obag.model.entity.ProductEntity;
 import bg.obag.obag.model.entity.enums.Category;
 import bg.obag.obag.model.entity.enums.Season;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.repo.ProductRepo;
-import bg.obag.obag.security.CurrentUser;
 import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.UserService;
 import com.google.gson.Gson;
@@ -27,14 +26,12 @@ public class ProductsServiceImpl implements ProductsService {
     private static final String PRODUCTS_FILE_PATH = "src/main/resources/products.json";
     private final ProductRepo productRepo;
     private final UserService userService;
-    private final CurrentUser currentUser;
     private final ModelMapper modelMapper;
     private final Gson gson;
 
-    public ProductsServiceImpl(ProductRepo productRepo, UserService userService, CurrentUser currentUser, ModelMapper modelMapper, Gson gson) {
+    public ProductsServiceImpl(ProductRepo productRepo, UserService userService, ModelMapper modelMapper, Gson gson) {
         this.productRepo = productRepo;
         this.userService = userService;
-        this.currentUser = currentUser;
         this.modelMapper = modelMapper;
         this.gson = gson;
     }
@@ -48,10 +45,11 @@ public class ProductsServiceImpl implements ProductsService {
                     return valid;
                 })
                 .map(productServiceModel -> {
-                    Product product = modelMapper.map(productServiceModel, Product.class);
-                    product.setCreatedOn(LocalDateTime.now());
-                    product.setCreatedBy(userService.findById(currentUser.getId()).get());
-                    return product;
+                    ProductEntity productEntity = modelMapper.map(productServiceModel, ProductEntity.class);
+                    productEntity.setCreatedOn(LocalDateTime.now());
+                    // TODO:
+//                    productEntity.setCreatedBy(userService.findById(currentUser.getId()).get());
+                    return productEntity;
                 })
                 .forEach(productRepo::save);
     }
@@ -64,10 +62,11 @@ public class ProductsServiceImpl implements ProductsService {
                         .setSeason(Season.valueOf(productAddBindingModel.getSeason()))
                         .setCost(BigDecimal.valueOf(productAddBindingModel.getCost()))
                         .setPrice(BigDecimal.valueOf(productAddBindingModel.getPrice()))
-                        .setCreatedOn(LocalDateTime.now())
-                        .setCreatedBy(userService.findById(currentUser.getId()).get());
+                        .setCreatedOn(LocalDateTime.now());
+                        // TODO
+//                        .setCreatedBy(userService.findById(currentUser.getId()).get());
 
-        productRepo.save(modelMapper.map(productServiceModel, Product.class));
+        productRepo.save(modelMapper.map(productServiceModel, ProductEntity.class));
 
         return productServiceModel;
     }
@@ -88,7 +87,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public ProductServiceModel findProductById(Long id) {
-        Product product = productRepo.findById(id).orElseThrow();
-        return modelMapper.map(product, ProductServiceModel.class);
+        ProductEntity productEntity = productRepo.findById(id).orElseThrow();
+        return modelMapper.map(productEntity, ProductServiceModel.class);
     }
 }

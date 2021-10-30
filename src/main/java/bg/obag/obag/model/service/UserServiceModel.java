@@ -1,7 +1,7 @@
 package bg.obag.obag.model.service;
 
-import bg.obag.obag.model.entity.Product;
-import bg.obag.obag.model.entity.Role;
+import bg.obag.obag.model.entity.ProductEntity;
+import bg.obag.obag.model.entity.RoleEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,12 +18,12 @@ public class UserServiceModel {
     private String city;
     private String postCode;
     private String country;
-    private Role role;
+    private RoleEntity roleEntity;
     private LocalDateTime registeredOn;
     private Integer countOrders;
     private BigDecimal valueOrders;
     private String note;
-    private List<Product> products;
+    private List<ProductEntity> productEntities;
 
     public Long getId() {
         return id;
@@ -115,12 +115,12 @@ public class UserServiceModel {
         return this;
     }
 
-    public Role getRole() {
-        return role;
+    public RoleEntity getRole() {
+        return roleEntity;
     }
 
-    public UserServiceModel setRole(Role role) {
-        this.role = role;
+    public UserServiceModel setRole(RoleEntity roleEntity) {
+        this.roleEntity = roleEntity;
         return this;
     }
 
@@ -160,12 +160,12 @@ public class UserServiceModel {
         return this;
     }
 
-    public List<Product> getItems() {
-        return products;
+    public List<ProductEntity> getItems() {
+        return productEntities;
     }
 
-    public UserServiceModel setItems(List<Product> products) {
-        this.products = products;
+    public UserServiceModel setItems(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
         return this;
     }
 }
