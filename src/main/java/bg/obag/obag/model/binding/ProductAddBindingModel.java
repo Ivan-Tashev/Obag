@@ -2,6 +2,7 @@ package bg.obag.obag.model.binding;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 public class ProductAddBindingModel {
     private Long id;
@@ -15,9 +16,9 @@ public class ProductAddBindingModel {
     private String season;
     private String metric;
     @NotNull
-    private Long cost;
+    private BigDecimal cost;
     @NotNull
-    private Long price;
+    private BigDecimal price;
     private Long barcode;
     @NotNull
     private String description;
@@ -79,20 +80,20 @@ public class ProductAddBindingModel {
         return this;
     }
 
-    public Long getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public ProductAddBindingModel setCost(Long cost) {
+    public ProductAddBindingModel setCost(BigDecimal cost) {
         this.cost = cost;
         return this;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public ProductAddBindingModel setPrice(Long price) {
+    public ProductAddBindingModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }

@@ -7,6 +7,7 @@ import bg.obag.obag.repo.UserRepo;
 import bg.obag.obag.service.RoleService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,9 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepo.findByEmail(email);
         if (user.isPresent()) {
             UserEntity userEntity = user.get();
-            userEntity.getRoleEntities().add(roleService.findRole(RoleEnum.USER));
+            userEntity.getRoleEntities()
+                    .add(roleService.findRole(
+                            RoleEnum.valueOf(role.toUpperCase())));
             userRepo.save(userEntity);
         }
     }
@@ -77,5 +80,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserEntity> findById(Long id) {
         return userRepo.findById(id);
+    }
+
+    @Override
+    public Optional<UserEntity> findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }

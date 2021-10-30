@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/", "/users/login", "/users/register").permitAll()
                 .antMatchers("/roles/change").hasRole("SUPERADMIN")
-                .antMatchers("/products/add", "/products/import").hasRole("ADMIN")
+                .antMatchers("/products/add", "/products/import", "/products/delete/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .csrf().csrfTokenRepository(csrfTokenRepository())

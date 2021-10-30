@@ -13,9 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -55,18 +55,18 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel) {
+    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel, Principal principal) {
         ProductServiceModel productServiceModel =
                 modelMapper.map(productAddBindingModel, ProductServiceModel.class)
                         .setCategory(Category.valueOf(productAddBindingModel.getCategory().toUpperCase()))
                         .setSeason(Season.valueOf(productAddBindingModel.getSeason()))
-                        .setCost(BigDecimal.valueOf(productAddBindingModel.getCost()))
-                        .setPrice(BigDecimal.valueOf(productAddBindingModel.getPrice()))
-                        .setCreatedOn(LocalDateTime.now());
-                        // TODO
-//                        .setCreatedBy(userService.findById(currentUser.getId()).get());
+                        .setCost(productAddBindingModel.getCost())
+                        .setPrice(productAddBindingModel.getPrice())
+                        .setCreatedOn(LocalDateTime.now())
+                        .setCreatedBy(principal.getName());
 
-        productRepo.save(modelMapper.map(productServiceModel, ProductEntity.class));
+        productRepo.save(modelMapper.map(productServiceModel, ProductEntity.class)
+                .setCreatedBy(userService.findByEmail(productServiceModel.getCreatedBy()).get()));
 
         return productServiceModel;
     }
@@ -74,7 +74,8 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductServiceModel> findAllOrderByCategory() {
         return productRepo.findAllByCategory().stream()
-                .map(product -> modelMapper.map(product, ProductServiceModel.class))
+                .map(product -> modelMapper.map(product, ProductServiceModel.class)
+                        .setCreatedBy(product.getCreatedBy().getEmail()))
                 .collect(Collectors.toList());
     }
 
@@ -89,5 +90,10 @@ public class ProductsServiceImpl implements ProductsService {
     public ProductServiceModel findProductById(Long id) {
         ProductEntity productEntity = productRepo.findById(id).orElseThrow();
         return modelMapper.map(productEntity, ProductServiceModel.class);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        productRepo.deleteById(id);
     }
 }

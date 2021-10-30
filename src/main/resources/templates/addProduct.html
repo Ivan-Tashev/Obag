@@ -14,14 +14,15 @@
             <br>
         </div>
         <div class="col-md-3"></div>
-        <div class="col-md-6 alert alert-success alert-dismissible fade show" roleEntity="alert">
+        <div th:if="${successfullyAddedProduct}" class="col-md-6 alert alert-success alert-dismissible fade show"
+             role="alert">
             <strong>Success!</strong> You successfully added a new productEntity to the database.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <div class="col-md-3"></div>
     </div>
 
-    <form action="/products/add" method="POST" th:object="${productAddBindingModel}">
+    <form th:action="@{/products/add}" method="POST" th:object="${productAddBindingModel}">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-floating">
@@ -124,6 +125,12 @@
                 <br>
                 <input type="submit" value="Add" class="btn btn-outline-primary btn-round">
                 <br>
+                <div>
+                    <form th:action="@{/products/delete/{id}(id = ${productAddBindingModel.id})}" th:method="delete">
+                        <button type="submit" class="btn btn-outline-danger btn-round m-0 d-inline">✕</button>
+                    </form>
+                </div>
+                <br>
             </div>
         </div>
     </form>
@@ -158,10 +165,11 @@
                     <td th:text="*{price}">70.00</td>
                     <td th:text="*{barcode}">123457890</td>
                     <td th:text="*{createdOn.toLocalDate()}">21.09.2021</td>
-                    <td th:text="*{createdBy.getEmail()}">anl@abv.bg</td>
+                    <td th:text="*{createdBy}">anl@abv.bg</td>
                     <td>
-                        <button type="submit" class="btn btn-outline-warning btn-round m-0">✎</button>
-                        <button type="submit" class="btn btn-outline-danger btn-round m-0">✕</button>
+                        <form th:action="@{/products/edit/{id}(id = *{id})}" th:method="put">
+                            <button type="submit" class="btn btn-outline-warning btn-round m-0 d-inline">✎</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

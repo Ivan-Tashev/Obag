@@ -34,7 +34,7 @@ public class ProductServiceModel {
 
     private LocalDateTime createdOn;
 
-    private UserEntity createdBy;
+    private String createdBy;
 
 
     public Long getId() {
@@ -145,11 +145,11 @@ public class ProductServiceModel {
         return this;
     }
 
-    public UserEntity getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public ProductServiceModel setCreatedBy(UserEntity createdBy) {
+    public ProductServiceModel setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
         return this;
     }

@@ -19,5 +19,7 @@ public interface UserService {
     void changeRole(String email, String role);
 
     Optional<UserEntity> findById(Long id);
+
+    Optional<UserEntity> findByEmail(String name);
 }
 

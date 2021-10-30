@@ -10,14 +10,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/products")
@@ -41,6 +39,9 @@ public class ProductController {
         if (!model.containsAttribute("productAddBindingModel")) {
             model.addAttribute("productAddBindingModel", new ProductAddBindingModel());
         }
+        if (!model.containsAttribute("successfullyAddedProduct")){
+            model.addAttribute("successfullyAddedProduct", false);
+        }
         model.addAttribute("categories", Category.values());
         model.addAttribute("seasons", Season.values());
         model.addAttribute("allProducts", productsService.findAllOrderByCategory());
@@ -50,16 +51,19 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(@Valid ProductAddBindingModel productAddBindingModel,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                             Principal principal) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
             redirectAttributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
-            return "redirect:add";
+            return "redirect:/products/add";
         }
         // ADD/SAVE NEW PRODUCT INTO DB
-        productsService.addProduct(productAddBindingModel);
-        return "redirect:add";
+        productsService.addProduct(productAddBindingModel, principal);
+        // if added/saved show the Success green alert message.
+        redirectAttributes.addFlashAttribute("successfullyAddedProduct", true);
+        return "redirect:/products/add";
     }
 
     @GetMapping("/{id}")
@@ -68,6 +72,12 @@ public class ProductController {
         model.addAttribute("product",
                 modelMapper.map(productServiceModel, ProductViewModel.class));
         return "product";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteById(@PathVariable Long id) {
+        productsService.deleteById(id);
+        return "redirect:/products/add";
     }
 
 }
