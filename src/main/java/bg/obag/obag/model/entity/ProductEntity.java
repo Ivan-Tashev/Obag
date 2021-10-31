@@ -1,7 +1,6 @@
 package bg.obag.obag.model.entity;
 
 import bg.obag.obag.model.entity.enums.Category;
-import bg.obag.obag.model.entity.enums.Season;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,10 +12,10 @@ public class ProductEntity extends BaseEntity{
     private String name;
     @Column(nullable = false, unique = true)
     private String sku;
-    @Enumerated(EnumType.STRING)
-    private Category category;
-    @Enumerated(EnumType.STRING)
-    private Season season;
+    @ManyToOne
+    private CategoryEntity category;
+    @ManyToOne
+    private SeasonEntity season;
     @Column
     private String metric;
     @Column(nullable = false)
@@ -52,20 +51,20 @@ public class ProductEntity extends BaseEntity{
         return this;
     }
 
-    public Category getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public ProductEntity setCategory(Category category) {
+    public ProductEntity setCategory(CategoryEntity category) {
         this.category = category;
         return this;
     }
 
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
 
-    public ProductEntity setSeason(Season season) {
+    public ProductEntity setSeason(SeasonEntity season) {
         this.season = season;
         return this;
     }

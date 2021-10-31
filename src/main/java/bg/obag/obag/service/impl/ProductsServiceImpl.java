@@ -1,14 +1,23 @@
 package bg.obag.obag.service.impl;
 
+import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.exception.ProductNotFoundException;
+import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
+import bg.obag.obag.model.entity.CategoryEntity;
 import bg.obag.obag.model.entity.ProductEntity;
+import bg.obag.obag.model.entity.SeasonEntity;
 import bg.obag.obag.model.entity.enums.Category;
-import bg.obag.obag.model.entity.enums.Season;
+import bg.obag.obag.model.service.CategoryServiceModel;
 import bg.obag.obag.model.service.ProductServiceModel;
+import bg.obag.obag.model.service.SeasonServiceModel;
+import bg.obag.obag.repo.CategoryRepo;
 import bg.obag.obag.repo.ProductRepo;
+import bg.obag.obag.repo.SeasonRepo;
+import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
+import bg.obag.obag.service.SeasonService;
 import bg.obag.obag.service.UserService;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -28,12 +37,20 @@ public class ProductsServiceImpl implements ProductsService {
     private static final String PRODUCTS_FILE_PATH = "src/main/resources/products.json";
     private final ProductRepo productRepo;
     private final UserService userService;
+    private final CategoryService categoryService;
+    private final CategoryRepo categoryRepo;
+    private final SeasonService seasonService;
+    private final SeasonRepo seasonRepo;
     private final ModelMapper modelMapper;
     private final Gson gson;
 
-    public ProductsServiceImpl(ProductRepo productRepo, UserService userService, ModelMapper modelMapper, Gson gson) {
+    public ProductsServiceImpl(ProductRepo productRepo, UserService userService, CategoryService categoryService, CategoryRepo categoryRepo, SeasonService seasonService, SeasonRepo seasonRepo, ModelMapper modelMapper, Gson gson) {
         this.productRepo = productRepo;
         this.userService = userService;
+        this.categoryService = categoryService;
+        this.categoryRepo = categoryRepo;
+        this.seasonService = seasonService;
+        this.seasonRepo = seasonRepo;
         this.modelMapper = modelMapper;
         this.gson = gson;
     }
@@ -57,59 +74,60 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel, Principal principal) throws ProductNotFoundException {
-        ProductServiceModel productServiceModel =
-                modelMapper.map(productAddBindingModel, ProductServiceModel.class)
-                        .setCategory(Category.valueOf(productAddBindingModel.getCategory()))
-                        .setSeason(Season.valueOf(productAddBindingModel.getSeason()))
-                        .setCreatedOn(LocalDateTime.now())
-                        .setCreatedBy(principal.getName());
+    public ProductServiceModel addProduct(ProductAddBindingModel productAddBindingModel, Principal principal) {
 
-        productRepo.save(modelMapper.map(productServiceModel, ProductEntity.class)
-                .setCreatedBy(userService.findByEmail(productServiceModel.getCreatedBy()).get()));
+        ProductEntity productEntity = modelMapper.map(productAddBindingModel, ProductEntity.class)
+                .setCategory(categoryRepo.findByCategory(productAddBindingModel.getCategory()).get())
+                .setSeason(seasonRepo.findBySeason(productAddBindingModel.getSeason()).get())
+                .setCreatedBy(userService.findByEmail(principal.getName()).get());
 
-        return productServiceModel;
+        ProductEntity savedProductEntity = productRepo.save(productEntity);
+
+        return modelMapper.map(savedProductEntity, ProductServiceModel.class);
     }
 
     @Override
-    public ProductServiceModel updateProduct(ProductUpdateBindingModel productUpdateBindingModel, Principal principal) throws ProductNotFoundException {
-        ProductServiceModel productServiceModel =
-                modelMapper.map(productUpdateBindingModel, ProductServiceModel.class)
-                        .setCategory(Category.valueOf(productUpdateBindingModel.getCategory()))
-                        .setSeason(Season.valueOf(productUpdateBindingModel.getSeason()))
-                        .setCreatedBy(principal.getName());
+    public ProductServiceModel updateProduct(ProductUpdateBindingModel productUpdateBindingModel, Principal principal)
+            throws ProductNotFoundException {
 
-        ProductEntity productEntity = productRepo.findById(productServiceModel.getId())
-                .orElseThrow(() -> new ProductNotFoundException("Product with id " + productServiceModel.getId() + " not found."));
+        ProductEntity productEntity = productRepo.findById(productUpdateBindingModel.getId())
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + productUpdateBindingModel.getId() + " not found."));
 
-        productEntity.setName(productServiceModel.getName())
-                .setSku(productServiceModel.getSku())
-                .setCategory(productServiceModel.getCategory())
-                .setSeason(productServiceModel.getSeason())
-                .setMetric(productServiceModel.getMetric())
-                .setCost(productServiceModel.getCost())
-                .setPrice(productServiceModel.getPrice())
-                .setBarcode(productServiceModel.getBarcode())
-                .setDescription(productServiceModel.getDescription())
-                .setCreatedBy(userService.findByEmail(productServiceModel.getCreatedBy()).get())
-                .setImage(productServiceModel.getImage())
-                .setDeleted(productServiceModel.getDeleted());
-        productRepo.save(productEntity);
+        productEntity.setName(productUpdateBindingModel.getName())
+                .setSku(productUpdateBindingModel.getSku())
+                .setCategory(categoryRepo.findByCategory(productUpdateBindingModel.getCategory()).get())
+                .setSeason(seasonRepo.findBySeason(productUpdateBindingModel.getSeason()).get())
+                .setMetric(productUpdateBindingModel.getMetric())
+                .setCost(productUpdateBindingModel.getCost())
+                .setPrice(productUpdateBindingModel.getPrice())
+                .setBarcode(productUpdateBindingModel.getBarcode())
+                .setDescription(productUpdateBindingModel.getDescription())
+                .setImage(productUpdateBindingModel.getImage())
+                .setDeleted(productUpdateBindingModel.isDeleted())
+                .setCreatedBy(userService.findByEmail(principal.getName()).get());
 
-        return productServiceModel;
+        ProductEntity updatedProductEntity = productRepo.save(productEntity);
+
+        return modelMapper.map(updatedProductEntity, ProductServiceModel.class);
     }
 
     @Override
     public List<ProductServiceModel> findAllOrderByCategory() {
         return productRepo.findAllByCategory().stream()
                 .map(product -> modelMapper.map(product, ProductServiceModel.class)
+                        .setCategory(product.getCategory().getCategory())
+                        .setSeason(product.getSeason().getSeason())
                         .setCreatedBy(product.getCreatedBy().getEmail()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductServiceModel> findByCategory(String category) {
-        return productRepo.findByCategoryAndDeletedIsFalse(Category.valueOf(category.toUpperCase())).stream()
+    public List<ProductServiceModel> findByCategory(String category) throws CategoryNotFoundException {
+         CategoryEntity categoryEntity = categoryRepo.findByCategory(category).
+                 orElseThrow(() -> new CategoryNotFoundException("Category name " + category + " not found in database."));
+
+        return productRepo.findByCategoryAndDeletedIsFalse(categoryEntity)
+                .stream()
                 .map(product -> modelMapper.map(product, ProductServiceModel.class))
                 .collect(Collectors.toList());
     }

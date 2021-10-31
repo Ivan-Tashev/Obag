@@ -6,24 +6,46 @@
 
     <th:block th:include="~{fragment/nav}"></th:block>
 
-    <!--  BANNER TEXT   -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card text-white">
-                <img src="/image/banner.jpeg" class="card-img img-fluid" alt="...">
-                <div class="col-md-6">
-                    <div class="card-img-overlay position-absolute start-50" style="padding: 15%">
-                        <h2 class="card-title h1 fw-bold">Unique as you are</h2>
-                        <p class="card-text h5">O bag unique, the new "icon bag" now available in the colours of the
-                            new Autumn-Winter collection.</p>
-                        <a href="/category/ounique">
-                            <button type="button" class="btn btn-outline-light btn-round">I want it</button>
-                        </a>
-                    </div>
+    <!--  BANNER 1, 2, 3   -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="/image/banner2.jpg" alt="Second slide">
+                <!--position-absolute start-50" style="padding: 15% 10%"-->
+                <div class="card-img-overlay text-center text-black" style="padding: 20%">
+                    <h1 class="card-title h1 fw-bold">In the mood for Furry</h1>
+                    <p class="card-text h5">When the cold starts to make itself felt,
+                        wear the softness of the new Furry collection.</p>
+                    <a href="/category/ounique">
+                        <button type="button" class="btn btn-outline-dark btn-round">Shop now</button>
+                    </a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="/image/banner3.jpg" alt="Third slide">
+                <!--position-absolute start-50" style="padding: 15% 10%"-->
+                <div class="card-img-overlay text-center text-white" style="padding: 20%">
+                    <h2 class="card-title h1 fw-bold">Halloween</h2>
+                    <p class="card-text h5">Trick, Treat or Free Shipping? We have some frighteningly good news...
+                        We're paying for the shipping today!.</p>
+                    <a href="/category/ounique">
+                        <button type="button" class="btn btn-outline-light btn-round">I want it</button>
+                    </a>
                 </div>
             </div>
         </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
     </div>
+
 </div>
 
 <!--  ROW 1   -->
@@ -31,12 +53,12 @@
     <div class="col-12 col-sm-6">
         <img class="img-fluid" src="/image/1.jpg" alt="">
     </div>
-    <div class="col-12 col-md-6" style="padding: 15%">
+    <div class="col-12 col-md-6" style="padding: 15% 10%">
         <div>
-            <h2 class="h1 fw-bold">New arrivals</h2>
-            <p class="h5">Discover the new Fall-Winter collection.</p>
+            <h2 class="h1 fw-bold">Best Seller</h2>
+            <p class="h5">The selection of bags and accessories that every O bag Lover should have.</p>
             <a href="/category/obag">
-                <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
+                <button type="button" class="btn btn-outline-dark btn-round">Shop now</button>
             </a>
         </div>
     </div>
@@ -44,12 +66,11 @@
 
 <!--  ROW 2   -->
 <div class="row my-5">
-    <div class="col-12 col-md-6" style="padding: 15% 15%">
+    <div class="col-12 col-md-6" style="padding: 15% 10%">
         <div>
-            <h2 class="h1 fw-bold">I'm The Best</h2>
-            <p class="h5">Are you a true O bag Lover?
-                Then these bags and accessories are a
-                must-have items in your wardrobe.</p>
+            <h2 class="h1 fw-bold">Soft Collection</h2>
+            <p class="h5">Discover the new collection
+                in soft rubberized fabric in metal colours.</p>
             <a href="/category/odoc">
                 <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
             </a>
@@ -65,10 +86,11 @@
     <div class="col-12 col-md-6">
         <img src="/image/3.jpg" class="img-fluid" alt="">
     </div>
-    <div class="col-12 col-md-6" style="padding: 15% 15%">
+    <div class="col-12 col-md-6" style="padding: 15% 10%">
         <div>
-            <h2 class="h1 fw-bold">Fur Fun</h2>
-            <p class="h5">The collection Fluffy, fun and colorful!</p>
+            <h2 class="h1 fw-bold">It's Only Brock 'N' Roll</h2>
+            <p class="h5">Do you want to make your look unique and unmistakable?
+                Brock 'n' roll is the perfect collection for you!</p>
             <a href="/category/opocket">
                 <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
             </a>
@@ -76,11 +98,28 @@
     </div>
 </div>
 
-<!--  ROW 4,5   -->
+<!--  ROW 4   -->
+<div class="row my-5">
+    <div class="col-12 col-md-6" style="padding: 15% 10%">
+        <div>
+            <h2 class="h1 fw-bold">Unique as you are</h2>
+            <p class="h5">O bag unique, the new "icon bag" now available in the colours of the
+                new Autumn-Winter collection.</p>
+            <a href="/category/oclock">
+                <button type="button" class="btn btn-outline-dark btn-round">Discover now</button>
+            </a>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <img class="img-fluid" src="/image/4.jpg" alt="">
+    </div>
+</div>
+
+<!--  ROW 5,6   -->
 <div class="row my-5">
     <div class="col-12 col-md-6">
         <div class="card text-white ">
-            <img src="/image/4.jpg" class="card-img img-fluid float-end" alt="...">
+            <img src="/image/5.jpg" class="card-img img-fluid float-end" alt="...">
             <div class="card-img-overlay">
                 <div style="padding: 15% 5%">
                     <p class="h5">O drillas</p>
@@ -95,7 +134,7 @@
     </div>
     <div class="col-12 col-md-6">
         <div class="card text-white ">
-            <img src="/image/5.jpg" class="card-img img-fluid" alt="viber service">
+            <img src="/image/6.jpg" class="card-img img-fluid" alt="viber service">
             <div class="card-img-overlay">
                 <div style="padding: 15% 5%">
                     <p class="card-title h5">Special Price</p>
@@ -122,6 +161,8 @@
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous">
 </script>
-</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></div>
 </body>
 </html>

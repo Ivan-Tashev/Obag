@@ -21,5 +21,6 @@ public interface UserService {
     Optional<UserEntity> findById(Long id);
 
     Optional<UserEntity> findByEmail(String name);
+
 }
 

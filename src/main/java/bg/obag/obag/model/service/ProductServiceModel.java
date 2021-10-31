@@ -1,8 +1,7 @@
 package bg.obag.obag.model.service;
 
-import bg.obag.obag.model.entity.UserEntity;
-import bg.obag.obag.model.entity.enums.Category;
-import bg.obag.obag.model.entity.enums.Season;
+import bg.obag.obag.model.entity.CategoryEntity;
+import bg.obag.obag.model.entity.SeasonEntity;
 import com.google.gson.annotations.Expose;
 
 import java.math.BigDecimal;
@@ -16,9 +15,9 @@ public class ProductServiceModel {
     @Expose
     private String sku;
     @Expose
-    private Category category;
+    private String category;
     @Expose
-    private Season season;
+    private String season;
     @Expose
     private String metric;
     @Expose
@@ -66,20 +65,20 @@ public class ProductServiceModel {
         return this;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public ProductServiceModel setCategory(Category category) {
+    public ProductServiceModel setCategory(String category) {
         this.category = category;
         return this;
     }
 
-    public Season getSeason() {
+    public String getSeason() {
         return season;
     }
 
-    public ProductServiceModel setSeason(Season season) {
+    public ProductServiceModel setSeason(String season) {
         this.season = season;
         return this;
     }
@@ -156,12 +155,13 @@ public class ProductServiceModel {
         return this;
     }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
 
     public ProductServiceModel setDeleted(boolean deleted) {
         this.deleted = deleted;
         return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

@@ -1,11 +1,15 @@
 package bg.obag.obag.web;
 
+import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.exception.ProductNotFoundException;
+import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.model.view.ProductViewModel;
+import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
+import bg.obag.obag.service.SeasonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +25,14 @@ import java.security.Principal;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductsService productsService;
+    private final CategoryService categoryService;
+    private final SeasonService seasonService;
     private final ModelMapper modelMapper;
 
-    public ProductController(ProductsService productsService, ModelMapper modelMapper) {
+    public ProductController(ProductsService productsService, CategoryService categoryService, SeasonService seasonService, ModelMapper modelMapper) {
         this.productsService = productsService;
+        this.categoryService = categoryService;
+        this.seasonService = seasonService;
         this.modelMapper = modelMapper;
     }
 
@@ -45,10 +53,12 @@ public class ProductController {
 
     @GetMapping("/add")
     public String getAddProductPage(Model model) {
-        if (!model.containsAttribute("successfullyAddedProduct")) {
-            model.addAttribute("successfullyAddedProduct", false);
-        }
-        model.addAttribute("allProducts", productsService.findAllOrderByCategory());
+//        if (!model.containsAttribute("successfullyAddedProduct")) {
+//            model.addAttribute("successfullyAddedProduct", false);
+//        }
+        model.addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
+                .addAttribute("allSeasons", seasonService.findAll())
+                .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "addProduct";
 
     }
@@ -56,7 +66,7 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@Valid ProductAddBindingModel productAddBindingModel,
                              BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                             Principal principal) throws ProductNotFoundException {
+                             Principal principal) throws ProductNotFoundException, SeasonNotFoundException, CategoryNotFoundException {
         if (bindingResult.hasErrors()
                 || productsService.checkNameExists(productAddBindingModel.getName())
                 || productsService.checkSkuExists(productAddBindingModel.getSku())
@@ -92,9 +102,11 @@ public class ProductController {
         ProductServiceModel productServiceModel = productsService.findProductById(id);
         ProductAddBindingModel productAddBindingModel = modelMapper.map(productServiceModel, ProductAddBindingModel.class)
                 .setId(null) // NOT TO OVERWRITE EXISTING PRODUCT
-                .setCategory(productServiceModel.getCategory().name())
-                .setSeason(productServiceModel.getSeason().name());
+                .setCategory(productServiceModel.getCategory())
+                .setSeason(productServiceModel.getSeason());
         model.addAttribute("productAddBindingModel", productAddBindingModel)
+                .addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
+                .addAttribute("allSeasons", seasonService.findAll())
                 .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "addProduct";
     }
@@ -110,9 +122,11 @@ public class ProductController {
     public String getEditPage(@PathVariable Long id, Model model) throws ProductNotFoundException {
         ProductServiceModel productServiceModel = productsService.findProductById(id);
         ProductUpdateBindingModel productUpdateBindingModel = modelMapper.map(productServiceModel, ProductUpdateBindingModel.class)
-                .setCategory(productServiceModel.getCategory().name())
-                .setSeason(productServiceModel.getSeason().name());
+                .setCategory(productServiceModel.getCategory())
+                .setSeason(productServiceModel.getSeason());
         model.addAttribute("productUpdateBindingModel", productUpdateBindingModel)
+                .addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
+                .addAttribute("allSeasons", seasonService.findAll())
                 .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "updateProduct";
     }
@@ -121,7 +135,7 @@ public class ProductController {
     public String updateProduct(@PathVariable Long id,
                                 @Valid ProductUpdateBindingModel productUpdateBindingModel,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                                Principal principal) throws ProductNotFoundException {
+                                Principal principal) throws ProductNotFoundException, SeasonNotFoundException, CategoryNotFoundException {
         if (bindingResult.hasErrors()
                 || productsService.checkNameExistsExceptId(productUpdateBindingModel.getName(), id)
                 || productsService.checkSkuExistsExceptId(productUpdateBindingModel.getSku(), id)

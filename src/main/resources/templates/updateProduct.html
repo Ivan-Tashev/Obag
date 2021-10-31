@@ -56,9 +56,9 @@
                     <select name="category" class="form-control input-round" id="category"
                             aria-describedby="categoryHelp">
                         <option value="" selected>Избери категория</option>
-                        <option th:each="category : ${T(bg.obag.obag.model.entity.enums.Category).values()}"
-                                th:text="${category}" th:value="${category}"
-                                th:selected="${category.name()} == *{category}">
+                        <option th:each="c : ${allCategories}"
+                                th:text="${c.category}" th:value="${c.category}"
+                                th:selected="${c.category} == *{category}">
                         </option>
                     </select>
                     <label for="category" class="form-label">category<span class="text-danger">*</span></label>
@@ -69,9 +69,9 @@
                     <select name="season" class="form-control input-round" id="season"
                             aria-describedby="seasonHelp">
                         <option value="" selected>Избери сезон</option>
-                        <option th:each="season : ${T(bg.obag.obag.model.entity.enums.Season).values()}"
-                                th:text="${season}" th:value="${season}"
-                                th:selected="${season.name()} == *{season}"></option>
+                        <option th:each="s : ${allSeasons}"
+                                th:text="${s.season}" th:value="${s.season}"
+                                th:selected="${s.season} == *{season}"></option>
                     </select>
                     <label for="season" class="form-label">season<span class="text-danger">*</span></label>
                     <div th:if="${#fields.hasErrors('season')}" th:errors="*{season}" id="season1"
@@ -144,7 +144,7 @@
                 <br>
                 <small class="text-danger">* задължителни полета.</small>
                 <br>
-                <a href="/products/add" value="Add" class="btn btn-outline-primary btn-round">Add</a>
+                <a href="/products/add" class="btn btn-outline-primary btn-round">Add</a>
                 <input type="submit" value="Update" class="btn btn-outline-warning btn-round">
                 <input type="reset" value="Reset" class="btn btn-outline-danger btn-round">
                 <br>
