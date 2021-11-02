@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -36,7 +37,7 @@ public class ProductController {
         this.modelMapper = modelMapper;
     }
 
-//-------------------------------------- IMPORT PRODUCTS -------------------------------------------
+    /* -------------------------------------- IMPORT PRODUCTS ------------------------------------------- */
 
     @GetMapping("/import")
     public String importJson() throws IOException {
@@ -44,7 +45,7 @@ public class ProductController {
         return "redirect:/";
     }
 
-// -------------------------------------- ADD PRODUCT ---------------------------------------------
+    /* -------------------------------------- ADD PRODUCT --------------------------------------------- */
 
     @ModelAttribute("productAddBindingModel")
     ProductAddBindingModel productAddBindingModel() {
@@ -95,7 +96,7 @@ public class ProductController {
         return "redirect:/products/add";
     }
 
-// -------------------------------------- CLONE PRODUCT --------------------------------------------
+    /* -------------------------------------- CLONE PRODUCT -------------------------------------------- */
 
     @GetMapping("/clone/{id}")
     public String clone(@PathVariable Long id, Model model) throws ProductNotFoundException {
@@ -111,7 +112,7 @@ public class ProductController {
         return "addProduct";
     }
 
-// -------------------------------------- UPDATE PRODUCT ---------------------------------------------
+    /* -------------------------------------- UPDATE PRODUCT --------------------------------------------- */
 
     @ModelAttribute("productUpdateBindingModel")
     ProductUpdateBindingModel productUpdateBindingModel() {
@@ -171,7 +172,7 @@ public class ProductController {
         return "redirect:/products/add";
     }
 
-//---------------------------------  PRODUCT PAGE for ALL USERS -------------------------------------
+    /* ---------------------------------  PRODUCT PAGE for ALL USERS ------------------------------------- */
 
     @GetMapping("/{id}")
     public String getProductPage(@PathVariable Long id, Model model) throws ProductNotFoundException {
@@ -179,5 +180,14 @@ public class ProductController {
         model.addAttribute("product",
                 modelMapper.map(productServiceModel, ProductViewModel.class));
         return "product";
+    }
+
+    /* ---------------------------------  EXCEPTION HANDLER ------------------------------------- */
+
+    @ExceptionHandler
+    public ModelAndView handleProductNotFoundException(ProductNotFoundException exception) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", exception.getMessage());
+        return modelAndView;
     }
 }

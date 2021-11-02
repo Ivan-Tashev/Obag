@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<title>O bag | Product</title>
+<th:block th:include="~{fragment/head}"></th:block>
+
+<body>
+<div class="container-fluid">
+    <th:block th:include="~{fragment/nav}"></th:block>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <br>
+            <h3 class="h3 fw-bold">O bag</h3>
+            <br>
+            <div>Something went wrong, we apologize for the inconvenience we might cause you...</div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-4 text-center"></div>
+            <div class="col-md-4 text-center">
+                <div class="form-floating">
+                    <div class="form-text text-danger">
+                        <p th:text="|Error: ${message}|"></p>
+                    </div>
+                </div>
+                <div>
+                    <img src="/image/error.png" class="d-block w-100" alt="error page monkey">
+                </div>
+            </div>
+            <div class="col-md-4 text-center"></div>
+        </div>
+</div>
+</body>
+
+<th:block th:include="~{fragment/footer}"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
+</html>

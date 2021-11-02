@@ -31,7 +31,7 @@ server:
   error:
     include-exception: true
     include-message: always
-    include-stacktrace: always
+    include-stacktrace: never
 
 # CLOUDINARY
 cloudinary:
