@@ -1,5 +1,6 @@
 package bg.obag.obag.service.impl;
 
+import bg.obag.obag.model.entity.RoleEntity;
 import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.entity.enums.RoleEnum;
 import bg.obag.obag.model.service.UserServiceModel;
@@ -7,6 +8,7 @@ import bg.obag.obag.repo.UserRepo;
 import bg.obag.obag.service.RoleService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,6 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Secured("ROLE_SUPERADMIN")
     public void changeRole(String email, String role) {
         Optional<UserEntity> user = userRepo.findByEmail(email);
         if (user.isPresent()) {
@@ -72,6 +76,24 @@ public class UserServiceImpl implements UserService {
             userEntity.getRoleEntities()
                     .add(roleService.findRole(
                             RoleEnum.valueOf(role.toUpperCase())));
+            userRepo.save(userEntity);
+        }
+    }
+
+    @Override
+    @Secured("ROLE_SUPERADMIN")
+    public void removeRole(String email, String role) {
+        Optional<UserEntity> user = userRepo.findByEmail(email);
+        if (user.isPresent()) {
+            UserEntity userEntity = user.get();
+            Set<RoleEntity> roleEntities = userEntity.getRoleEntities();
+            RoleEntity roleToRemove = roleService.findRole(RoleEnum.valueOf(role.toUpperCase()));
+
+            Set<RoleEntity> updatedRoleSet = roleEntities.stream()
+                    .filter(roleEntity -> !roleEntity.getRole().name().equals(roleToRemove.getRole().name()))
+                    .collect(Collectors.toSet());
+
+            userEntity.setRoleEntities(updatedRoleSet);
             userRepo.save(userEntity);
         }
     }

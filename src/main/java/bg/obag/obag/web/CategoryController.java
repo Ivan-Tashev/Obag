@@ -8,6 +8,7 @@ import bg.obag.obag.model.view.ProductCategoryViewModel;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,7 @@ public class CategoryController {
         return "category";
     }
 
-// -------------------------------------- ADD CATEGORY ---------------------------------------------
+    /* -------------------------------------- ADD CATEGORY --------------------------------------------- */
 
     @ModelAttribute("categoryBindModel")
     public CategoryBindModel categoryBindModel() {
@@ -76,7 +77,7 @@ public class CategoryController {
         return "redirect:/category/add";
     }
 
-    // -------------------------------------- UPDATE PRODUCT ---------------------------------------------
+    /* -------------------------------------- UPDATE PRODUCT --------------------------------------------- */
 
     @GetMapping("/edit/{id}")
     public String getEditPage(@PathVariable Long id, Model model) throws CategoryNotFoundException {

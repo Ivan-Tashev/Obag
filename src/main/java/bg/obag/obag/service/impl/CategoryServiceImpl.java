@@ -8,6 +8,10 @@ import bg.obag.obag.repo.CategoryRepo;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
     private final CategoryRepo categoryRepo;
     private final UserService userService;
     private final ModelMapper modelMapper;
@@ -70,14 +75,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable("allCategories")
     public List<CategoryServiceModel> findAllOrderByPriorityAsc() {
+        LOGGER.info("Get all Categories from database and write to cache('allCategories').");
         return categoryRepo.findAllByOrderByPriorityAsc().stream()
                 .map(categoryEntity -> modelMapper.map(categoryEntity, CategoryServiceModel.class))
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(cacheNames = "allCategories", allEntries = true)
+    public void purgeCache() {
+        LOGGER.warn("Purge cache('allCategories').");
+    }
+
     @Override
     public CategoryServiceModel addCategory(CategoryBindModel categoryBindModel, Principal principal) {
+        purgeCache();
         CategoryEntity categoryEntity = new CategoryEntity()
                 .setCategory(categoryBindModel.getCategory())
                 .setPriority(categoryBindModel.getPriority())
@@ -92,6 +105,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryServiceModel updateCategory(CategoryBindModel categoryBindModel, Principal principal) throws CategoryNotFoundException {
+        purgeCache();
         CategoryEntity categoryEntity = categoryRepo.findById(categoryBindModel.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category with id " + categoryBindModel.getId() + " not found in database."));
 

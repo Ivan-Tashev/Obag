@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/roles")
@@ -24,9 +25,18 @@ public class RoleController {
     }
 
     @PostMapping("/change")
-    public String changeRole(@RequestParam String email,
-                             @RequestParam String role) {
+    public String changeRole(@RequestParam String email, @RequestParam String role,
+                             RedirectAttributes redirectAttributes) {
         userService.changeRole(email, role);
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("successfullyChangedRole", true);
+        return "redirect:/roles/change";
+    }
+
+    @PostMapping("/remove")
+    public String removeRole(@RequestParam String email, @RequestParam String role,
+                             RedirectAttributes redirectAttributes) {
+        userService.removeRole(email, role);
+        redirectAttributes.addFlashAttribute("successfullyChangedRole", true);
+        return "redirect:/roles/change";
     }
 }

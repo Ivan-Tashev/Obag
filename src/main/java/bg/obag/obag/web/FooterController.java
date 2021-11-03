@@ -1,5 +1,6 @@
 package bg.obag.obag.web;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

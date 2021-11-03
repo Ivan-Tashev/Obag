@@ -8,12 +8,23 @@
     <th:block th:include="~{fragment/nav}"></th:block>
 
     <div class="row">
+        <div class="col-md-12 text-center">
+            <br>
+            <h3>Промени роля</h3>
+            <br>
+        </div>
+        <div class="col-md-3"></div>
+        <div th:if="${successfullyChangedRole}" class="col-md-6 alert alert-success alert-dismissible fade show"
+             role="alert">
+            <strong>Success!</strong> You successfully change the Role of the User.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4 text-center">
             <form th:action="@{/roles/change}" method="POST">
-                <br>
-                <h3>Промени роля</h3>
-                <br>
                 <div class="mb-3">
                     <label for="email" class="form-label">Потребител <span class="text-danger">*</span></label>
                     <select name="email" class="form-control input-round" id="email"
@@ -25,6 +36,8 @@
                 <br>
                 <div class="mb-3">
                     <label for="email" class="form-label">Роля <span class="text-danger">*</span></label>
+                    <br>
+                    <small>Задайте роля на избрания потребител.</small><br>
                     <hr>
                     <label for="user">USER</label>
                     <input checked type="radio" name="role" id="user" value="user"><br>
@@ -36,9 +49,11 @@
                     <input type="radio" name="role" id="superadmin" value="superadmin"><br>
                     <hr>
                 </div>
-                <small>Задайте роля на избрания потребител.</small><br>
-                <input type="submit" value="Задай роля" class="btn btn-outline-dark btn-round"><br>
                 <small class="text-danger">* Задължителни полета.</small>
+                <br>
+                <input type="submit" value="Add Role" class="btn btn-outline-primary btn-round">
+                <input type="submit" th:formaction="@{/roles/remove}" value="Remove Role"
+                       class="btn btn-outline-danger btn-round"><br>
             </form>
         </div>
     </div>
