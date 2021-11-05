@@ -4,6 +4,9 @@
         <div class="row" style="font-size: smaller">
             <div class="col p-2">
                 <a href="/faq" class="text-dark text-decoration-none">Помощ ?</a>
+                <label for="searchBar"></label>
+                <input type="search" id="searchBar" class="input-round"
+                       placeholder="търси...">
             </div>
             <!--th:if="${@currentUser.isAnonymous()}"-->
             <div sec:authorize="!isAuthenticated()" class="col text-center p-2">
