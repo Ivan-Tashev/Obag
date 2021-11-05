@@ -5,10 +5,15 @@ import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.entity.enums.RoleEnum;
 import bg.obag.obag.model.service.UserServiceModel;
 import bg.obag.obag.repo.UserRepo;
+import bg.obag.obag.security.ObagUserDetailsService;
 import bg.obag.obag.service.RoleService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +31,14 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ObagUserDetailsService obagUserDetailsService;
 
-    public UserServiceImpl(UserRepo userRepo, RoleService roleService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepo userRepo, RoleService roleService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, ObagUserDetailsService obagUserDetailsService) {
         this.userRepo = userRepo;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.obagUserDetailsService = obagUserDetailsService;
     }
 
     @Override
@@ -45,6 +52,14 @@ public class UserServiceImpl implements UserService {
         userEntity.setProducts(new ArrayList<>());
 
         userRepo.save(userEntity);
+
+        // NEWLY REGISTERED USER GET LOGGED-IN.
+        UserDetails principal = obagUserDetailsService.loadUserByUsername(userEntity.getEmail());
+
+        Authentication context = new UsernamePasswordAuthenticationToken(
+                principal, userEntity.getPassword(), principal.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(context);
     }
 
     @Override
