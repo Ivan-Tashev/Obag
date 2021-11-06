@@ -2,16 +2,11 @@ package bg.obag.obag.service.impl;
 
 import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.exception.ProductNotFoundException;
-import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
 import bg.obag.obag.model.entity.CategoryEntity;
 import bg.obag.obag.model.entity.ProductEntity;
-import bg.obag.obag.model.entity.SeasonEntity;
-import bg.obag.obag.model.entity.enums.Category;
-import bg.obag.obag.model.service.CategoryServiceModel;
 import bg.obag.obag.model.service.ProductServiceModel;
-import bg.obag.obag.model.service.SeasonServiceModel;
 import bg.obag.obag.repo.CategoryRepo;
 import bg.obag.obag.repo.ProductRepo;
 import bg.obag.obag.repo.SeasonRepo;

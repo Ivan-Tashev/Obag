@@ -1,8 +1,9 @@
 package bg.obag.obag.model.entity;
 
-import bg.obag.obag.model.entity.enums.Category;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
 @Entity
