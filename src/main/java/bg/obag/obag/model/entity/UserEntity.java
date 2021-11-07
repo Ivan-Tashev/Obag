@@ -37,6 +37,10 @@ public class UserEntity extends BaseEntity{
     private BigDecimal valueOrders;
     @Column(columnDefinition = "TEXT")
     private String note;
+    @Column
+    private boolean privacyPolicy;
+    @Column
+    private boolean newsletter;
     @ManyToMany
     private List<ProductEntity> productEntities;
 
@@ -181,5 +185,23 @@ public class UserEntity extends BaseEntity{
 
     public void setProducts(List<ProductEntity> productEntities) {
         this.productEntities = productEntities;
+    }
+
+    public boolean isPrivacyPolicy() {
+        return privacyPolicy;
+    }
+
+    public UserEntity setPrivacyPolicy(boolean privacyPolicy) {
+        this.privacyPolicy = privacyPolicy;
+        return this;
+    }
+
+    public boolean isNewsletter() {
+        return newsletter;
+    }
+
+    public UserEntity setNewsletter(boolean newsletter) {
+        this.newsletter = newsletter;
+        return this;
     }
 }

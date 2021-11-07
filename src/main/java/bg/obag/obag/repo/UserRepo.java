@@ -17,4 +17,7 @@ public interface UserRepo extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT u.email FROM UserEntity u ORDER BY u.email ASC")
     List<String> findAllUsersEmails();
+
+    @Query("SELECT u FROM UserEntity u WHERE u.email = :email AND u.id <> :id")
+    Optional<UserEntity> findByEmailExceptId(String email, Long id);
 }

@@ -14,16 +14,21 @@ public interface UserService {
 
     UserServiceModel existingEmail(String email);
 
+    UserServiceModel existingEmailExceptId(String email, Long id);
+
     List<String> getAllUsersEmails();
 
     void changeRole(String email, String role);
 
     void removeRole(String email, String role);
 
-    Optional<UserEntity> findById(Long id);
+    UserServiceModel findById(Long id);
 
     Optional<UserEntity> findByEmail(String name);
 
+    UserServiceModel updateUser(UserServiceModel userServiceModel, Long id);
+
+    UserServiceModel findCurrentUserByEmail(String name);
 
 }
 

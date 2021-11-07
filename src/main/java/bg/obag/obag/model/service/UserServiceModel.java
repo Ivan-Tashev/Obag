@@ -23,6 +23,8 @@ public class UserServiceModel {
     private Integer countOrders;
     private BigDecimal valueOrders;
     private String note;
+    private boolean privacyPolicy;
+    private boolean newsletter;
     private List<ProductEntity> productEntities;
 
     public Long getId() {
@@ -166,6 +168,24 @@ public class UserServiceModel {
 
     public UserServiceModel setItems(List<ProductEntity> productEntities) {
         this.productEntities = productEntities;
+        return this;
+    }
+
+    public boolean isNewsletter() {
+        return newsletter;
+    }
+
+    public UserServiceModel setNewsletter(boolean newsletter) {
+        this.newsletter = newsletter;
+        return this;
+    }
+
+    public boolean isPrivacyPolicy() {
+        return privacyPolicy;
+    }
+
+    public UserServiceModel setPrivacyPolicy(boolean privacyPolicy) {
+        this.privacyPolicy = privacyPolicy;
         return this;
     }
 }

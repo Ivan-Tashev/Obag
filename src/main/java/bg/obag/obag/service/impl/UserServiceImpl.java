@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +45,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserServiceModel userServiceModel) {
         UserEntity userEntity = modelMapper.map(userServiceModel, UserEntity.class);
-        userEntity.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
-        userEntity.setRoleEntities(Set.of(roleService.findRole(RoleEnum.USER)));
-        userEntity.setRegisteredOn(LocalDateTime.now());
-        userEntity.setCountOrders(0);
-        userEntity.setValueOrders(BigDecimal.ZERO);
-        userEntity.setProducts(new ArrayList<>());
+        userEntity
+                .setPassword(passwordEncoder.encode(userServiceModel.getPassword()))
+                .setRoleEntities(Set.of(roleService.findRole(RoleEnum.USER)))
+                .setRegisteredOn(LocalDateTime.now())
+                .setCountOrders(0)
+                .setValueOrders(BigDecimal.ZERO)
+                .setProducts(new ArrayList<>());
 
         userRepo.save(userEntity);
 
@@ -63,6 +65,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserServiceModel updateUser(UserServiceModel userServiceModel, Long id) {
+        UserEntity userEntity = userRepo.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User with id " + id + " not exists."));
+
+        userEntity.setFirstName(userServiceModel.getFirstName())
+                .setLastName(userServiceModel.getLastName())
+                .setPhone(userServiceModel.getPhone())
+                .setEmail(userServiceModel.getEmail())
+                .setPassword(passwordEncoder.encode(userServiceModel.getPassword()))
+                .setCountry(userServiceModel.getCountry())
+                .setPostCode(userServiceModel.getPostCode())
+                .setCity(userServiceModel.getCity())
+                .setAddress(userServiceModel.getAddress())
+                .setPrivacyPolicy(userServiceModel.isPrivacyPolicy())
+                .setNewsletter(userServiceModel.isNewsletter());
+
+        UserEntity savedUserEntity = userRepo.save(userEntity);
+
+        return modelMapper.map(savedUserEntity, UserServiceModel.class);
+    }
+
+    @Override
+    public UserServiceModel findCurrentUserByEmail(String email) {
+        UserEntity userEntity = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with emal " + email + " not exists."));
+        return modelMapper.map(userEntity, UserServiceModel.class);
+    }
+
+    @Override
     public UserServiceModel findByEmailAndPassword(String email, String password) {
         return userRepo.findByEmailAndPassword(email, password)
                 .map(user -> modelMapper.map(user, UserServiceModel.class))
@@ -73,6 +104,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel existingEmail(String email) {
         return userRepo.findByEmail(email)
+                .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .orElse(null);
+    }
+
+    @Override
+    public UserServiceModel existingEmailExceptId(String email, Long id) {
+        return userRepo.findByEmailExceptId(email, id)
                 .map(user -> modelMapper.map(user, UserServiceModel.class))
                 .orElse(null);
     }
@@ -114,12 +152,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserEntity> findById(Long id) {
-        return userRepo.findById(id);
+    public UserServiceModel findById(Long id) {
+        UserEntity userEntity = userRepo.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User with id " + id + " not exists."));
+        return modelMapper.map(userEntity, UserServiceModel.class);
     }
 
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         return userRepo.findByEmail(email);
     }
+
+
 }

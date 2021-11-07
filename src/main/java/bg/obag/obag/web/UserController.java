@@ -30,6 +30,8 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /* ------------------------------------- LOG-IN ------------------------------------------------- */
+
     @ModelAttribute("userLoginBindingModel")
     UserLoginBindingModel userLoginBindingModel() {
         return new UserLoginBindingModel();
@@ -71,6 +73,8 @@ public class UserController {
         }
         return "redirect:/";
     }
+
+    /* ------------------------------------ REGISTER ------------------------------------------------- */
 
     @GetMapping("/register")
     public String getRegister(Model model) {

@@ -63,7 +63,7 @@ productsBtnElement.addEventListener('click', (e) => {
                     <th scope="col">Price</th>
                 </tr>
                 </thead>
-                <tbody>\`;
+                <tbody>
     `;
     productsTopViews.forEach(log => {
         tableConstruct += `

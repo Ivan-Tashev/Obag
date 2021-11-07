@@ -18,8 +18,8 @@
                     <div class="container-fluid justify-content-end">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <p class="nav-link text-dark">Здравей,
-                                    <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                                <p sec:authorize="isAuthenticated()" class="nav-link text-dark">
+                                    <span th:if="${user}" th:text="|Здравей, ${user}|"></span>
                                 </p>
                             </li>
                             <!--th:if="${@currentUser.isAdmin()}"-->
@@ -55,7 +55,7 @@
                                 </ul>
                             </li>
                             <li sec:authorize="hasRole('USER')" class="nav-item">
-                                <a class="nav-link text-dark" href="#">Профил</a>
+                                <a class="nav-link text-dark" href="/profile">Профил</a>
                             </li>
                             <li sec:authorize="!isAuthenticated()" class="nav-item">
                                 <a class="nav-link text-dark" th:href="@{/users/login}">Вход</a>

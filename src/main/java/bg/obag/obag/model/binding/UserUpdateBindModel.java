@@ -4,7 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserRegisterBindingModel {
+public class UserUpdateBindModel {
+    private Long id;
     @NotNull
     @Size(min = 2, max = 20, message = "Името трябва да бъде от 2 до 20 символа.")
     private String firstName;
@@ -111,7 +112,7 @@ public class UserRegisterBindingModel {
         return privacyPolicy;
     }
 
-    public UserRegisterBindingModel setPrivacyPolicy(boolean privacyPolicy) {
+    public UserUpdateBindModel setPrivacyPolicy(boolean privacyPolicy) {
         this.privacyPolicy = privacyPolicy;
         return this;
     }
@@ -120,8 +121,17 @@ public class UserRegisterBindingModel {
         return newsletter;
     }
 
-    public UserRegisterBindingModel setNewsletter(boolean newsletter) {
+    public UserUpdateBindModel setNewsletter(boolean newsletter) {
         this.newsletter = newsletter;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public UserUpdateBindModel setId(Long id) {
+        this.id = id;
         return this;
     }
 }

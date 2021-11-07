@@ -1,5 +1,3 @@
-console.log("Hi!")
-
 const productRowElement = document.getElementById("searchRow");
 const inputValueElement = document.getElementById("searchBar");
 const allProducts = [];

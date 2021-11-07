@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Controller
+@Controller // used like REST Controller
 @RequestMapping("/logs")
 public class LogController {
     private final LogService logService;
