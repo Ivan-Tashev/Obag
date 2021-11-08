@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
-public class ProductEntity extends BaseEntity{
+public class ProductEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false, unique = true)
