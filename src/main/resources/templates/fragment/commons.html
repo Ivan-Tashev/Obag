@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:fragment="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +19,7 @@
 </head>
 
 <body>
+
 <header th:fragment="nav">
     <div id="navbar" class="container-fluid sticky-top bg-white">
         <!-- TOP MENU  -->
@@ -185,13 +187,12 @@
     </div>
 </header>
 
-
 <footer th:fragment="footer">
-    <div class="row pt-4">
-        <div class="col-md-3">
+    <div class="row pt-3">
+        <div class="col-6 col-md-3">
             <ul class="list-unstyled px-5">
                 <li>
-                    <a class="text-dark text-decoration-none" href="/"><strong class="fw-bolder">O bag</strong></a>
+                    <a class="text-dark text-decoration-none" href="/"><strong class="h3 fw-bolder">O bag</strong></a>
                 </li>
                 <li>
                     <label>E-mail: </label>
@@ -203,7 +204,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-md-3">
             <article>
                 <ul class="list-unstyled px-5">
                     <li><a class="text-dark text-decoration-none" href="/">Начало</a></li>
@@ -213,7 +214,7 @@
                 </ul>
             </article>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-md-3">
             <ul class="list-unstyled px-5">
                 <li><a class="text-dark text-decoration-none" href="/faq">Чести въпроси</a></li>
                 <li><a class="text-dark text-decoration-none" href="/loyalty">Програма за лоялност</a></li>
@@ -221,7 +222,7 @@
                 <li><a class="text-dark text-decoration-none" href="/conditions">Условия</a></li>
             </ul>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-md-3">
             <ul class="list-unstyled px-5">
                 <li><a class="text-dark text-decoration-none" href="/users/login">Вход</a></li>
                 <li><a class="text-dark text-decoration-none" href="/users/register">Регистрация</a></li>
