@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,8 +86,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel findCurrentUserByEmail(String email) {
         UserEntity userEntity = userRepo.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with emal " + email + " not exists."));
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not exists."));
         return modelMapper.map(userEntity, UserServiceModel.class);
+    }
+
+    @Override
+    public List<String> findUserRolesByEmail(String email) {
+        UserEntity userEntity = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not exists."));
+        return userEntity.getRoleEntities().stream()
+                .sorted(Comparator.comparing(RoleEntity::getId))
+                .map(roleEntity -> roleEntity.getRole().name())
+                .collect(Collectors.toList());
     }
 
     @Override

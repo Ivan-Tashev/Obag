@@ -6,6 +6,7 @@ import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
 import bg.obag.obag.model.entity.CategoryEntity;
 import bg.obag.obag.model.entity.ProductEntity;
+import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.repo.CategoryRepo;
 import bg.obag.obag.repo.ProductRepo;
@@ -16,13 +17,14 @@ import bg.obag.obag.service.SeasonService;
 import bg.obag.obag.service.UserService;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +55,11 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public void importProducts() throws IOException {
         String readString = Files.readString(Path.of(PRODUCTS_FILE_PATH));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserEntity currentUserEntity = userService.findByEmail(email).orElseThrow();
+
         Arrays.stream(gson.fromJson(readString, ProductServiceModel[].class))
                 .filter(product -> {
                     boolean valid = true; // TODO: implement validation
@@ -60,9 +67,10 @@ public class ProductsServiceImpl implements ProductsService {
                 })
                 .map(productServiceModel -> {
                     ProductEntity productEntity = modelMapper.map(productServiceModel, ProductEntity.class);
-                    productEntity.setCreatedOn(LocalDateTime.now());
-                    // TODO:
-//                    productEntity.setCreatedBy(userService.findById(currentUser.getId()).get());
+                    productEntity
+                            .setCategory(categoryRepo.findByCategory(productServiceModel.getCategory()).get())
+                            .setSeason(seasonRepo.findBySeason(productServiceModel.getSeason()).get())
+                            .setCreatedBy(currentUserEntity);
                     return productEntity;
                 })
                 .forEach(productRepo::save);
@@ -118,8 +126,8 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public List<ProductServiceModel> findByCategory(String category) throws CategoryNotFoundException {
-         CategoryEntity categoryEntity = categoryRepo.findByCategory(category).
-                 orElseThrow(() -> new CategoryNotFoundException("Category name " + category + " not found in database."));
+        CategoryEntity categoryEntity = categoryRepo.findByCategory(category).
+                orElseThrow(() -> new CategoryNotFoundException("Category name " + category + " not found in database."));
 
         return productRepo.findByCategoryAndDeletedIsFalse(categoryEntity)
                 .stream()

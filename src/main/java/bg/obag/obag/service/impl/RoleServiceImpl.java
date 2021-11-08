@@ -6,7 +6,9 @@ import bg.obag.obag.repo.RoleRepo;
 import bg.obag.obag.service.RoleService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -18,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void initializeRoles() {
-        if(roleRepo.count() == 0) {
+        if (roleRepo.count() == 0) {
             final RoleEntity superAdmin = new RoleEntity(RoleEnum.SUPERADMIN);
             final RoleEntity admin = new RoleEntity(RoleEnum.ADMIN);
             final RoleEntity user = new RoleEntity(RoleEnum.USER);
@@ -29,5 +31,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleEntity findRole(RoleEnum roleEnum) {
         return roleRepo.findByRole(roleEnum);
+    }
+
+    @Override
+    public List<String> findAll() {
+        return roleRepo.findAll().stream()
+                .sorted(Comparator.comparing(RoleEntity::getId))
+                .map(roleEntity -> roleEntity.getRole().name())
+                .collect(Collectors.toList());
     }
 }

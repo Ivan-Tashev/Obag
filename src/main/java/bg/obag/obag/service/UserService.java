@@ -30,5 +30,6 @@ public interface UserService {
 
     UserServiceModel findCurrentUserByEmail(String name);
 
+    List<String> findUserRolesByEmail(String email);
 }
 

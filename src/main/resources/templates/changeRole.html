@@ -13,6 +13,9 @@
             <h3>Промени роля</h3>
             <br>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-3"></div>
         <div th:if="${successfullyChangedRole}" class="col-md-6 alert alert-success alert-dismissible fade show"
              role="alert">
@@ -25,35 +28,51 @@
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4 text-center">
             <form th:action="@{/roles/change}" method="POST">
-                <div class="mb-3">
+                <div>
                     <label for="email" class="form-label">Потребител <span class="text-danger">*</span></label>
-                    <select name="email" class="form-control input-round" id="email"
-                            aria-describedby="emailHelp">
-                        <option value="" selected>Избери потребител</option>
-                        <option th:each="email : ${emails}" th:text="*{email}" th:value="*{email}"></option>
-                    </select>
+                    <input th:value="${email}"  th:text="${email}" type="email" name="email" placeholder="Въведи емейл..."
+                           class="form-control input-round" id="email" required>
+                    <p th:text="${userRoles}"></p>
+                    <input type="submit" formaction="/roles/change/show" formmethod="get" value="Покажи роли"
+                           class="btn btn-outline-primary btn-round">
                 </div>
                 <br>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Роля <span class="text-danger">*</span></label>
+                    <label for="role" class="form-label">Роля <span class="text-danger">*</span></label>
                     <br>
-                    <small>Задайте роля на избрания потребител.</small><br>
-                    <hr>
-                    <label for="user">USER</label>
-                    <input checked type="radio" name="role" id="user" value="user"><br>
-                    <hr>
-                    <label for="admin">ADMIN</label>
-                    <input type="radio" name="role" id="admin" value="admin"><br>
-                    <hr>
-                    <label for="superadmin">SUPERADMIN</label>
-                    <input type="radio" name="role" id="superadmin" value="superadmin"><br>
-                    <hr>
+                    <small>Задайте роля на избрания потребител.</small>
+                    <br>
+                    <select name="role" class="form-control input-round" id="role"
+                                                      aria-describedby="roleHelp">
+                        <option th:each="role : ${roles}" th:text="*{role}" th:value="*{role}"></option>
+                    </select>
+                    <br>
+                    <select name="shop" class="form-control input-round" id="shop"
+                            aria-describedby="shopHelp" disabled>
+                        <option>Търговски обект</option>
+                    </select>
+                    <br>
+                    <div class="text-left mx-5">
+                        <label for="black-list">
+                            <input type="checkbox" name="black-list" id="black-list" disabled>
+                             Отдалечен достъп по IP address.
+                        </label>
+                        <br>
+                        <label for="remote-access">
+                            <input type="checkbox" name="remote-access" id="remote-access" disabled>
+                            Блокирай / добави в Black list.
+                        </label>
+                    </div>
+
+
                 </div>
                 <small class="text-danger">* Задължителни полета.</small>
                 <br>
-                <input type="submit" value="Add Role" class="btn btn-outline-primary btn-round">
-                <input type="submit" th:formaction="@{/roles/remove}" value="Remove Role"
-                       class="btn btn-outline-danger btn-round"><br>
+                <input type="submit" value="Add Role"
+                       class="btn btn-outline-primary btn-round">
+                <input type="submit" formaction="/roles/remove" value="Remove Role"
+                       class="btn btn-outline-danger btn-round">
+                <br>
             </form>
         </div>
     </div>
