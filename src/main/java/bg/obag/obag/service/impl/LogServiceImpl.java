@@ -41,7 +41,10 @@ public class LogServiceImpl implements LogService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-
+        if (authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .noneMatch(a -> a.equals("ROLE_ANONYMOUS"))
+        ) {
             UserEntity userEntity = userService.findByEmail(authentication.getName())
                     .orElseThrow(() -> new UsernameNotFoundException("User email " + authentication.getName() + " not found."));
 
@@ -51,7 +54,7 @@ public class LogServiceImpl implements LogService {
                     .setAction(action);
 
             logRepo.save(logEntity);
-
+        }
     }
 
     @Override
