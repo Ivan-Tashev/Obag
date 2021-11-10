@@ -12,17 +12,24 @@ import bg.obag.obag.service.LogService;
 import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class LogServiceImpl implements LogService {
+    Logger LOGGER = LoggerFactory.getLogger(LogServiceImpl.class);
+
     private final LogRepo logRepo;
     private final ProductsService productsService;
     private final UserService userService;
@@ -68,5 +75,14 @@ public class LogServiceImpl implements LogService {
     @Override
     public List<ProductsLogCount> findAllLogsByProduct() {
         return logRepo.findAllByGroupByProduct();
+    }
+
+    @Scheduled(cron = "0 0 3 ? *  *") // every day at 3:00AM
+    @Transactional
+    @Override
+    public void cleanLogs() {
+        LocalDateTime dateOneMonthAgo = LocalDateTime.now().minusMinutes(1);
+        logRepo.deleteOlderThan1Month(dateOneMonthAgo);
+        LOGGER.info("Logs, older than " + dateOneMonthAgo + " cleared.");
     }
 }

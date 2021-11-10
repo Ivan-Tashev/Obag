@@ -12,4 +12,6 @@ public interface LogService {
     List<LogViewModel> findAllLogsByUser();
 
     List<ProductsLogCount> findAllLogsByProduct();
+
+    void cleanLogs();
 }
