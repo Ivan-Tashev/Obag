@@ -42,7 +42,10 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 text-center"></div>
+        <div class="col-md-2 text-center">
+            <img src="/image/profile.jpg" alt="profile pic"
+                 class="img-fluid" style="border-radius: 50%; max-height: 125px">
+        </div>
         <div class="col-md-8 text-center">
             <form th:action="@{/profile}" th:method="post" th:object="${userUpdateBindModel}">
                 <div class="row">

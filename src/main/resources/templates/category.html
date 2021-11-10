@@ -9,6 +9,9 @@
     <th:block th:include="~{fragment/nav}"></th:block>
 
     <div class="container-fluid">
+        <div class="row">
+            <img th:src="${categoryImage}" alt="">
+        </div>
         <div class="row text-center">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2"
                  th:each="p : ${productsInCategory}" th:object="${p}">

@@ -8,7 +8,6 @@ import bg.obag.obag.model.view.ProductCategoryViewModel;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +32,8 @@ public class CategoryController {
         this.modelMapper = modelMapper;
     }
 
+    /* -------------------------------------- CATEGORY VIEW --------------------------------------------- */
+
     @GetMapping("/{category}")
     public String getCategoryPage(@PathVariable String category, Model model) throws CategoryNotFoundException {
         List<ProductServiceModel> productServiceModelList = productsService.findByCategory(category);
@@ -41,7 +42,10 @@ public class CategoryController {
                 .map(productServiceModel -> modelMapper.map(productServiceModel, ProductCategoryViewModel.class))
                 .collect(Collectors.toList());
 
-        model.addAttribute("productsInCategory", productCategoryViewModels);
+        CategoryServiceModel categoryServiceModel = categoryService.findByCategory(category);
+
+        model.addAttribute("productsInCategory", productCategoryViewModels)
+                .addAttribute("categoryImage", categoryServiceModel.getImage());
         return "category";
     }
 

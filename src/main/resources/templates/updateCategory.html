@@ -39,7 +39,7 @@
                     <tbody>
                     <tr th:each="c : ${allCategories}" th:object="${c}">
                         <td th:text="*{id}">1</td>
-                        <td th:text="*{category}">SPRING'21</td>
+                        <td th:text="*{category}">OBAG</td>
                         <td th:text="*{priority}">1</td>
                         <td>
                             <form th:action="@{/category/edit/{id}(id = *{id})}" th:method="get" class="d-inline">
@@ -56,7 +56,7 @@
                     <input th:field="*{id}" type="text" readonly class="form-control input-round" id="id"
                            placeholder="id">
                     <label for="id" class="form-label">id</label>
-                    <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" id="id1"
+                    <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" id="ida"
                          class="form-text text-danger text-center"></div>
                 </div>
                 <div class="form-floating">
@@ -96,6 +96,8 @@
                     <input th:field="*{deleted}" type="checkbox" id="deleted">
                     <label for="deleted"> mark as deleted</label>
                 </div>
+                <br>
+                <img th:src="*{image}" alt="" class="img-fluid max-width: 100%">
                 <br>
                 <small class="text-danger">* задължителни полета.</small>
                 <br>

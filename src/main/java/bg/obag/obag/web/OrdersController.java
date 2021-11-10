@@ -8,6 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/orders")
 public class OrdersController {
 
+    /* ------------------------------------ EXCEPTION HANDLER ------------------------------------------------- */
+
+
+
+
+
+    /* ------------------------------------------ ORDERS ------------------------------------------------------ */
+
     @GetMapping()
     public String getOrdersPage() {
         return "orders";

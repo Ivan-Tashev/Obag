@@ -151,11 +151,12 @@
     <br>
 
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-left">
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Name</th>
                     <th scope="col">SKU</th>
                     <th scope="col">Category</th>
@@ -171,6 +172,7 @@
                 <tbody>
                 <tr th:each="p : ${allProducts}" th:object="${p}">
                     <td th:text="*{id}">1</td>
+                    <td><img th:src="*{image}" alt="" style="max-height: 30px"></td>
                     <td th:text="*{name}">Тяло Obag black</td>
                     <td th:text="*{sku}">1101</td>
                     <td th:text="*{category}">OBAG</td>

@@ -13,6 +13,7 @@ import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -39,15 +40,18 @@ public class LogServiceImpl implements LogService {
         ProductServiceModel productServiceModel = productsService.findProductById(productId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity userEntity = userService.findByEmail(authentication.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("User email " + authentication.getName() + " not found."));
 
-        LogEntity logEntity = new LogEntity()
-                .setProduct(modelMapper.map(productServiceModel, ProductEntity.class))
-                .setUser(userEntity)
-                .setAction(action);
 
-        logRepo.save(logEntity);
+            UserEntity userEntity = userService.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new UsernameNotFoundException("User email " + authentication.getName() + " not found."));
+
+            LogEntity logEntity = new LogEntity()
+                    .setProduct(modelMapper.map(productServiceModel, ProductEntity.class))
+                    .setUser(userEntity)
+                    .setAction(action);
+
+            logRepo.save(logEntity);
+
     }
 
     @Override
