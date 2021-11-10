@@ -1,4 +1,4 @@
 package bg.obag.obag.security;
 
-public class CurrentUser {
+public class CurrentUser_ {
 }
