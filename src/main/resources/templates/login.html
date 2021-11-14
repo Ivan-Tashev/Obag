@@ -16,7 +16,7 @@
             <h3>Вход</h3>
             <br>
             <form th:action="@{/users/login}" th:method="post" th:object="${userLoginBindingModel}">
-                <div class="mb-3">
+                <div class="mb-1">
                     <label for="email" class="form-label">Е-мейл <span class="text-danger">*</span></label>
                     <input th:field="*{email}" th:errorclass="is-invalid"
                            type="email" name="email" class="form-control input-round" id="email"
@@ -28,7 +28,7 @@
                         Неавалиден емайл или парола.
                     </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb-2">
                     <label for="password" class="form-label">Password <span
                             class="text-danger">*</span></label>
                     <input type="password" name="password" class="form-control input-round" id="password">
@@ -36,11 +36,14 @@
                     </div>
                 </div>
                 <small class="text-danger">* Задължителни полета.</small>
-                <br>
-                <button type="submit" class="btn btn-outline-dark btn-round">Вход</button>
-                <br>
+                <div>
+                    <button type="submit" class="btn btn-outline-dark btn-round">Вход</button>
+                </div>
                 <small>Забравена парола?</small>
                 <br>
+                <br>
+                <h4>Нямате регистрация?</h4>
+                <a href="/users/register" class="btn btn-outline-dark btn-round">Регистрация</a>
             </form>
         </div>
     </div>

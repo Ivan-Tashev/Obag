@@ -18,9 +18,9 @@
                     <div class="container-fluid justify-content-end">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <p sec:authorize="isAuthenticated()" class="nav-link text-dark">
-                                    <span th:if="${user}" th:text="|Здравей, ${user}|"></span>
-                                </p>
+                                <span sec:authorize="isAuthenticated()" th:if="${user}" th:text="|Здравей, ${user}|"
+                                      class="nav-link text-dark">
+                                </span>
                             </li>
                             <!--th:if="${@currentUser.isAdmin()}"-->
                             <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
@@ -32,6 +32,7 @@
                                     <li><a class="dropdown-item text-dark" href="/products/add">Продукти</a></li>
                                     <li><a class="dropdown-item text-dark" href="/category/add">Категории</a></li>
                                     <li><a class="dropdown-item text-dark" href="/season">Сезони</a></li>
+                                    <li><a class="dropdown-item text-dark" href="/season">Дизайн</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -43,31 +44,94 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#"
-                                   role="button"
-                                   aria-expanded="false">Дизайн</a>
+                            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="/profile"
+                                   role="button" aria-expanded="false">Профил</a>
                                 <ul class="dropdown-menu" style="font-size: small">
-                                    <li><a class="dropdown-item text-dark" href="#"
-                                    >Home page</a></li>
-                                    <li><a class="dropdown-item text-dark" href="#">Category page</a></li>
-                                    <li><a class="dropdown-item text-dark" href="#">Product page</a></li>
+                                    <li><a class="dropdown-item text-dark" href="/profile">Профил</a>
+                                    </li>
+                                    <li>
+                                        <form th:action="@{/users/logout}" th:method="post">
+                                            <input type="submit" class="dropdown-item text-dark" value="Изход">
+                                        </form>
+                                    </li>
                                 </ul>
                             </li>
-                            <li sec:authorize="hasRole('USER')" class="nav-item">
-                                <a class="nav-link text-dark" href="/profile">Профил</a>
+                            <li class="nav-item">
+                                <button class="nav-link text-dark position-relative" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasWithBothOptions"
+                                        aria-controls="offcanvasWithBothOptions">
+                                    Количка
+                                    <span class="position-absolute top-10 start-95 translate-middle badge rounded-pill bg-danger">
+                                        2<span class="visually-hidden">продукта</span></span>
+                                </button>
+                                <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
+                                     id="offcanvasWithBothOptions"
+                                     aria-labelledby="offcanvasWithBothOptionsLabel">
+                                    <div class="offcanvas-header">
+                                        <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Количка</h4>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <hr>
+                                    <div class="offcanvas-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img src="https://obag.bg/userfiles/productimages/product_10799.jpg"
+                                                     alt="" style="max-height: 80px">
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="row"><p>ТЯЛО OBAG BLACK</p></div>
+                                                <div class="row">
+                                                    <div class="col-3">1x</div>
+                                                    <div class="col-6">70.00лв</div>
+                                                    <div class="col-3"><a href="#" class="text-danger"><small>махни</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img src="https://obag.bg/userfiles/productimages/product_12339.jpg"
+                                                     alt="" style="max-height: 80px">
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="row"><p>ДЖОБ OBAG DAMASK BLACK</p></div>
+                                                <div class="row">
+                                                    <div class="col-3">1x</div>
+                                                    <div class="col-6">60.00лв</div>
+                                                    <div class="col-3"><a href="#"
+                                                                          class="text-danger"><small>махни</small></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-3">Сума:</div>
+                                                <div class="col-9">
+                                                    <div class="row">
+                                                        <div class="col-3"></div>
+                                                        <div class="col-6">130.00лв</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4"></div>
+                                                <div class="col-4"><button type="submit" class="btn btn-outline-dark btn-round">Поръчка</button></div>
+                                                <div class="col-4"></div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             </li>
                             <li sec:authorize="!isAuthenticated()" class="nav-item">
                                 <a class="nav-link text-dark" th:href="@{/users/login}">Вход</a>
-                            </li>
-                            <li sec:authorize="!isAuthenticated()" class="nav-item">
-                                <a class="nav-link text-dark" th:href="@{/users/register}">Регистрация</a>
-                            </li>
-                            <li sec:authorize="isAuthenticated()" class="nav-item">
-                                <form th:action="@{/users/logout}" th:method="post">
-                                    <input type="submit" class="nav-link text-dark" value="Изход">
-                                </form>
-
                             </li>
                         </ul>
                     </div>
