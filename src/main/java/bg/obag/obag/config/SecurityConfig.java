@@ -2,6 +2,8 @@ package bg.obag.obag.config;
 
 import bg.obag.obag.security.ObagUserDetailsService;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
 @EnableWebSecurity // optional
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/products/add", "/products/import", "/products/delete/**",
                         "/logs/**").hasRole("ADMIN")
                 .antMatchers("/profile/**").authenticated()
+                .antMatchers("/actuator/**").hasRole("SUPERADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .csrf().csrfTokenRepository(csrfTokenRepository())

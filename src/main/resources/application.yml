@@ -39,3 +39,12 @@ cloudinary:
   cloud-name: ivantashev
   api-key: 766423891979133
   api-secret: "${CLOUDINARY_SECRET}"
+
+# ACTUATOR
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans, caches, health, env, heapdump, threaddump, metrics, scheduledtasks
+
+
