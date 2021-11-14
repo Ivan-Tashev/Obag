@@ -1,0 +1,22 @@
+# Database setup
+spring:
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:testdb; sql.syntax_mys=true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      dialect: org.hibernate.dialect.HSQLDialect
+      format_sql: true
+      use_sql_comments: true
+    open-in-view: false
+
+server:
+  port: 8080
+  # Error Handling - messages
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: never

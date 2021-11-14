@@ -17,25 +17,21 @@
             <br>
             <form th:action="@{/users/login}" th:method="post" th:object="${userLoginBindingModel}">
                 <div class="mb-3">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <label for="email" class="form-label">Е-мейл <span class="text-danger">*</span></label>
                     <input th:field="*{email}" th:errorclass="is-invalid"
                            type="email" name="email" class="form-control input-round" id="email"
                            aria-describedby="emailHelp">
-                    <div th:if="${notFound}" id="emailHelp" class="form-text text-danger">
-                        Този емейл не съществува в базата.
-                    </div>
                     <div id="emailHelp1" class="form-text text-danger invalid-feedback">
                         Неавалиден емайл адрес.
+                    </div>
+                    <div th:if="${bad_credentials}" id="password1" class="form-text text-danger">
+                        Неавалиден емайл или парола.
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password <span
                             class="text-danger">*</span></label>
                     <input type="password" name="password" class="form-control input-round" id="password">
-                    <div th:if="${notMatch}" id="password1" class="form-text text-danger">
-                        Неавалиден емайл или парола.
-                    </div>
                     <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-text text-danger">
                     </div>
                 </div>

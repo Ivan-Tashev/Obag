@@ -15,9 +15,6 @@ public class RoleEntity {
     @Enumerated(EnumType.STRING )
     private RoleEnum role;
 
-    public RoleEntity() {
-    }
-
     public Long getId() {
         return id;
     }
@@ -27,15 +24,12 @@ public class RoleEntity {
         return this;
     }
 
-    public RoleEntity(RoleEnum role) {
-        this.role = role;
-    }
-
     public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(RoleEnum role) {
+    public RoleEntity setRole(RoleEnum role) {
         this.role = role;
+        return this;
     }
 }
