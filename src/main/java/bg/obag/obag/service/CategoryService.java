@@ -15,9 +15,9 @@ public interface CategoryService {
 
     List<CategoryServiceModel> findAllOrderByPriorityAsc();
 
-    CategoryServiceModel addCategory(CategoryBindModel categoryBindModel, Principal principal);
+    CategoryServiceModel addEditCategory(CategoryServiceModel categoryServiceModel, Principal principal) throws CategoryNotFoundException;
 
-    CategoryServiceModel updateCategory(CategoryBindModel categoryBindModel, Principal principal) throws CategoryNotFoundException;
+//    CategoryServiceModel updateCategory(CategoryBindModel categoryBindModel, Principal principal) throws CategoryNotFoundException;
 
     boolean existsCategory(String category);
 

@@ -58,7 +58,7 @@ public class ProductController {
 //            model.addAttribute("successfullyAddedProduct", false);
 //        }
         model.addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
-                .addAttribute("allSeasons", seasonService.findAll())
+                .addAttribute("allSeasons", seasonService.findAllOrderByPriorityAsc())
                 .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "addProduct";
 
@@ -107,7 +107,7 @@ public class ProductController {
                 .setSeason(productServiceModel.getSeason());
         model.addAttribute("productAddBindingModel", productAddBindingModel)
                 .addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
-                .addAttribute("allSeasons", seasonService.findAll())
+                .addAttribute("allSeasons", seasonService.findAllOrderByPriorityAsc())
                 .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "addProduct";
     }
@@ -127,7 +127,7 @@ public class ProductController {
                 .setSeason(productServiceModel.getSeason());
         model.addAttribute("productUpdateBindingModel", productUpdateBindingModel)
                 .addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc())
-                .addAttribute("allSeasons", seasonService.findAll())
+                .addAttribute("allSeasons", seasonService.findAllOrderByPriorityAsc())
                 .addAttribute("allProducts", productsService.findAllOrderByCategory());
         return "updateProduct";
     }

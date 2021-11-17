@@ -32,7 +32,7 @@ public class CategoryController {
         this.modelMapper = modelMapper;
     }
 
-    /* -------------------------------------- CATEGORY VIEW --------------------------------------------- */
+    /* ----------------------------------- ROLE_USER CATEGORY VIEW -------------------------------------- */
 
     @GetMapping("/{category}")
     public String getCategoryPage(@PathVariable String category, Model model) throws CategoryNotFoundException {
@@ -49,7 +49,7 @@ public class CategoryController {
         return "category";
     }
 
-    /* -------------------------------------- ADD CATEGORY --------------------------------------------- */
+    /* --------------------------------- ROLE_ADMIN ADD/EDIT CATEGORY ---------------------------------- */
 
     @ModelAttribute("categoryBindModel")
     public CategoryBindModel categoryBindModel() {
@@ -65,50 +65,26 @@ public class CategoryController {
     @PostMapping("/add")
     public String addCategory(@Valid CategoryBindModel categoryBindModel,
                               BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                              Principal principal) {
+                              Principal principal) throws CategoryNotFoundException {
         // check for @Valid Input or Unique category
-        if (bindingResult.hasErrors() || categoryService.existsCategory(categoryBindModel.getCategory())) {
+        if (bindingResult.hasErrors() || categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), categoryBindModel.getId())) {
             redirectAttributes.addFlashAttribute("categoryBindModel", categoryBindModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.categoryBindModel", bindingResult);
-            if (categoryService.existsCategory(categoryBindModel.getCategory())) {
+            if (categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), categoryBindModel.getId())) {
                 redirectAttributes.addFlashAttribute("categoryExist", true);
             }
             return "redirect:/category/add";
         }
-        categoryService.addCategory(categoryBindModel, principal);
+        categoryService.addEditCategory(modelMapper.map(categoryBindModel, CategoryServiceModel.class), principal);
         // if added show the Success green alert message.
         redirectAttributes.addFlashAttribute("successfullyAddedCategory", true);
         return "redirect:/category/add";
     }
 
-    /* -------------------------------------- UPDATE PRODUCT --------------------------------------------- */
-
     @GetMapping("/edit/{id}")
-    public String getEditPage(@PathVariable Long id, Model model) throws CategoryNotFoundException {
-        CategoryServiceModel categoryServiceModel = categoryService.findById(id);
-        model.addAttribute("categoryBindModel", categoryServiceModel)
+    public String getEditCategoryPage(@PathVariable Long id, Model model) throws CategoryNotFoundException {
+        model.addAttribute("categoryBindModel", categoryService.findById(id))
                 .addAttribute("allCategories", categoryService.findAllOrderByPriorityAsc());
-        return "updateCategory";
+        return "addCategory";
     }
-
-    @PatchMapping("/edit/{id}")
-    public String updateCategory(@PathVariable Long id,
-                                 @Valid CategoryBindModel categoryBindModel,
-                                 BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                                 Principal principal) throws CategoryNotFoundException {
-        // check for @Valid Input or Unique category
-        if (bindingResult.hasErrors() || categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), id)) {
-            redirectAttributes.addFlashAttribute("categoryBindModel", categoryBindModel)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.categoryBindModel", bindingResult);
-            if (categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), id)) {
-                redirectAttributes.addFlashAttribute("categoryExist", true);
-            }
-            return "redirect:/category/edit/" + id;
-        }
-        categoryService.updateCategory(categoryBindModel, principal);
-        // if added show the Success green alert message.
-        redirectAttributes.addFlashAttribute("successfullyAddedCategory", true);
-        return "redirect:/category/edit/" + id;
-    }
-
 }

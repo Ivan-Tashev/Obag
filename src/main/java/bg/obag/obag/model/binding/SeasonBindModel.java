@@ -7,35 +7,34 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class CategoryBindModel {
+public class SeasonBindModel {
     private Long id;
     @NotEmpty(message = "")
-    @Size(min = 2, max = 20, message =  "category must be between 2 and 20 characters, required.")
-    private String category;
+    @Size(min = 2, max = 20, message =  "season must be between 2 and 20 characters, required.")
+    private String season;
     @Positive(message = "priority must be positive, 1 is highest.")
     private Integer priority;
-    @DateTimeFormat(pattern = "dd.mm.yyyy, HH:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdOn;
     private String createdBy;
     private String image;
     private boolean deleted;
 
-
     public Long getId() {
         return id;
     }
 
-    public CategoryBindModel setId(Long id) {
+    public SeasonBindModel setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public String getCategory() {
-        return category;
+    public String getSeason() {
+        return season;
     }
 
-    public CategoryBindModel setCategory(String category) {
-        this.category = category;
+    public SeasonBindModel setSeason(String season) {
+        this.season = season;
         return this;
     }
 
@@ -43,7 +42,7 @@ public class CategoryBindModel {
         return priority;
     }
 
-    public CategoryBindModel setPriority(Integer priority) {
+    public SeasonBindModel setPriority(Integer priority) {
         this.priority = priority;
         return this;
     }
@@ -52,7 +51,7 @@ public class CategoryBindModel {
         return createdOn;
     }
 
-    public CategoryBindModel setCreatedOn(LocalDateTime createdOn) {
+    public SeasonBindModel setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
         return this;
     }
@@ -61,7 +60,7 @@ public class CategoryBindModel {
         return createdBy;
     }
 
-    public CategoryBindModel setCreatedBy(String createdBy) {
+    public SeasonBindModel setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
         return this;
     }
@@ -70,7 +69,7 @@ public class CategoryBindModel {
         return image;
     }
 
-    public CategoryBindModel setImage(String image) {
+    public SeasonBindModel setImage(String image) {
         this.image = image;
         return this;
     }
@@ -79,7 +78,7 @@ public class CategoryBindModel {
         return deleted;
     }
 
-    public CategoryBindModel setDeleted(boolean deleted) {
+    public SeasonBindModel setDeleted(boolean deleted) {
         this.deleted = deleted;
         return this;
     }

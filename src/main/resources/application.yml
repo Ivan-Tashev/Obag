@@ -45,6 +45,6 @@ management:
   endpoints:
     web:
       exposure:
-        include: beans, caches, health, env, heapdump, threaddump, metrics, scheduledtasks
+        include: beans, caches, health, env, heapdump, threaddump, metrics, scheduledtasks, prometheus
 
 

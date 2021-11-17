@@ -7,3 +7,19 @@ services:
     command: ["--character-set-server=utf8mb4"]
     environment:
       - MYSQL_DATABASE=obagdb
+
+  promtool:
+    image: prom/prometheus:v2.26.0
+    ports:
+      - 9090:9090
+    volumes:
+      - type: bind
+        source: ./prometheus.yaml
+        target: /etc/prometheus/prometheus.yml
+#      - type: bind
+#        source: ./sample.rule
+#        target: /etc/prometheus/sample.rule
+  grafana:
+    image: grafana/grafana:7.5.2
+    ports:
+      - 3000:3000
