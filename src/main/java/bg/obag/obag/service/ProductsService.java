@@ -38,4 +38,6 @@ public interface ProductsService {
     boolean checkSkuExistsExceptId(String sku, Long id);
 
     boolean checkBarcodeExistsExceptId(Long barcode, Long id);
+
+    List<ProductServiceModel> findByCookie(String cart);
 }

@@ -1,10 +1,10 @@
 package bg.obag.obag.model.binding;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ProductAddBindingModel {
     private Long id;
@@ -27,7 +27,8 @@ public class ProductAddBindingModel {
     @NotEmpty(message = "description is required.")
     private String description;
     private String image;
-    private String createdOn;
+    @DateTimeFormat(pattern = "dd.mm.yyyy, HH:ss")
+    private LocalDateTime createdOn;
     private String createdBy;
     private boolean deleted;
 
@@ -130,11 +131,11 @@ public class ProductAddBindingModel {
         return this;
     }
 
-    public String getCreatedOn() {
+    public LocalDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public ProductAddBindingModel setCreatedOn(String createdOn) {
+    public ProductAddBindingModel setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
         return this;
     }

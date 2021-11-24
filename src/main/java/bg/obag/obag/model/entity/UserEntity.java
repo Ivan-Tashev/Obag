@@ -27,7 +27,7 @@ public class UserEntity extends BaseEntity{
     private String postCode;
     @Column(length = 20)
     private String country;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<RoleEntity> roleEntities;
     @Column(name = "registered_on")
     private LocalDateTime registeredOn;

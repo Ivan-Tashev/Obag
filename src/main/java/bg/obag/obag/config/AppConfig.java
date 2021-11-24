@@ -34,7 +34,7 @@ public class AppConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("allCategories");
+        return new ConcurrentMapCacheManager("allProducts");
     }
 
 }

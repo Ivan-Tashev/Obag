@@ -11,26 +11,35 @@
     <div class="container-fluid">
         <div class="row py-5">
             <div class="col-md-6">
-                <img th:src="${product.image}" class="img-fluid"
+                <img th:src="${product.image}" class="img-fluid mx-auto d-block"
                      src="https://obag.bg/userfiles/productimages/product_10799.jpg" alt="">
             </div>
             <div class="col-md-6">
                 <div th:object="${product}">
-                    <p><small><strong>sku#: </strong></small><small th:text="${product.sku}"></small></p>
-                    <h1 class="h5"><strong th:text="${product.name}">Тяло Obag black</strong></h1>
-                    <br>
-                    <p><small th:text="${product.description}"></small></p>
-                    <br>
-                    <div><p class="h5"><strong th:text="|${product.price}лв.|">70.00лв.</strong></p>
-                        <small class="text-secondary m-0 p-0" style="font-size: small">(с включено ДДС)</small>
-                    </div>
-                    <br>
-                    <label for="qty">количество: </label>
-                    <input type="number" name="qty" id="qty" value="1" min="1" max="100" step="1" class="input-round">
-                    <br>
-                    <div>
-                        <a href="#" class="btn btn-outline-dark btn-round">Добави в количката</a>
-                    </div>
+                    <form th:action="@{/cart/{id}(id = *{id})}" th:method="post">
+                        <p><small><strong>sku#: </strong></small><small th:text="${product.sku}"></small></p>
+                        <h1 class="h5"><strong th:text="${product.name}">Тяло Obag black</strong></h1>
+                        <br>
+                        <p><small th:text="${product.description}"></small></p>
+                        <br>
+                        <div><p class="h5"><strong th:text="|${product.price}лв.|">70.00лв.</strong></p>
+                            <small class="text-secondary m-0 p-0" style="font-size: small">(с включено ДДС)</small>
+                        </div>
+                        <br>
+                        <label for="qty">количество: </label>
+                        <input type="number" name="qty" id="qty" value="1" min="1" max="100" step="1"
+                               class="input-round">
+                        <br>
+                        <div>
+                            <input type="submit" value="Добави в количката" class="btn btn-outline-dark btn-round">
+                        </div>
+                        <div th:if="${success}" class="col-md-6 alert alert-success alert-dismissible fade show"
+                             role="alert">
+                            <strong>Success!</strong> Продуктът е добавен в количката.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </form>
+
                     <br>
 
                     <div class="accordion accordion-flush" id="accordionFlushExample">

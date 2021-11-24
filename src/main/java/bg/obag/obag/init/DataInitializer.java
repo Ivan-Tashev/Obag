@@ -6,6 +6,8 @@ import bg.obag.obag.service.SeasonService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
     private final RoleService roleService;
@@ -18,6 +20,7 @@ public class DataInitializer implements CommandLineRunner {
         this.seasonService = seasonService;
     }
 
+    @Transactional
     @Override
     public void run(String... args) {
         roleService.initializeRoles();

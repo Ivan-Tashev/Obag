@@ -65,10 +65,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryServiceModel findByCategory(String category) throws CategoryNotFoundException {
-
         CategoryEntity categoryEntity = categoryRepo.findByCategory(category)
                 .orElseThrow(() -> new CategoryNotFoundException("Category name " + category + " not found in database."));
-
         return modelMapper.map(categoryEntity, CategoryServiceModel.class);
     }
 
@@ -78,11 +76,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryEntity -> modelMapper.map(categoryEntity, CategoryServiceModel.class))
                 .collect(Collectors.toList());
     }
-
-//    @CacheEvict(cacheNames = "allCategories", allEntries = true)
-//    public void purgeCache() {
-//        LOGGER.warn("Purge cache('allCategories').");
-//    }
 
     @Override
     public CategoryServiceModel addEditCategory(CategoryServiceModel categoryServiceModel, Principal principal) throws CategoryNotFoundException {
@@ -104,23 +97,6 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(savedCategoryEntity, CategoryServiceModel.class);
     }
 
-//    @Override
-//    public CategoryServiceModel updateCategory(CategoryBindModel categoryBindModel, Principal principal) throws CategoryNotFoundException {
-//        CategoryEntity categoryEntity = categoryRepo.findById(categoryBindModel.getId())
-//                .orElseThrow(() -> new CategoryNotFoundException("Category with id " + categoryBindModel.getId() + " not found in database."));
-//
-//        categoryEntity
-//                .setCategory(categoryBindModel.getCategory())
-//                .setPriority(categoryBindModel.getPriority())
-//                .setImage(categoryBindModel.getImage())
-//                .setDeleted(categoryBindModel.isDeleted())
-//                .setCreatedBy(userService.findByEmail(principal.getName()).get());
-//
-//        CategoryEntity savedCategoryEntity = categoryRepo.save(categoryEntity);
-//
-//        return modelMapper.map(savedCategoryEntity, CategoryServiceModel.class);
-//    }
-
     @Override
     public boolean existsCategory(String category) {
         return categoryRepo.existsByCategory(category);
@@ -136,7 +112,6 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity categoryEntity = categoryRepo.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category with id " + id + " not found in database."));
         return modelMapper.map(categoryEntity, CategoryServiceModel.class)
-
                 .setCreatedBy(categoryEntity.getCreatedBy().getEmail());
     }
 }

@@ -15,7 +15,7 @@
         <div class="row text-center">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2"
                  th:each="p : ${productsInCategory}" th:object="${p}">
-                <div class="card text-center" style="border: none">
+                <div class="card text-center">
                     <a th:href="@{/products/{id}(id=${p.id})}">
                         <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
                              class="card-img-top flex-box" alt="...">

@@ -1,10 +1,13 @@
 package bg.obag.obag.model.binding;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ProductUpdateBindingModel {
     private Long id;
@@ -28,7 +31,8 @@ public class ProductUpdateBindingModel {
     private String description;
     private String image;
     private String createdOn;
-    private String createdBy;
+    @DateTimeFormat(pattern = "dd.mm.yyyy, HH:ss")
+    private LocalDateTime createdBy;
     private boolean deleted;
 
     public Long getId() {
@@ -139,11 +143,11 @@ public class ProductUpdateBindingModel {
         return this;
     }
 
-    public String getCreatedBy() {
+    public LocalDateTime getCreatedBy() {
         return createdBy;
     }
 
-    public ProductUpdateBindingModel setCreatedBy(String createdBy) {
+    public ProductUpdateBindingModel setCreatedBy(LocalDateTime createdBy) {
         this.createdBy = createdBy;
         return this;
     }

@@ -32,4 +32,7 @@ public interface ProductRepo extends JpaRepository<ProductEntity, Long> {
 
     @Query("SELECT p FROM ProductEntity p WHERE p.barcode = :barcode AND p.id <> :id")
     Optional<ProductEntity> findByBarcodeExceptId(Long barcode, Long id);
+
+    @Query("SELECT p FROM ProductEntity  p WHERE p.id IN :ids")
+    List<ProductEntity> findByIds(List<Long> ids);
 }

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<title>O bag | UpdateProfile</title>
+<th:block th:include="~{fragment/head}"></th:block>
+
+<body>
+<div class="container-fluid">
+    <th:block th:include="~{fragment/nav}"></th:block>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <br>
+            <h3>Поръчка</h3>
+            <br>
+        </div>
+    </div>
+    <!--ORDER DATA-->
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-sm-12 col-md-8">
+            <table class="table">
+                <tbody>
+                <tr th:each="p : ${productsInCart}" th:object="${p}">
+                    <td><a th:href="@{/products/{id}(id=${p.id})}">
+                        <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
+                             class="cart-pics" alt="...">
+                    </a></td>
+                    <td th:text="*{name}">ТЯЛО OBAG BLACK</td>
+                    <td>1</td>
+                    <td th:text="|*{price}лв.|" class="text-end">70лв.>70лв</td>
+                    <td th:text="|*{price}лв.|" class="text-end">70лв.>70лв</td>
+                </tr>
+                </tbody>
+                <tfoot class="table-sm table-borderless">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end">Сума:</td>
+                    <td th:text="|${#numbers.formatDecimal(sum, 1, 2)}лв.|" class="text-end">160.00лв</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end">Доставка:</td>
+                    <td th:if="${sum} < 50" class="text-end">4.00лв.</td>
+                    <td th:if="${sum} >= 50" class="text-end">0.00лв.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end fw-bold">Общо:</td>
+                    <td class="text-end fw-bold">160.00лв.</td>
+                </tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <!--USER DATA-->
+    <div class="row mt-3">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 text-center">
+            <form th:action="@{/profile}" th:method="post" th:object="${userUpdateBindModel}">
+                <div class="row">
+                    <div sec:authorize="isAuthenticated()" class="col-md-2 mx-auto d-block">
+                        <img src="/image/profile.jpg" alt="profile pic"
+                             class="" style="border-radius: 50%; max-height: 125px">
+                    </div>
+                </div>
+                <h5 sec:authorize="!isAuthenticated()" class="text-start my-3">Име и адрес за доставка <span class="text-danger">*</span></h5>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <div class="mb-0">
+                            <label for="firstName" class="form-label">Име <span class="text-danger">*</span></label>
+                            <input th:field="*{firstName}" type="text" name="firstName" class="form-control input-round"
+                                   id="firstName" minlength="2" maxlength="20" required
+                                   aria-describedby="firstNameHelp" placeholder="Въведи име">
+                            <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" id="firstName1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="lastName" class="form-label">Фамилия <span class="text-danger">*</span></label>
+                            <input th:field="*{lastName}" type="text" name="lastName" class="form-control input-round"
+                                   id="lastName" minlength="2" maxlength="20" required
+                                   aria-describedby="lastNameHelp" placeholder="Въведи фамилия">
+                            <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" id="lastName1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="phone" class="form-label">Телефон <span class="text-danger">*</span></label>
+                            <input th:field="*{phone}" type="number" name="phone" class="form-control input-round"
+                                   id="phone" required
+                                   aria-describedby="phoneHelp" placeholder="Въведи телефон">
+                            <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" id="phone1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="email" class="form-label">Е-мейл <span style="color: red">*</span></label>
+                            <input th:field="*{email}" type="email" name="email" class="form-control input-round"
+                                   id="email" required
+                                   aria-describedby="emailHelp" placeholder="Въведи е-мейл">
+                            <div th:if="${foundEmail}" id="email1"
+                                 class="form-text text-danger">Вече има потребител с този емейл.
+                            </div>
+                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="email2"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="mb-0">
+                            <label for="country" class="form-label">Държава <span class="text-danger">*</span></label>
+                            <input th:field="*{country}" type="text" name="country" class="form-control input-round"
+                                   id="country"
+                                   aria-describedby="countryHelp" placeholder="Въведи държава">
+                            <div th:if="${#fields.hasErrors('country')}" th:errors="*{country}" id="country1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="postCode" class="form-label">Пощенски код <span
+                                    class="text-danger">*</span></label>
+                            <input th:field="*{postCode}" type="text" name="postCode" class="form-control input-round"
+                                   id="postCode"
+                                   aria-describedby="postCodeHelp" placeholder="Въведи пощенски код">
+                            <div th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" id="postCode1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="city" class="form-label">Град <span class="text-danger">*</span></label>
+                            <input th:field="*{city}" type="text" name="city" class="form-control input-round" id="city"
+                                   aria-describedby="cityHelp" placeholder="Въведи град">
+                            <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" id="city1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+                        <div class="mb-0">
+                            <label for="address" class="form-label">Адрес <span class="text-danger">*</span></label>
+                            <input th:field="*{address}" type="text" name="address" class="form-control input-round"
+                                   id="address" aria-describedby="addressHelp" placeholder="Въведи aдрес">
+                            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" id="address1"
+                                 class="form-text text-danger">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <div class="mt-5 text-start">
+                            <p><h5>Метод на плащане <span class="text-danger">*</span></h5></p>
+                            <div>
+                                <div><input type="radio" id="collectOnDelivery" name="payment"
+                                            class="mx-3 my-2" checked>Наложен платеж
+                                </div>
+                                <div><input type="radio" id="creditCard" name="payment"
+                                            class="mx-3 my-2">Кредитна/Дебитна карта
+                                </div>
+                                <div><input type="radio" id="bankTransfer" name="payment"
+                                            class="mx-3 my-2">Банков превод
+                                </div>
+                                <div><input type="radio" id="PayPal" name="payment"
+                                            class="mx-3 my-2">PayPal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="mt-5 mb-3 text-start">
+                            <p><h5>Метод на доставка <span class="text-danger">*</span></h5></p>
+                            <div><input type="radio" id="toAddress" name="delivery"
+                                        class="mx-3 my-2" checked>Speedy: Стандарт 24часа (Безплатно)
+                            </div>
+                            <div><input type="radio" id="toOffice" name="delivery"
+                                        class="mx-3 my-2">Speedy: Стандарт 24часа ДО ОФИС (Безплатно)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <small class="text-danger">* Задължителни полета.</small>
+                <br>
+                <button type="submit" class="btn btn-outline-dark btn-round mb-5">Изпрати поръчката</button>
+                <br>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>
+</body>
+
+<footer th:replace="/fragment/commons::footer"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous">
+</script>
+</html>

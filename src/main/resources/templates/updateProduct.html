@@ -122,7 +122,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="form-floating">
-                    <input th:field="*{createdOn}" type="datetime-local" disabled readonly
+                    <input th:field="*{createdOn}" type="text" disabled readonly
                            class="form-control input-round"
                            id="createdOn" placeholder="createdOn">
                     <label for="createdOn" class="form-label">createdOn</label>
@@ -175,7 +175,7 @@
                 <tbody>
                 <tr th:each="p : ${allProducts}" th:object="${p}">
                     <td th:text="*{id}">1</td>
-                    <td><img th:src="*{image}" alt="" style="max-height: 30px"></td>
+                    <td><img th:src="*{image}" alt="" class="product-pics"></td>
                     <td th:text="*{name}">Тяло Obag black</td>
                     <td th:text="*{sku}">1101</td>
                     <td th:text="*{category}">OBAG</td>

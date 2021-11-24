@@ -58,7 +58,8 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link text-dark position-relative" type="button" data-bs-toggle="offcanvas"
+                                <button class="nav-link text-dark position-relative" type="button"
+                                        data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasWithBothOptions"
                                         aria-controls="offcanvasWithBothOptions">
                                     Количка
@@ -75,32 +76,18 @@
                                     </div>
                                     <hr>
                                     <div class="offcanvas-body">
-                                        <div class="row">
+                                        <div th:each="p : ${productsInCart}" th:object="${p}" class="row">
                                             <div class="col-3">
-                                                <img src="https://obag.bg/userfiles/productimages/product_10799.jpg"
+                                                <img th:src="*{image}"
                                                      alt="" style="max-height: 80px">
                                             </div>
                                             <div class="col-9">
-                                                <div class="row"><p>ТЯЛО OBAG BLACK</p></div>
                                                 <div class="row">
-                                                    <div class="col-3">1x</div>
-                                                    <div class="col-6">70.00лв</div>
-                                                    <div class="col-3"><a href="#" class="text-danger"><small>махни</small></a>
-                                                    </div>
+                                                    <p th:text="*{name}">ТЯЛО OBAG BLACK</p>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img src="https://obag.bg/userfiles/productimages/product_12339.jpg"
-                                                     alt="" style="max-height: 80px">
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="row"><p>ДЖОБ OBAG DAMASK BLACK</p></div>
                                                 <div class="row">
                                                     <div class="col-3">1x</div>
-                                                    <div class="col-6">60.00лв</div>
+                                                    <div th:text="*{price}" class="col-6">70.00лв</div>
                                                     <div class="col-3"><a href="#"
                                                                           class="text-danger"><small>махни</small></a>
                                                     </div>
@@ -108,6 +95,23 @@
                                             </div>
                                         </div>
                                         <br>
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-3">-->
+<!--                                                <img src="https://obag.bg/userfiles/productimages/product_12339.jpg"-->
+<!--                                                     alt="" style="max-height: 80px">-->
+<!--                                            </div>-->
+<!--                                            <div class="col-9">-->
+<!--                                                <div class="row"><p>ДЖОБ OBAG DAMASK BLACK</p></div>-->
+<!--                                                <div class="row">-->
+<!--                                                    <div class="col-3">1x</div>-->
+<!--                                                    <div class="col-6">60.00лв</div>-->
+<!--                                                    <div class="col-3"><a href="#"-->
+<!--                                                                          class="text-danger"><small>махни</small></a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <br>-->
                                         <hr>
                                         <div class="row">
                                             <div class="row">
@@ -121,7 +125,14 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-4"></div>
-                                                <div class="col-4"><button type="submit" class="btn btn-outline-dark btn-round">Поръчка</button></div>
+                                                <div class="col-4">
+                                                    <a sec:authorize="!isAuthenticated()" href="/users/login"
+                                                       type="submit"
+                                                       class="btn btn-outline-dark btn-round">Поръчка</a>
+                                                    <a sec:authorize="isAuthenticated()" href="/cart"
+                                                       type="submit"
+                                                       class="btn btn-outline-dark btn-round">Поръчка</a>
+                                                </div>
                                                 <div class="col-4"></div>
                                             </div>
 

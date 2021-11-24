@@ -11,3 +11,20 @@ html * {
 .input-round {
     border-radius: 25px;
 }
+
+.product-pics {
+    max-height: 30px;
+}
+
+.product-pics:hover {
+    transform: scale(8);
+    transform-origin: -20% 0;
+}
+
+.card {
+    border: none;
+}
+
+.cart-pics {
+    max-height: 100px;
+}
