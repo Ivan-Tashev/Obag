@@ -15,17 +15,19 @@
         <div class="row text-center">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2"
                  th:each="p : ${productsInCategory}" th:object="${p}">
-                <div class="card text-center">
-                    <a th:href="@{/products/{id}(id=${p.id})}">
-                        <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
-                             class="card-img-top flex-box" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <h6 th:text="*{name}" class="card-title">ТЯЛО OBAG BLACK</h6>
-                        <p th:text="|*{price}лв.|" class="card-text">70лв.</p>
-                        <a href="#" class="btn btn-outline-dark btn-round">Купи</a>
+                <form th:action="@{/cart/{id}(id = *{id})}" th:method="post">
+                    <div class="card text-center">
+                        <a th:href="@{/products/{id}(id=${p.id})}">
+                            <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
+                                 class="card-img-top flex-box" alt="...">
+                        </a>
+                        <div class="card-body">
+                            <h6 th:text="*{name}" class="card-title">ТЯЛО OBAG BLACK</h6>
+                            <p th:text="|*{price}лв.|" class="card-text">70лв.</p>
+<!--                            <input type="submit" value="Купи" class="btn btn-outline-dark btn-round">-->
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

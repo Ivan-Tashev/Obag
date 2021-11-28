@@ -57,13 +57,15 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <li th:if="${cartServiceModel != null}" class="nav-item">
                                 <button class="nav-link text-dark position-relative" type="button"
                                         data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasWithBothOptions"
                                         aria-controls="offcanvasWithBothOptions">
                                     Количка
-                                    <span class="position-absolute top-10 start-95 translate-middle badge rounded-pill bg-danger">
+                                    <span th:if="${cartServiceModel != null}"
+                                          th:text="${cartServiceModel.products.size()}"
+                                          class="position-absolute top-10 start-95 translate-middle badge rounded-pill bg-danger">
                                         2<span class="visually-hidden">продукта</span></span>
                                 </button>
                                 <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
@@ -76,7 +78,7 @@
                                     </div>
                                     <hr>
                                     <div class="offcanvas-body">
-                                        <div th:each="p : ${productsInCart}" th:object="${p}" class="row">
+                                        <div th:each="p : ${cartServiceModel.products}" th:object="${p}" class="row">
                                             <div class="col-3">
                                                 <img th:src="*{image}"
                                                      alt="" style="max-height: 80px">
@@ -87,42 +89,33 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-3">1x</div>
-                                                    <div th:text="*{price}" class="col-6">70.00лв</div>
-                                                    <div class="col-3"><a href="#"
-                                                                          class="text-danger"><small>махни</small></a>
+                                                    <div th:text="|*{price}лв.|" class="col-7 text-end">70.00лв</div>
+                                                    <div class="col-2">
+                                                        <form th:action="@{/cart/{id}(id = *{id})}" th:method="delete">
+                                                            <button type="submit" class="btn text-danger mt-0 pt-0">✖
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-3">-->
-<!--                                                <img src="https://obag.bg/userfiles/productimages/product_12339.jpg"-->
-<!--                                                     alt="" style="max-height: 80px">-->
-<!--                                            </div>-->
-<!--                                            <div class="col-9">-->
-<!--                                                <div class="row"><p>ДЖОБ OBAG DAMASK BLACK</p></div>-->
-<!--                                                <div class="row">-->
-<!--                                                    <div class="col-3">1x</div>-->
-<!--                                                    <div class="col-6">60.00лв</div>-->
-<!--                                                    <div class="col-3"><a href="#"-->
-<!--                                                                          class="text-danger"><small>махни</small></a>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <br>-->
                                         <hr>
                                         <div class="row">
-                                            <div class="row">
-                                                <div class="col-3">Сума:</div>
-                                                <div class="col-9">
-                                                    <div class="row">
-                                                        <div class="col-3"></div>
-                                                        <div class="col-6">130.00лв</div>
+                                            <div class="col-3"></div>
+                                            <div class="col-9 text-end mb-3">
+                                                <div class="row text-end mb-2">
+                                                    <div class="col-7">Доставка:</div>
+                                                    <div th:text="|${cartServiceModel.deliveryCost}лв.|"
+                                                         class="col-3">4.00лв
                                                     </div>
                                                 </div>
+                                                <div class="row text-end fw-bolder">
+                                                    <div class="col-7">ОБЩА СУМА:</div>
+                                                    <div th:text="|${grandTotal}лв.|" class="col-3">130.00лв</div>
+                                                </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-4"></div>
                                                 <div class="col-4">
@@ -135,12 +128,11 @@
                                                 </div>
                                                 <div class="col-4"></div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </li>
+
                             <li sec:authorize="!isAuthenticated()" class="nav-item">
                                 <a class="nav-link text-dark" th:href="@{/users/login}">Вход</a>
                             </li>

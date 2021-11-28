@@ -17,6 +17,11 @@
             <div class="col-md-6">
                 <div th:object="${product}">
                     <form th:action="@{/cart/{id}(id = *{id})}" th:method="post">
+                        <div th:if="${success}" class="col-md-9 alert alert-success alert-dismissible fade show"
+                             role="alert">
+                            <strong>Success!</strong> Продуктът е добавен в количката.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                         <p><small><strong>sku#: </strong></small><small th:text="${product.sku}"></small></p>
                         <h1 class="h5"><strong th:text="${product.name}">Тяло Obag black</strong></h1>
                         <br>
@@ -32,11 +37,6 @@
                         <br>
                         <div>
                             <input type="submit" value="Добави в количката" class="btn btn-outline-dark btn-round">
-                        </div>
-                        <div th:if="${success}" class="col-md-6 alert alert-success alert-dismissible fade show"
-                             role="alert">
-                            <strong>Success!</strong> Продуктът е добавен в количката.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </form>
 

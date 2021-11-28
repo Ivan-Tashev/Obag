@@ -17,18 +17,23 @@
     <!--ORDER DATA-->
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-sm-12 col-md-8">
-            <table class="table">
+        <div th:object="${cartServiceModel}" class="col-sm-12 col-md-8">
+            <table th:if="*{products != null}" class="table">
                 <tbody>
-                <tr th:each="p : ${productsInCart}" th:object="${p}">
+                <tr th:each="p : ${cartServiceModel.products}" th:object="${p}">
                     <td><a th:href="@{/products/{id}(id=${p.id})}">
                         <img th:src="*{image}" src="https://obag.bg/userfiles/productimages/product_10799.jpg"
                              class="cart-pics" alt="...">
                     </a></td>
                     <td th:text="*{name}">ТЯЛО OBAG BLACK</td>
                     <td>1</td>
-                    <td th:text="|*{price}лв.|" class="text-end">70лв.>70лв</td>
-                    <td th:text="|*{price}лв.|" class="text-end">70лв.>70лв</td>
+                    <td th:text="|*{price}лв.|" class="text-end">70лв.</td>
+                    <td th:text="|*{price}лв.|" class="text-end">70лв.</td>
+                    <td>
+                        <form th:action="@{/cart/{id}(id = *{id})}" th:method="delete">
+                            <button type="submit" class="btn text-danger mt-0 pt-0">✖</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
                 <tfoot class="table-sm table-borderless">
@@ -37,25 +42,28 @@
                     <td></td>
                     <td></td>
                     <td class="text-end">Сума:</td>
-                    <td th:text="|${#numbers.formatDecimal(sum, 1, 2)}лв.|" class="text-end">160.00лв</td>
+<!--                    <td th:text="|${#numbers.formatDecimal(*{totalValue}, 1, 2)}лв.|" class="text-end">160.00лв</td>-->
+                    <td th:text="|*{totalValue}лв.|" class="text-end">160.00лв</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="text-end">Доставка:</td>
-                    <td th:if="${sum} < 50" class="text-end">4.00лв.</td>
-                    <td th:if="${sum} >= 50" class="text-end">0.00лв.</td>
+                    <td th:text="|*{deliveryCost}лв.|" class="text-end">4.00лв.</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="text-end fw-bold">Общо:</td>
-                    <td class="text-end fw-bold">160.00лв.</td>
+                    <td th:text="|${grandTotal}лв.|" class="text-end fw-bold">160.00лв.</td>
                 </tr>
                 </tfoot>
             </table>
+            <div th:if="*{products == null}">
+                <h5 class="text-center my-3">Количката е празна?</h5>
+            </div>
 
         </div>
         <div class="col-md-2"></div>
@@ -72,7 +80,8 @@
                              class="" style="border-radius: 50%; max-height: 125px">
                     </div>
                 </div>
-                <h5 sec:authorize="!isAuthenticated()" class="text-start my-3">Име и адрес за доставка <span class="text-danger">*</span></h5>
+                <h5 sec:authorize="!isAuthenticated()" class="text-start my-3">
+                    Име и адрес за доставка <span class="text-danger">*</span></h5>
                 <div class="row">
                     <div class="col-md-6 text-center">
                         <div class="mb-0">

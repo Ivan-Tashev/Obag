@@ -157,6 +157,12 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
+    public ProductEntity findProductEntityById(Long id) throws ProductNotFoundException {
+        return  productRepo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found."));
+    }
+
+    @Override
     public void deleteById(Long id) {
         productRepo.deleteById(id);
     }
@@ -193,6 +199,8 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public List<ProductServiceModel> findByCookie(String cart) {
+        if (cart == null) return new ArrayList<>();
+
         String[] idsStrings = cart.split("-");
         List<Long> ids = new ArrayList<>();
         for (String id : idsStrings) {

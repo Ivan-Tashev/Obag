@@ -5,6 +5,7 @@ import bg.obag.obag.exception.ProductNotFoundException;
 import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
+import bg.obag.obag.model.entity.ProductEntity;
 import bg.obag.obag.model.service.ProductServiceModel;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public interface ProductsService {
     List<ProductServiceModel> findByCategory(String category) throws CategoryNotFoundException;
 
     ProductServiceModel findProductById(Long id) throws ProductNotFoundException;
+    ProductEntity findProductEntityById(Long id) throws ProductNotFoundException;
 
     void deleteById(Long id);
 

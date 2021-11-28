@@ -1,31 +1,29 @@
 package bg.obag.obag.web;
 
+import bg.obag.obag.exception.ProductNotFoundException;
 import bg.obag.obag.model.binding.UserUpdateBindModel;
-import bg.obag.obag.service.CategoryService;
+import bg.obag.obag.model.service.CartServiceModel;
+import bg.obag.obag.service.CartService;
 import bg.obag.obag.service.ProductsService;
-import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
     private final ProductsService productsService;
-    private final CategoryService categoryService;
-    private final ModelMapper modelMapper;
+    private final CartService cartService;
 
-    private List<Long> productIds = new ArrayList<>();
-
-    public CartController(ProductsService productsService, CategoryService categoryService, ModelMapper modelMapper) {
+    public CartController(ProductsService productsService, CartService cartService) {
         this.productsService = productsService;
-        this.categoryService = categoryService;
-        this.modelMapper = modelMapper;
+        this.cartService = cartService;
     }
 
     @ModelAttribute("userUpdateBindModel")
@@ -33,28 +31,52 @@ public class CartController {
         return new UserUpdateBindModel();
     }
 
+    @ModelAttribute("cartServiceModel")
+    CartServiceModel cartServiceModel() {
+        return new CartServiceModel();
+    }
+
     @GetMapping
     public String getToCart(Model model,
-                            @CookieValue(name = "cart", required = false) String cart) {
-            model.addAttribute("productsInCart", productsService.findByCookie(cart))
-                    .addAttribute("sum", productsService.findByCookie(cart).stream()
-                            .mapToDouble(product -> product.getPrice().doubleValue()).sum())
-                    .addAttribute("cart", cart);
+                            @CookieValue(name = "obag-cart", required = false) String cart) {
+        if (cart != null) {
+            CartServiceModel cartServiceModel = cartService.findById(Long.parseLong(cart));
+            model.addAttribute("cartServiceModel", cartServiceModel)
+                    .addAttribute("grandTotal", cartServiceModel.getTotalValue()
+                            .add(cartServiceModel.getDeliveryCost()));
+        }
         return "cart";
     }
 
     @PostMapping("{id}")
-    public String addToCart(@PathVariable Long id,
-                            @CookieValue(name = "cart", required = false) String cart,
-                            HttpServletResponse response) {
+    public String addToCart(@PathVariable("id") Long productId,
+                            RedirectAttributes redirectAttributes,
+                            @CookieValue(name = "obag-cart", required = false) String cart,
+                            HttpServletResponse response,
+                            @AuthenticationPrincipal UserDetails principal) throws ProductNotFoundException {
+        CartServiceModel cartServiceModel;
         if (cart == null) {
-            cart = id + "-";
+            cartServiceModel = cartService.createCart(productId, principal);
         } else {
-            cart += id + "-";
+            cartServiceModel = cartService.findById(Long.parseLong(cart));
+            cartService.addProductToCart(cartServiceModel.getId(), productId);
         }
-        Cookie cookie = new Cookie("cart", cart);
 
+        Cookie cookie = new Cookie("obag-cart", String.valueOf(cartServiceModel.getId()));
         response.addCookie(cookie);
+
+        redirectAttributes.addFlashAttribute("success", true);
+
+        if (principal == null)
+            return "redirect:/users/login";
+        else
+            return "redirect:/products/" + productId;
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteFromCart(@PathVariable("id") Long productId,
+                                 @CookieValue(name = "obag-cart", required = false) String cart) throws ProductNotFoundException {
+        cartService.deleteProductFromCart(Long.parseLong(cart), productId);
         return "redirect:/cart";
     }
 }
