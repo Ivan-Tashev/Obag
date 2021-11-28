@@ -8,6 +8,7 @@ public class ProductCategoryViewModel {
     private Long id;
     private String name;
     private Category category;
+    private Integer qty;
     private BigDecimal price;
     private String image;
 
@@ -53,6 +54,15 @@ public class ProductCategoryViewModel {
 
     public ProductCategoryViewModel setImage(String image) {
         this.image = image;
+        return this;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public ProductCategoryViewModel setQty(Integer qty) {
+        this.qty = qty;
         return this;
     }
 }

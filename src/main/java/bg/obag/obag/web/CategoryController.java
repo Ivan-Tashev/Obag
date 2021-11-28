@@ -2,12 +2,15 @@ package bg.obag.obag.web;
 
 import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.model.binding.CategoryBindModel;
+import bg.obag.obag.model.service.CartServiceModel;
 import bg.obag.obag.model.service.CategoryServiceModel;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.model.view.ProductCategoryViewModel;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,17 +28,22 @@ public class CategoryController {
     private final ProductsService productsService;
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
+    private final CartController cartController;
 
-    public CategoryController(ProductsService productsService, CategoryService categoryService, ModelMapper modelMapper) {
+    public CategoryController(ProductsService productsService, CategoryService categoryService, ModelMapper modelMapper, CartController cartController) {
         this.productsService = productsService;
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+        this.cartController = cartController;
     }
 
     /* ----------------------------------- ROLE_USER CATEGORY VIEW -------------------------------------- */
 
     @GetMapping("/{category}")
-    public String getCategoryPage(@PathVariable String category, Model model) throws CategoryNotFoundException {
+    public String getCategoryPage(@PathVariable String category,
+                                  Model model,
+                                  @CookieValue(name = "obag-cart", required = false) String cart,
+                                  @AuthenticationPrincipal UserDetails principal) throws CategoryNotFoundException {
         List<ProductServiceModel> productServiceModelList = productsService.findByCategory(category);
 
         List<ProductCategoryViewModel> productCategoryViewModels = productServiceModelList.stream()
@@ -43,6 +51,8 @@ public class CategoryController {
                 .collect(Collectors.toList());
 
         CategoryServiceModel categoryServiceModel = categoryService.findByCategory(category);
+
+        cartController.getCart(model, cart, principal);
 
         model.addAttribute("productsInCategory", productCategoryViewModels)
                 .addAttribute("categoryImage", categoryServiceModel.getImage());

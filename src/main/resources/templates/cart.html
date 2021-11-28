@@ -18,7 +18,13 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div th:object="${cartServiceModel}" class="col-sm-12 col-md-8">
-            <table th:if="*{products != null}" class="table">
+            <div th:if="*{products.size() == 0}">
+                <hr>
+                <h5 class="text-center my-3">Количката е празна?</h5>
+                <hr>
+            </div>
+            <table th:if="*{products.size() != 0}"
+                   class="table">
                 <tbody>
                 <tr th:each="p : ${cartServiceModel.products}" th:object="${p}">
                     <td><a th:href="@{/products/{id}(id=${p.id})}">
@@ -61,10 +67,6 @@
                 </tr>
                 </tfoot>
             </table>
-            <div th:if="*{products == null}">
-                <h5 class="text-center my-3">Количката е празна?</h5>
-            </div>
-
         </div>
         <div class="col-md-2"></div>
     </div>

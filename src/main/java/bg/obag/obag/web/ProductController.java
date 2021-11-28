@@ -5,12 +5,15 @@ import bg.obag.obag.exception.ProductNotFoundException;
 import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.binding.ProductAddBindingModel;
 import bg.obag.obag.model.binding.ProductUpdateBindingModel;
+import bg.obag.obag.model.service.CartServiceModel;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.model.view.ProductViewModel;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.SeasonService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,12 +32,14 @@ public class ProductController {
     private final CategoryService categoryService;
     private final SeasonService seasonService;
     private final ModelMapper modelMapper;
+    private final CartController cartController;
 
-    public ProductController(ProductsService productsService, CategoryService categoryService, SeasonService seasonService, ModelMapper modelMapper) {
+    public ProductController(ProductsService productsService, CategoryService categoryService, SeasonService seasonService, ModelMapper modelMapper, CartController cartController) {
         this.productsService = productsService;
         this.categoryService = categoryService;
         this.seasonService = seasonService;
         this.modelMapper = modelMapper;
+        this.cartController = cartController;
     }
 
     /* -------------------------------------- IMPORT PRODUCTS ------------------------------------------- */
@@ -175,10 +180,15 @@ public class ProductController {
     /* ---------------------------------  PRODUCT PAGE for ALL USERS ------------------------------------- */
 
     @GetMapping("/{id}")
-    public String getProductPage(@PathVariable Long id, Model model) throws ProductNotFoundException {
+    public String getProductPage(@PathVariable Long id, Model model,
+                                 @CookieValue(name = "obag-cart", required = false) String cart,
+                                 @AuthenticationPrincipal UserDetails principal) throws ProductNotFoundException {
         ProductServiceModel productServiceModel = productsService.findProductById(id);
         model.addAttribute("product",
                 modelMapper.map(productServiceModel, ProductViewModel.class));
+
+        cartController.getCart(model, cart, principal);
+
         return "product";
     }
 

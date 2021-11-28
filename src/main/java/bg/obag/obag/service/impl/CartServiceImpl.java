@@ -13,6 +13,7 @@ import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -63,21 +64,32 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public CartServiceModel addProductToCart(Long cartId, Long productId) throws ProductNotFoundException {
+    public CartServiceModel addProductToCart(Long cartId, Long productId, UserDetails principal) throws ProductNotFoundException {
         ProductEntity productEntity = productsService.findProductEntityById(productId);
 
         CartEntity cartEntity = cartRepo.findById(cartId).get();
         cartEntity.getProducts().add(productEntity);
 
-        BigDecimal cartValue = getCartValue(cartEntity.getProducts());
+        BigDecimal cartValue;
+        if (cartEntity.getProducts().size() > 0)
+            cartValue = getCartValue(cartEntity.getProducts());
+        else
+            cartValue = BigDecimal.ZERO;
 
         cartEntity.setTotalValue(cartValue);
 
         cartEntity.setDeliveryCost(getDeliveryCost(cartValue));
 
-        cartRepo.save(cartEntity);
+        if (principal != null)
+            cartEntity.setUser(userService.findByEmail(principal.getUsername())
+                    .orElseThrow(() -> new UsernameNotFoundException("User with email " + principal.getUsername() +  " not exist.")));
 
-        return modelMapper.map(cartEntity, CartServiceModel.class);
+        CartEntity savedCartEntity = cartRepo.save(cartEntity);
+
+        return modelMapper.map(savedCartEntity, CartServiceModel.class).setProducts(
+                savedCartEntity.getProducts().stream()
+                        .map(pe -> modelMapper.map(productEntity, ProductCategoryViewModel.class))
+                        .collect(Collectors.toList()));
     }
 
     @Transactional
@@ -90,7 +102,7 @@ public class CartServiceImpl implements CartService {
 
         BigDecimal cartValue;
         if (cartEntity.getProducts().size() > 0)
-            cartValue= getCartValue(cartEntity.getProducts());
+            cartValue = getCartValue(cartEntity.getProducts());
         else
             cartValue = BigDecimal.ZERO;
 
@@ -98,9 +110,12 @@ public class CartServiceImpl implements CartService {
 
         cartEntity.setDeliveryCost(getDeliveryCost(cartValue));
 
-        cartRepo.save(cartEntity);
+        CartEntity savedCartEntity = cartRepo.save(cartEntity);
 
-        return modelMapper.map(cartEntity, CartServiceModel.class);
+        return modelMapper.map(savedCartEntity, CartServiceModel.class).setProducts(
+                savedCartEntity.getProducts().stream()
+                        .map(pe -> modelMapper.map(productEntity, ProductCategoryViewModel.class))
+                        .collect(Collectors.toList()));
     }
 
     private UserEntity getUserEntity(UserDetails principal) {
@@ -144,6 +159,4 @@ public class CartServiceImpl implements CartService {
 
         return cartServiceModel;
     }
-
-
 }

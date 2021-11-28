@@ -10,7 +10,7 @@ public interface CartService {
 
     CartServiceModel findById(Long id);
 
-    CartServiceModel addProductToCart(Long cartId, Long productId) throws ProductNotFoundException;
+    CartServiceModel addProductToCart(Long cartId, Long productId, UserDetails principal) throws ProductNotFoundException;
 
     CartServiceModel deleteProductFromCart(Long cartId, Long productId) throws ProductNotFoundException;
 }

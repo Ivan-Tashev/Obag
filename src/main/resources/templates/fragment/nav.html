@@ -57,81 +57,93 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li th:if="${cartServiceModel != null}" class="nav-item">
-                                <button class="nav-link text-dark position-relative" type="button"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasWithBothOptions"
-                                        aria-controls="offcanvasWithBothOptions">
-                                    Количка
-                                    <span th:if="${cartServiceModel != null}"
-                                          th:text="${cartServiceModel.products.size()}"
-                                          class="position-absolute top-10 start-95 translate-middle badge rounded-pill bg-danger">
+                                <li th:if="${cartServiceModel != null}" class="nav-item">
+                                    <button class="nav-link text-dark position-relative" type="button"
+                                            data-bs-toggle="offcanvas"
+                                            data-bs-target="#offcanvasWithBothOptions"
+                                            aria-controls="offcanvasWithBothOptions">
+                                        Количка
+                                        <span th:if="${cartServiceModel.products.size() > 0}"
+                                              th:text="${cartServiceModel.products.size()}"
+                                              class="position-absolute top-10 start-95 translate-middle badge rounded-pill bg-danger">
                                         2<span class="visually-hidden">продукта</span></span>
-                                </button>
-                                <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
-                                     id="offcanvasWithBothOptions"
-                                     aria-labelledby="offcanvasWithBothOptionsLabel">
-                                    <div class="offcanvas-header">
-                                        <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Количка</h4>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <hr>
-                                    <div class="offcanvas-body">
-                                        <div th:each="p : ${cartServiceModel.products}" th:object="${p}" class="row">
-                                            <div class="col-3">
-                                                <img th:src="*{image}"
-                                                     alt="" style="max-height: 80px">
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="row">
-                                                    <p th:text="*{name}">ТЯЛО OBAG BLACK</p>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-3">1x</div>
-                                                    <div th:text="|*{price}лв.|" class="col-7 text-end">70.00лв</div>
-                                                    <div class="col-2">
-                                                        <form th:action="@{/cart/{id}(id = *{id})}" th:method="delete">
-                                                            <button type="submit" class="btn text-danger mt-0 pt-0">✖
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </button>
+                                    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
+                                         id="offcanvasWithBothOptions"
+                                         aria-labelledby="offcanvasWithBothOptionsLabel">
+                                        <div class="offcanvas-header">
+                                            <h4 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Количка</h4>
+                                            <button type="button" class="btn-close text-reset"
+                                                    data-bs-dismiss="offcanvas"
+                                                    aria-label="Close"></button>
                                         </div>
-                                        <br>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-3"></div>
-                                            <div class="col-9 text-end mb-3">
-                                                <div class="row text-end mb-2">
-                                                    <div class="col-7">Доставка:</div>
-                                                    <div th:text="|${cartServiceModel.deliveryCost}лв.|"
-                                                         class="col-3">4.00лв
+                                        <div class="offcanvas-body">
+                                            <div th:if="${cartServiceModel.products.isEmpty()}">
+                                                <h5 class="mb-5">Количката е празна?</h5>
+                                                <h6>Безплатна доставка, при поръчка на стойност над 50лв.</h6>
+                                            </div>
+                                            <div th:unless="${cartServiceModel.products.isEmpty()}">
+                                                <div th:each="p : ${cartServiceModel.products}" th:object="${p}"
+                                                     class="row mb-3">
+                                                    <div class="col-3">
+                                                        <img th:src="*{image}"
+                                                             alt="" style="max-height: 80px">
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <div class="row">
+                                                            <p th:text="*{name}">ТЯЛО OBAG BLACK</p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-3">1x</div>
+                                                            <div th:text="|*{price}лв.|" class="col-7 text-end">70.00лв
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <form th:action="@{/cart/{id}(id = *{id})}"
+                                                                      th:method="delete">
+                                                                    <button type="submit"
+                                                                            class="btn text-danger mt-0 pt-0">
+                                                                        ✖
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row text-end fw-bolder">
-                                                    <div class="col-7">ОБЩА СУМА:</div>
-                                                    <div th:text="|${grandTotal}лв.|" class="col-3">130.00лв</div>
-                                                </div>
-                                            </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-3"></div>
+                                                    <div class="col-9 text-end mb-3">
+                                                        <div class="row text-end mb-2">
+                                                            <div class="col-7">Доставка:</div>
+                                                            <div th:text="|${cartServiceModel.deliveryCost}лв.|"
+                                                                 class="col-3">4.00лв
+                                                            </div>
+                                                        </div>
+                                                        <div class="row text-end fw-bolder">
+                                                            <div class="col-7">ОБЩА СУМА:</div>
+                                                            <div th:text="|${grandTotal}лв.|" class="col-3">130.00лв
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                            <div class="row">
-                                                <div class="col-4"></div>
-                                                <div class="col-4">
-                                                    <a sec:authorize="!isAuthenticated()" href="/users/login"
-                                                       type="submit"
-                                                       class="btn btn-outline-dark btn-round">Поръчка</a>
-                                                    <a sec:authorize="isAuthenticated()" href="/cart"
-                                                       type="submit"
-                                                       class="btn btn-outline-dark btn-round">Поръчка</a>
+                                                    <div class="row">
+                                                        <div class="col-4"></div>
+                                                        <div class="col-4">
+                                                            <a sec:authorize="!isAuthenticated()" href="/users/login"
+                                                               type="submit"
+                                                               class="btn btn-outline-dark btn-round">Поръчка</a>
+                                                            <a sec:authorize="isAuthenticated()" href="/cart"
+                                                               type="submit"
+                                                               class="btn btn-outline-dark btn-round">Поръчка</a>
+                                                        </div>
+                                                        <div class="col-4"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-4"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
 
                             <li sec:authorize="!isAuthenticated()" class="nav-item">
                                 <a class="nav-link text-dark" th:href="@{/users/login}">Вход</a>
