@@ -17,8 +17,6 @@ public interface CategoryService {
 
     CategoryServiceModel addEditCategory(CategoryServiceModel categoryServiceModel, Principal principal) throws CategoryNotFoundException;
 
-//    CategoryServiceModel updateCategory(CategoryBindModel categoryBindModel, Principal principal) throws CategoryNotFoundException;
-
     boolean existsCategory(String category);
 
     boolean existsCategoryExceptId(String category, Long id);

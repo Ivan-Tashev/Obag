@@ -20,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,11 +43,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void initializeAdmin() {
+        if (userRepo.count() == 0) {
+           userRepo.save(new UserEntity().setFirstName("Admin").setLastName("Admin")
+                    .setEmail("anl@abv.bg").setPassword("1111").setPhone("0123456789")
+                    .setPrivacyPolicy(true))
+                   .setRoleEntities(List.of(roleService.findRole(RoleEnum.SUPERADMIN)));
+        }
+
+    }
+
+    @Override
     public void registerUser(UserServiceModel userServiceModel) {
         UserEntity userEntity = modelMapper.map(userServiceModel, UserEntity.class);
         userEntity
                 .setPassword(passwordEncoder.encode(userServiceModel.getPassword()))
-                .setRoleEntities(Set.of(roleService.findRole(RoleEnum.USER)))
+                .setRoleEntities(List.of(roleService.findRole(RoleEnum.USER)))
                 .setRegisteredOn(LocalDateTime.now())
                 .setCountOrders(0)
                 .setValueOrders(BigDecimal.ZERO)
@@ -146,12 +160,12 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepo.findByEmail(email);
         if (user.isPresent()) {
             UserEntity userEntity = user.get();
-            Set<RoleEntity> roleEntities = userEntity.getRoleEntities();
+            List<RoleEntity> roleEntities = userEntity.getRoleEntities();
             RoleEntity roleToRemove = roleService.findRole(RoleEnum.valueOf(role.toUpperCase()));
 
-            Set<RoleEntity> updatedRoleSet = roleEntities.stream()
+            List<RoleEntity> updatedRoleSet = roleEntities.stream()
                     .filter(roleEntity -> !roleEntity.getRole().name().equals(roleToRemove.getRole().name()))
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toList());
 
             userEntity.setRoleEntities(updatedRoleSet);
             userRepo.save(userEntity);

@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/roles/change").hasRole("SUPERADMIN")
                 .antMatchers("/products/add", "/products/import", "/products/delete/**",
                         "/logs/**").hasRole("ADMIN")
-                .antMatchers("/profile/**").authenticated()
+                .antMatchers("/profile/**", "/orders/**").authenticated()
                 .antMatchers("/actuator/**").hasRole("SUPERADMIN")
                 .anyRequest().permitAll()
                 .and()

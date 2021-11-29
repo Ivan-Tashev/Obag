@@ -11,7 +11,9 @@ import bg.obag.obag.repo.CartRepo;
 import bg.obag.obag.service.CartService;
 import bg.obag.obag.service.ProductsService;
 import bg.obag.obag.service.UserService;
+import javassist.tools.rmi.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +85,7 @@ public class CartServiceImpl implements CartService {
 
         if (principal != null)
             cartEntity.setUser(userService.findByEmail(principal.getUsername())
-                    .orElseThrow(() -> new UsernameNotFoundException("User with email " + principal.getUsername() +  " not exist.")));
+                    .orElseThrow(() -> new UsernameNotFoundException("User with email " + principal.getUsername() + " not exist.")));
 
         CartEntity savedCartEntity = cartRepo.save(cartEntity);
 
@@ -116,6 +119,26 @@ public class CartServiceImpl implements CartService {
                 savedCartEntity.getProducts().stream()
                         .map(pe -> modelMapper.map(productEntity, ProductCategoryViewModel.class))
                         .collect(Collectors.toList()));
+    }
+
+    @Override
+    public void deleteSubmittedCart(Long cartId) throws ObjectNotFoundException {
+        CartEntity cartEntity = cartRepo.findById(cartId)
+                .orElseThrow(() -> new ObjectNotFoundException("Cart with id " + cartId + " dont exists."));
+        cartEntity.setUser(null);
+        cartRepo.deleteById(cartId);
+    }
+
+    @Scheduled(cron = "0 0 1 * * *") // every 1st.date of month
+    @Override
+    public void deleteSubmittedCart() {
+        LocalDateTime localDateTime = LocalDateTime.now().minusMonths(6);
+        List<CartEntity> allOlderThanSixMonths = cartRepo.findAllOlderThanSixMonths(localDateTime);
+        allOlderThanSixMonths.stream()
+                        .map(cartEntity -> cartEntity.setUser(null))
+                                .collect(Collectors.toList());
+
+        cartRepo.deleteOlderThanSixMonths(localDateTime);
     }
 
     private UserEntity getUserEntity(UserDetails principal) {

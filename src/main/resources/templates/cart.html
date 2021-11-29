@@ -75,7 +75,8 @@
     <div class="row mt-3">
         <div class="col-md-2"></div>
         <div class="col-md-8 text-center">
-            <form th:action="@{/profile}" th:method="post" th:object="${userUpdateBindModel}">
+            <form th:action="@{/orders}" th:method="post" th:object="${userOrderBindModel}">
+                <input th:value="${cartServiceModel.id}" type="hidden" name="cartId" id="cartId">
                 <div class="row">
                     <div sec:authorize="isAuthenticated()" class="col-md-2 mx-auto d-block">
                         <img src="/image/profile.jpg" alt="profile pic"
@@ -171,7 +172,7 @@
                         <div class="mt-5 text-start">
                             <p><h5>Метод на плащане <span class="text-danger">*</span></h5></p>
                             <div>
-                                <div><input type="radio" id="collectOnDelivery" name="payment"
+                                <div><input type="radio" id="НАЛОЖЕН_ПЛАТЕЖ" name="payment"
                                             class="mx-3 my-2" checked>Наложен платеж
                                 </div>
                                 <div><input type="radio" id="creditCard" name="payment"

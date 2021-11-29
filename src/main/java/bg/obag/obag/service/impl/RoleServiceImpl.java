@@ -6,6 +6,7 @@ import bg.obag.obag.repo.RoleRepo;
 import bg.obag.obag.service.RoleService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -25,6 +25,7 @@ public interface ProductsService {
     List<ProductServiceModel> findByCategory(String category) throws CategoryNotFoundException;
 
     ProductServiceModel findProductById(Long id) throws ProductNotFoundException;
+
     ProductEntity findProductEntityById(Long id) throws ProductNotFoundException;
 
     void deleteById(Long id);

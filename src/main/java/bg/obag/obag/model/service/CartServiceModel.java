@@ -4,11 +4,12 @@ import bg.obag.obag.model.view.ProductCategoryViewModel;
 import bg.obag.obag.model.view.UserViewModel;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartServiceModel {
     private Long id;
-    private List<ProductCategoryViewModel> products;
+    private List<ProductCategoryViewModel> products = new ArrayList<>();
     private BigDecimal deliveryCost;
     private BigDecimal totalValue;
     private UserViewModel user;

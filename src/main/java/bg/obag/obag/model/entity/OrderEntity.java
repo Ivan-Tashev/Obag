@@ -4,20 +4,19 @@ import bg.obag.obag.model.entity.enums.Payment;
 import bg.obag.obag.model.entity.enums.Status;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class OrderEntity extends BaseEntity{
-    @Column(nullable = false)
-    private LocalDateTime date;
     @ManyToMany
     private List<ProductEntity> productEntities;
     @Column(name = "total_value", nullable = false)
-    private Integer totalValue;
-    @ManyToOne
-    private UserEntity userEntity;
+    private BigDecimal totalValue;
+    @ManyToOne(optional = true)
+    private UserEntity user;
     @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "tracking_number")
@@ -27,14 +26,6 @@ public class OrderEntity extends BaseEntity{
     @Column(columnDefinition = "TEXT")
     private String note;
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public OrderEntity setDate(LocalDateTime date) {
-        this.date = date;
-        return this;
-    }
 
     public List<ProductEntity> getProducts() {
         return productEntities;
@@ -45,21 +36,21 @@ public class OrderEntity extends BaseEntity{
         return this;
     }
 
-    public Integer getTotalValue() {
+    public BigDecimal getTotalValue() {
         return totalValue;
     }
 
-    public OrderEntity setTotalValue(Integer totalValue) {
+    public OrderEntity setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
         return this;
     }
 
     public UserEntity getUser() {
-        return userEntity;
+        return user;
     }
 
     public OrderEntity setUser(UserEntity userEntity) {
-        this.userEntity = userEntity;
+        this.user = userEntity;
         return this;
     }
 

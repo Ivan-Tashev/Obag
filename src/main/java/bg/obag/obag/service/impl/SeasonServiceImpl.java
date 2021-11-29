@@ -2,7 +2,9 @@ package bg.obag.obag.service.impl;
 
 import bg.obag.obag.exception.SeasonNotFoundException;
 import bg.obag.obag.model.entity.SeasonEntity;
+import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.service.SeasonServiceModel;
+import bg.obag.obag.model.service.UserServiceModel;
 import bg.obag.obag.repo.SeasonRepo;
 import bg.obag.obag.service.SeasonService;
 import bg.obag.obag.service.UserService;
@@ -28,12 +30,14 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     public void initializeSeasons() {
         if (seasonRepo.count() == 0) {
+            UserServiceModel userServiceModel = userService.findById(1L);
+            UserEntity userEntity = modelMapper.map(userServiceModel, UserEntity.class);
             seasonRepo.saveAll(List.of(
-                    new SeasonEntity().setSeason("CARRY OVER").setPriority(1).setDeleted(false),
-                    new SeasonEntity().setSeason("SPRING'21").setPriority(2).setDeleted(false),
-                    new SeasonEntity().setSeason("SUMMER'21").setPriority(3).setDeleted(false),
-                    new SeasonEntity().setSeason("FALL'21").setPriority(4).setDeleted(false),
-                    new SeasonEntity().setSeason("WINTER'21").setPriority(5).setDeleted(false)
+                    new SeasonEntity().setSeason("CARRY OVER").setPriority(1).setDeleted(false).setCreatedBy(userEntity),
+                    new SeasonEntity().setSeason("SPRING'21").setPriority(2).setDeleted(false).setCreatedBy(userEntity),
+                    new SeasonEntity().setSeason("SUMMER'21").setPriority(3).setDeleted(false).setCreatedBy(userEntity),
+                    new SeasonEntity().setSeason("FALL'21").setPriority(4).setDeleted(false).setCreatedBy(userEntity),
+                    new SeasonEntity().setSeason("WINTER'21").setPriority(5).setDeleted(false).setCreatedBy(userEntity)
             ));
         }
     }

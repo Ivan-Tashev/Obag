@@ -27,8 +27,8 @@ public class UserEntity extends BaseEntity{
     private String postCode;
     @Column(length = 20)
     private String country;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<RoleEntity> roleEntities;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<RoleEntity> roleEntities;
     @Column(name = "registered_on")
     private LocalDateTime registeredOn;
     @Column(name = "count_of_orders")
@@ -125,11 +125,11 @@ public class UserEntity extends BaseEntity{
         return this;
     }
 
-    public Set<RoleEntity> getRoleEntities() {
+    public List<RoleEntity> getRoleEntities() {
         return roleEntities;
     }
 
-    public UserEntity setRoleEntities(Set<RoleEntity> roleEntities) {
+    public UserEntity setRoleEntities(List<RoleEntity> roleEntities) {
         this.roleEntities = roleEntities;
         return this;
     }

@@ -3,7 +3,9 @@ package bg.obag.obag.service.impl;
 import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.model.binding.CategoryBindModel;
 import bg.obag.obag.model.entity.CategoryEntity;
+import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.service.CategoryServiceModel;
+import bg.obag.obag.model.service.UserServiceModel;
 import bg.obag.obag.repo.CategoryRepo;
 import bg.obag.obag.service.CategoryService;
 import bg.obag.obag.service.UserService;
@@ -32,33 +34,35 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void initializeCategories() {
         if (categoryRepo.count() == 0) {
+            UserServiceModel userServiceModel = userService.findById(1L);
+            UserEntity userEntity = modelMapper.map(userServiceModel, UserEntity.class);
             categoryRepo.saveAll(List.of(
                     // bags
-                    new CategoryEntity().setCategory("OBAG").setPriority(1).setDeleted(false),
-                    new CategoryEntity().setCategory("OMINI").setPriority(2).setDeleted(false),
-                    new CategoryEntity().setCategory("OURBAN").setPriority(3).setDeleted(false),
-                    new CategoryEntity().setCategory("OREVERSE").setPriority(4).setDeleted(false),
-                    new CategoryEntity().setCategory("ODOC").setPriority(5).setDeleted(false),
-                    new CategoryEntity().setCategory("OSHARM").setPriority(6).setDeleted(false),
-                    new CategoryEntity().setCategory("OUNIQUE").setPriority(7).setDeleted(false),
+                    new CategoryEntity().setCategory("OBAG").setPriority(1).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OMINI").setPriority(2).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OURBAN").setPriority(3).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OREVERSE").setPriority(4).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("ODOC").setPriority(5).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OSHARM").setPriority(6).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OUNIQUE").setPriority(7).setDeleted(false).setCreatedBy(userEntity),
                     // shoulder
-                    new CategoryEntity().setCategory("OPOCKET").setPriority(8).setDeleted(false),
-                    new CategoryEntity().setCategory("OGLAM").setPriority(9).setDeleted(false),
-                    new CategoryEntity().setCategory("OCROSSY").setPriority(10).setDeleted(false),
+                    new CategoryEntity().setCategory("OPOCKET").setPriority(8).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OGLAM").setPriority(9).setDeleted(false).setCreatedBy(userEntity),
+                    new CategoryEntity().setCategory("OCROSSY").setPriority(10).setDeleted(false).setCreatedBy(userEntity),
                     // handles
-                    new CategoryEntity().setCategory("HANDLES").setPriority(11).setDeleted(false),
+                    new CategoryEntity().setCategory("HANDLES").setPriority(11).setDeleted(false).setCreatedBy(userEntity),
                     // backpack
-                    new CategoryEntity().setCategory("BACKPACK").setPriority(12).setDeleted(false),
+                    new CategoryEntity().setCategory("BACKPACK").setPriority(12).setDeleted(false).setCreatedBy(userEntity),
                     // wallet
-                    new CategoryEntity().setCategory("WALLET").setPriority(13).setDeleted(false),
+                    new CategoryEntity().setCategory("WALLET").setPriority(13).setDeleted(false).setCreatedBy(userEntity),
                     // clocks
-                    new CategoryEntity().setCategory("OCLOCK").setPriority(14).setDeleted(false),
+                    new CategoryEntity().setCategory("OCLOCK").setPriority(14).setDeleted(false).setCreatedBy(userEntity),
                     // accessories
-                    new CategoryEntity().setCategory("OACCESSORIES").setPriority(15).setDeleted(false),
+                    new CategoryEntity().setCategory("OACCESSORIES").setPriority(15).setDeleted(false).setCreatedBy(userEntity),
                     // shoes
-                    new CategoryEntity().setCategory("OSLIPPERS").setPriority(16).setDeleted(false),
+                    new CategoryEntity().setCategory("OSLIPPERS").setPriority(16).setDeleted(false).setCreatedBy(userEntity),
                     // consumables
-                    new CategoryEntity().setCategory("PACKING").setPriority(99).setDeleted(false)
+                    new CategoryEntity().setCategory("PACKING").setPriority(99).setDeleted(false).setCreatedBy(userEntity)
             ));
         }
     }

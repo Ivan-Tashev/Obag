@@ -1,6 +1,7 @@
 package bg.obag.obag.web;
 
 import bg.obag.obag.exception.ProductNotFoundException;
+import bg.obag.obag.model.binding.UserOrderBindModel;
 import bg.obag.obag.model.binding.UserUpdateBindModel;
 import bg.obag.obag.model.service.CartServiceModel;
 import bg.obag.obag.service.CartService;
@@ -27,9 +28,9 @@ public class CartController {
         this.userService = userService;
     }
 
-    @ModelAttribute("userUpdateBindModel")
-    UserUpdateBindModel userUpdateBindModel() {
-        return new UserUpdateBindModel();
+    @ModelAttribute("userOrderBindModel")
+    UserOrderBindModel userOrderBindModel() {
+        return new UserOrderBindModel();
     }
 
     @ModelAttribute("cartServiceModel")
@@ -47,10 +48,10 @@ public class CartController {
                     .addAttribute("grandTotal", cartServiceModel.getTotalValue().add(cartServiceModel.getDeliveryCost()));
 
             if (cartServiceModel.getUser() != null)
-                model.addAttribute("userUpdateBindModel", cartServiceModel.getUser());
+                model.addAttribute("userOrderBindModel", cartServiceModel.getUser());
         }
         if (principal != null)
-            model.addAttribute("userUpdateBindModel", userService.findCurrentUserByEmail(principal.getUsername()));
+            model.addAttribute("userOrderBindModel", userService.findCurrentUserByEmail(principal.getUsername()));
         return "cart";
     }
 
