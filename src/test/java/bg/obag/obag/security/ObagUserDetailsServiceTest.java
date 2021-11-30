@@ -41,7 +41,7 @@ class ObagUserDetailsServiceTest {
                 .setFirstName("A").setLastName("B")
                 .setEmail("a@b.c")
                 .setPassword("123")
-                .setRoleEntities(Set.of(userRole, adminRole));
+                .setRoleEntities(List.of(userRole, adminRole));
     }
 
     @Test

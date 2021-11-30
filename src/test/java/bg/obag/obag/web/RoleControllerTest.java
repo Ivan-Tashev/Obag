@@ -5,7 +5,6 @@ import bg.obag.obag.model.entity.UserEntity;
 import bg.obag.obag.model.entity.enums.RoleEnum;
 import bg.obag.obag.repo.RoleRepo;
 import bg.obag.obag.repo.UserRepo;
-import bg.obag.obag.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -36,11 +34,15 @@ class RoleControllerTest {
     private RoleRepo roleRepo;
     @Autowired
     private UserRepo userRepo;
-    @Autowired
-    private UserService userService;
 
     @BeforeEach
     public void init() {
+        UserEntity userEntity = initUser();
+
+        userRepo.save(userEntity);
+    }
+
+    public UserEntity initUser() {
         RoleEntity roleUser = new RoleEntity().setRole(RoleEnum.USER);
         RoleEntity roleAdmin = new RoleEntity().setRole(RoleEnum.ADMIN);
         RoleEntity roleSuperadmin = new RoleEntity().setRole(RoleEnum.SUPERADMIN);
@@ -53,11 +55,10 @@ class RoleControllerTest {
                 .setLastName("Smith")
                 .setPassword("123")
                 .setPhone("123456")
-                .setRoleEntities(new HashSet<>(roleEntities));
+                .setRoleEntities(new ArrayList<>(roleEntities));
         userEntity.setCreatedOn();
         userEntity.setProducts(new ArrayList<>());
-
-        userRepo.save(userEntity);
+        return userEntity;
     }
 
     @AfterEach

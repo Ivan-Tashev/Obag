@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +33,7 @@ class UserServiceImplTest {
                 .setFirstName("A").setLastName("B")
                 .setEmail("a@b.c")
                 .setPassword("123")
-                .setRoleEntities(Set.of(userRole, adminRole));
+                .setRoleEntities(List.of(userRole, adminRole));
     }
 
 }

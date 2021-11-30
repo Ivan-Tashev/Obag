@@ -15,9 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -49,7 +51,7 @@ class UserControllerTest {
                 .setLastName("Smith")
                 .setPassword("123")
                 .setPhone("123456")
-                .setRoleEntities(Set.of(roleEntity))
+                .setRoleEntities(List.of(roleEntity))
                 .setRegisteredOn(LocalDateTime.now())
                 .setNote("Some note for user...")
                 .setNewsletter(false)
@@ -148,7 +150,7 @@ class UserControllerTest {
                 .param("privacyPolicy", "true")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/cart"));
 
         Assertions.assertEquals(2, userRepo.count());
     }

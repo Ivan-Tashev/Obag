@@ -40,10 +40,13 @@ public class SeasonController {
     public String addSeason(@Valid SeasonBindModel seasonBindModel,
                             BindingResult bindingResult, RedirectAttributes redirectAttributes,
                             Principal principal) throws SeasonNotFoundException {
-        if (bindingResult.hasErrors() || seasonService.existSeasonExceptId(seasonBindModel.getSeason(), seasonBindModel.getId())) {
+        if (bindingResult.hasErrors()
+                || seasonService.existSeasonExceptId(seasonBindModel.getSeason(), seasonBindModel.getId())
+                || (seasonService.existBySeason(seasonBindModel.getSeason())) && seasonBindModel.getId() == null) {
             redirectAttributes.addFlashAttribute("seasonBindModel", seasonBindModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.seasonBindModel", bindingResult);
-            if (seasonService.existSeasonExceptId(seasonBindModel.getSeason(), seasonBindModel.getId())) {
+            if (seasonService.existSeasonExceptId(seasonBindModel.getSeason(), seasonBindModel.getId())
+                    || (seasonService.existBySeason(seasonBindModel.getSeason()) && seasonBindModel.getId() == null)) {
                 redirectAttributes.addFlashAttribute("seasonExist", true);
             }
             return "redirect:/season/add";

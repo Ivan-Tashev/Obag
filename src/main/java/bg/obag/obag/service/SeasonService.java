@@ -19,4 +19,6 @@ public interface SeasonService {
     SeasonServiceModel findById(Long id) throws SeasonNotFoundException;
 
     boolean existSeasonExceptId(String season, Long id);
+
+    boolean existBySeason(String season);
 }

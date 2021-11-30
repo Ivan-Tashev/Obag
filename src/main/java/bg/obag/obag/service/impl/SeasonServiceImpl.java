@@ -84,8 +84,15 @@ public class SeasonServiceImpl implements SeasonService {
                 .setCreatedBy(seasonEntity.getCreatedBy().getEmail());
     }
 
+
+
     @Override
     public boolean existSeasonExceptId(String season, Long id) {
         return seasonRepo.existsBySeasonExceptId(season ,id).isPresent();
+    }
+
+    @Override
+    public boolean existBySeason(String season) {
+        return seasonRepo.existsBySeason(season);
     }
 }

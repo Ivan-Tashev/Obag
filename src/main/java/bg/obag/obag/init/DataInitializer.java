@@ -27,8 +27,8 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         roleService.initializeRoles();
         userService.initializeAdmin();
-        categoryService.initializeCategories();
-        seasonService.initializeSeasons();
+//        categoryService.initializeCategories();
+//        seasonService.initializeSeasons();
         deliveryService.initializeDeliveries();
     }
 }

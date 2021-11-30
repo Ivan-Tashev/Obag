@@ -2,7 +2,6 @@ package bg.obag.obag.web;
 
 import bg.obag.obag.exception.CategoryNotFoundException;
 import bg.obag.obag.model.binding.CategoryBindModel;
-import bg.obag.obag.model.service.CartServiceModel;
 import bg.obag.obag.model.service.CategoryServiceModel;
 import bg.obag.obag.model.service.ProductServiceModel;
 import bg.obag.obag.model.view.ProductCategoryViewModel;
@@ -77,10 +76,15 @@ public class CategoryController {
                               BindingResult bindingResult, RedirectAttributes redirectAttributes,
                               Principal principal) throws CategoryNotFoundException {
         // check for @Valid Input or Unique category
-        if (bindingResult.hasErrors() || categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), categoryBindModel.getId())) {
+        String categoryName = categoryBindModel.getCategory();
+        Long categoryId = categoryBindModel.getId();
+        if (bindingResult.hasErrors()
+                || categoryService.existsCategoryExceptId(categoryName, categoryId)
+                || (categoryService.existsCategory(categoryName) && categoryId == null)) {
             redirectAttributes.addFlashAttribute("categoryBindModel", categoryBindModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.categoryBindModel", bindingResult);
-            if (categoryService.existsCategoryExceptId(categoryBindModel.getCategory(), categoryBindModel.getId())) {
+            if (categoryService.existsCategoryExceptId(categoryName, categoryId)
+                    || (categoryService.existsCategory(categoryName) && categoryId == null)) {
                 redirectAttributes.addFlashAttribute("categoryExist", true);
             }
             return "redirect:/category/add";
