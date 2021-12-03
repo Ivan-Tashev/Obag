@@ -35,7 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "a@b.c", roles = {"ADMIN"})
 class SeasonControllerTest {
     private static final String ROUTE_PREFIX = "/season";
-
     @Autowired
     MockMvc mockMvc;
     @Autowired
@@ -49,6 +48,7 @@ class SeasonControllerTest {
 
     @BeforeEach
     public void setup() {
+        userRepo.deleteAll();
         UserEntity userEntity = initUser();
         userRepo.save(userEntity);
 

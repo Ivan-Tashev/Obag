@@ -101,6 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(savedCategoryEntity, CategoryServiceModel.class);
     }
 
+
     @Override
     public boolean existsCategory(String category) {
         return categoryRepo.existsByCategory(category);

@@ -37,9 +37,9 @@
         <div class="col-sm-12 col-md-8 mb-3">
             <table th:each="o : ${allOrdersForUser}" th:object="${o}" class="table mb-5">
                 <div>No. <span th:text="*{id}" class="fw-bold">16107</span>
-                    от дата <span th:text="*{createdOn}">27.11.2021</span>
+                    от дата <span th:text="${#temporals.format(o.createdOn, 'dd.MMM.yy, HH:mm')}">27.11.2021</span>
                     , статус: <span th:text="*{status}" class="fw-bold">ДОСТАВЕНА</span>
-                    , товарителница: <span th:text="*{trackingNumber}" class="fw-bold">1234567890</span>
+                    , товарителница: <span th:text="*{trackingNumber}">1234567890</span>
                 </div>
                 <tbody>
                 <tr th:each="p : *{products}" th:object="${p}">
@@ -49,8 +49,8 @@
                     </a></td>
                     <td th:text="*{name}">ТЯЛО OBAG BLACK</td>
                     <td>1x</td>
-                    <td th:text="|*{price}лв.|" class="text-end">70лв.</td>
-                    <td th:text="|*{price}лв.|" class="text-end">70лв.</td>
+                    <td th:text="|${#numbers.formatDecimal(p.price, 1, 2)}лв.|" class="text-end">70лв.</td>
+                    <td th:text="|${#numbers.formatDecimal(p.price, 1, 2)}лв.|" class="text-end">70лв.</td>
                 </tr>
                 </tbody>
                 <tfoot class="table-sm table-borderless">
@@ -59,7 +59,7 @@
                     <td class="text-end">Доставка:</td>
                     <td class="text-end">0.00лв.</td>
                     <td class="text-end fw-bold">Общо:</td>
-                    <td th:text="|*{totalValue.doubleValue()}лв.|"
+                    <td th:text="|${#numbers.formatDecimal(o.totalValue, 1, 2)}лв.|"
                         class="text-end fw-bold">110.00лв.
                     </td>
                 </tr>
