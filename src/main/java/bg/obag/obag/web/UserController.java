@@ -3,6 +3,7 @@ package bg.obag.obag.web;
 import bg.obag.obag.model.binding.UserLoginBindingModel;
 import bg.obag.obag.model.binding.UserRegisterBindingModel;
 import bg.obag.obag.model.service.UserServiceModel;
+import bg.obag.obag.service.MailService;
 import bg.obag.obag.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,20 +16,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.transaction.Transactional;
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final MailService mailService;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, MailService mailService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.mailService = mailService;
         this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /* ------------------------------------- LOG-IN ------------------------------------------------- */
@@ -65,7 +67,7 @@ public class UserController {
     public String register(@Valid
                            @ModelAttribute UserRegisterBindingModel userRegisterBindingModel,
                            BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes) {
+                           RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
         // 1. CHECK FOR ENTRY/INPUT REQUIREMENTS AND @VALIDATIONS
         if (bindingResult.hasErrors()
                 || userService.existingEmail(userRegisterBindingModel.getEmail()) != null
@@ -86,7 +88,8 @@ public class UserController {
 
         // map the Banding Model to Service Model and save into DB
         UserServiceModel userServiceModel = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
-        userService.registerUser(userServiceModel);
+
+        mailService.newUserRegistrationMail(userServiceModel); // send registration email to customer
 
         return "redirect:/cart";
     }

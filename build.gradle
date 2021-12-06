@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time'
     implementation 'org.modelmapper:modelmapper:2.4.4'
     implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'javax.mail:mail:1.4.7'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'

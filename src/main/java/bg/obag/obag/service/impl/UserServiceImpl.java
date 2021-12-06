@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserServiceModel userServiceModel) {
+    public UserServiceModel registerUser(UserServiceModel userServiceModel) {
         UserEntity userEntity = modelMapper.map(userServiceModel, UserEntity.class);
         userEntity
                 .setPassword(passwordEncoder.encode(userServiceModel.getPassword()))
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
                 .setValueOrders(BigDecimal.ZERO)
                 .setProducts(new ArrayList<>());
 
-        userRepo.save(userEntity);
+        UserEntity savedUserEntity = userRepo.save(userEntity);
 
         // NEWLY REGISTERED USER GET LOGGED-IN.
         UserDetails principal = obagUserDetailsService.loadUserByUsername(userEntity.getEmail());
@@ -73,6 +73,8 @@ public class UserServiceImpl implements UserService {
                 principal, userEntity.getPassword(), principal.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(context);
+
+        return modelMapper.map(savedUserEntity, UserServiceModel.class);
     }
 
     @Override

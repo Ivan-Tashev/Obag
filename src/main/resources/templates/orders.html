@@ -36,7 +36,7 @@
 
         <div class="col-sm-12 col-md-8 mb-3">
             <table th:each="o : ${allOrdersForUser}" th:object="${o}" class="table mb-5">
-                <div>No. <span th:text="*{id}" class="fw-bold">16107</span>
+                <div>No. <span th:text="${T(java.lang.String).format('%X', o.id)}" class="fw-bold">16107</span>
                     от дата <span th:text="${#temporals.format(o.createdOn, 'dd.MMM.yy, HH:mm')}">27.11.2021</span>
                     , статус: <span th:text="*{status}" class="fw-bold">ДОСТАВЕНА</span>
                     , товарителница: <span th:text="*{trackingNumber}">1234567890</span>

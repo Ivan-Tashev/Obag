@@ -1,9 +1,9 @@
 package bg.obag.obag.web;
 
 import bg.obag.obag.model.binding.UserOrderBindModel;
-import bg.obag.obag.model.service.CartServiceModel;
 import bg.obag.obag.model.service.OrderServiceModel;
 import bg.obag.obag.service.CartService;
+import bg.obag.obag.service.MailService;
 import bg.obag.obag.service.OrderService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,14 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.security.Principal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
@@ -29,10 +26,12 @@ import java.util.List;
 public class OrdersController {
     private final OrderService orderService;
     private final CartService cartService;
+    private final MailService mailService;
 
-    public OrdersController(OrderService orderService, CartService cartService) {
+    public OrdersController(OrderService orderService, CartService cartService, MailService mailService) {
         this.orderService = orderService;
         this.cartService = cartService;
+        this.mailService = mailService;
     }
 
 
@@ -57,7 +56,7 @@ public class OrdersController {
                               @Valid UserOrderBindModel userOrderBindModel, BindingResult bindingResult,
                               RedirectAttributes redirectAttributes,
                               @CookieValue(name = "obag-cart", required = false) String cart,
-                              HttpServletResponse response) throws ObjectNotFoundException {
+                              HttpServletResponse response) throws ObjectNotFoundException, MessagingException, UnsupportedEncodingException {
         if (bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("userOrderBindModel", userOrderBindModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.userOrderBindModel", bindingResult);
@@ -65,7 +64,9 @@ public class OrdersController {
         }
         OrderServiceModel orderServiceModel= orderService.createOrder(cartId, payment, delivery, userOrderBindModel);
 
-        cartService.deleteSubmittedCart(cartId);
+        mailService.newOrderMail(orderServiceModel); // send confirmation email to customer
+
+        cartService.deleteSubmittedCart(cartId); // remove cart from db
 
         Cookie cookie = new Cookie("obag-cart", cart);
         cookie.setPath("/");

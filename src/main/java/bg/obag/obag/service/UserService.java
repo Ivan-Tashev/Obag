@@ -10,7 +10,7 @@ public interface UserService {
 
     void initializeAdmin();
 
-    void registerUser(UserServiceModel userServiceModel);
+    UserServiceModel registerUser(UserServiceModel userServiceModel);
 
     UserServiceModel findByEmailAndPassword(String email, String password);
 
