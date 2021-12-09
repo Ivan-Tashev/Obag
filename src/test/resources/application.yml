@@ -1,9 +1,3 @@
-server:
-    error:
-        include-exception: true
-        include-message: always
-        include-stacktrace: never
-    port: 8080
 spring:
     datasource:
         driver-class-name: org.hsqldb.jdbc.JDBCDriver
@@ -14,6 +8,25 @@ spring:
         open-in-view: false
         properties:
             dialect: org.hibernate.dialect.HSQLDialect
-            format_sql: true
+            hibernate:
+                format_sql: true
             use_sql_comments: true
-        show-sql: true
+
+server:
+    error:
+        include-exception: true
+        include-message: always
+        include-stacktrace: never
+    port: 8080
+
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: debug
+                type:
+                    descriptor:
+                        sql: trace
+
+mail:
+    password:${MAIL_PASSWORD}

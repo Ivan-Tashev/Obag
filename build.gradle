@@ -32,8 +32,8 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.mockito:mockito-core' // Mockito
-    testImplementation 'org.hsqldb:hsqldb' // in-memory database
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.hsqldb:hsqldb'
 }
 
 test {

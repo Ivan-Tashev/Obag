@@ -140,10 +140,13 @@ class UserControllerTest {
 
     @Test
     public void register_RegisterNewUser() throws Exception {
+        userRepo.deleteAll();
+        Assertions.assertEquals(0, userRepo.count());
+
         mockMvc.perform(post(ROUTE_PREFIX + "/register")
                 .param("firstName", "Anne")
                 .param("lastName", "Nicol")
-                .param("email", "anne@a.b")
+                .param("email", "anl2@abv.bg")
                 .param("phone", "123456")
                 .param("password", "123")
                 .param("rePassword", "123")
@@ -152,7 +155,7 @@ class UserControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/cart"));
 
-        Assertions.assertEquals(2, userRepo.count());
+        Assertions.assertEquals(1, userRepo.count());
     }
 
 }

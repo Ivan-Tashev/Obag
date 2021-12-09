@@ -25,7 +25,6 @@ public class MailServiceImpl implements MailService {
     private String MAIL_PASSWORD;
     private static final String PHONE = "0889.776694";
 
-
     public MailServiceImpl(Properties properties) {
         this.properties = properties;
     }
@@ -67,7 +66,6 @@ public class MailServiceImpl implements MailService {
                                 "<td>" + product.getPrice() + "лв.</td>" +
                                 "</tr>")
                 .collect(Collectors.joining(""));
-
 
         html += "</tbody>" +
                 "<tfoot><tr>" +

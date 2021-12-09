@@ -89,6 +89,8 @@ public class UserController {
         // map the Banding Model to Service Model and save into DB
         UserServiceModel userServiceModel = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
 
+        userService.registerUser(userServiceModel);
+
         mailService.newUserRegistrationMail(userServiceModel); // send registration email to customer
 
         return "redirect:/cart";
